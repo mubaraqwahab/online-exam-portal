@@ -90,7 +90,7 @@ Naming Convention
 Database Structure
 ---
 
-![Database structure](doc-images/db-structure.png)
+![Database structure](images/db-structure.jpg)
 
 ### Sign Up
 * Collect user details
