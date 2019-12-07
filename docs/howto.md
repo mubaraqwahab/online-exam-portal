@@ -4,7 +4,8 @@ How to: Online Exam Portal
 Contents
 ---
 * [Outline](#outline)
-* [Naming Convention](#naming-covention)
+* [Naming Convention](#naming-convention)
+* [Database Structure](#database-structure)
 
 Outline
 ---
@@ -164,4 +165,4 @@ Database Structure
 
 ## My Quizzes
 * Select fields from the 'Exam' table where the instructor ID is the current users ID, and print to screen
-* (I'd leave the rest for now...)
+* _(I'd leave the rest for now...)_
