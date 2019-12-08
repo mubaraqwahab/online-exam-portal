@@ -1,0 +1,45 @@
+FRONTEND
+
+* Componenting/templating
+* Sign-up page
+* Sign-in page
+* Wireframe recover password page
+* Recover password page
+* Profile page
+* Wireframe update profile page
+* Update profile page
+* Wireframe create exam page
+* Create exam page
+* Wireframe exam page
+* Exams page
+* Wireframe exam form
+* Exam form
+* Wireframe my quizzes page
+* My Quizzes page
+* Wireframe edit exam form
+* Edit exam form
+
+BACKEND
+
+* Finalize DB structure
+* Create database
+* Test database
+* Create PHP-HTML connections
+* Test PHP-HTML connections
+* Sign-up PHP
+* Sign-up validation (outline criteria) and test
+* Sign-in PHP
+* Sign-in validation and test
+* Recover password validation and test
+* Password recovery procedure
+* Profile page PHP
+* Update profile PHP
+* Update profile validation and test
+* Create exam page PHP
+* Create exam page validation and test
+* Create exam form PHP
+* Create exam form validation and test
+* Create my quizzes page PHP
+* Create my quizzes page validation and test
+* Create edit exam form PHP
+* Create edit exam form validation and test

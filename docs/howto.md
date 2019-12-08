@@ -95,6 +95,7 @@ Naming Convention
 ### HTML/CSS
 * Class name -> `class-name`
 * ID -> `elementId`
+* Form input name -> `inputName`
 
 ### JavaScript
 * Variable -> `myVariable`
@@ -111,6 +112,7 @@ Naming Convention
 ### SQL/DB
 * Command/keyword -> `SELECT`
 * Field name -> `Username`, `RegNo`
+* Database name -> `mydatabase`
 * Use singular names for tables, fields, etc. -> `Exam` table (not `Exams`), `Email`
 
 Database Structure
@@ -130,13 +132,15 @@ Database Structure
 
 5. **Options Group** stores the options to multi-choice questions, and the ID to which the options belong.
 
-6. **Fill-in the blank & Theory Question** stores info about the other two question types.
+> **NB**: What if we merged 'Options Group' with 'Multi-choice Question'?
 
-7. **Question Response** stores data about the user's responses to questions. So it holds the responses, the scores of the responses, and the question and asignment IDs to which the response belongs.
+1. **Fill-in the blank & Theory Question** stores info about the other two question types.
 
-8. **Exam Type** is a lookup table to store the types of exams. It's like an 'enum' in programming languages. It's main purpose is storage efficiency.
+2. **Question Response** stores data about the user's responses to questions. So it holds the responses, the scores of the responses, and the question and asignment IDs to which the response belongs.
 
-9. **Status** is another lookup table. It stores exam assignment status.
+3. **Exam Type** is a lookup table to store the types of exams. It's like an 'enum' in programming languages. It's main purpose is storage efficiency.
+
+4. **Status** is another lookup table. It stores exam assignment status.
 
 ### Procedure
 
@@ -214,3 +218,5 @@ Database Structure
 #### My Quizzes
 * Select fields from the 'Exam' table where the instructor ID is the current users ID, and print to screen
 * _(I'd leave the rest for now...)_
+
+> **NB**: What happens when an exam is deleted?
