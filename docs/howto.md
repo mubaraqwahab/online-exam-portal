@@ -3,9 +3,35 @@ How to: Online Exam Portal
 
 Contents
 ---
-* [Outline](#outline)
-* [Naming Convention](#naming-convention)
-* [Database Structure](#database-structure)
+- [How to: Online Exam Portal](#how-to-online-exam-portal)
+  - [Contents](#contents)
+  - [Outline](#outline)
+    - [Sign up](#sign-up)
+    - [Sign in](#sign-in)
+      - [Password Forgotten??](#password-forgotten)
+    - [Dashboard](#dashboard)
+    - [My Quizzes (for lecturer*)](#my-quizzes-for-lecturer)
+    - [Exams (for student*)](#exams-for-student)
+    - [Create Exam (for lecturer*)](#create-exam-for-lecturer)
+      - [Multi-choice questions](#multi-choice-questions)
+    - [Update Profile](#update-profile)
+  - [Naming Convention](#naming-convention)
+    - [HTML/CSS](#htmlcss)
+    - [JavaScript](#javascript)
+    - [PHP](#php)
+    - [SQL/DB](#sqldb)
+  - [Database Structure](#database-structure)
+    - [Tables](#tables)
+    - [Procedure](#procedure)
+      - [Sign Up](#sign-up)
+      - [Sign In](#sign-in)
+      - [Recover Password](#recover-password)
+      - [View Profile](#view-profile)
+      - [Update Profile](#update-profile-1)
+      - [Create Exam](#create-exam)
+      - [Exams](#exams)
+      - [My Quizzes](#my-quizzes)
+
 
 Outline
 ---
@@ -92,31 +118,53 @@ Database Structure
 
 ![Database structure](images/db-structure.jpg)
 
-### Sign Up
+### Tables
+
+1. **User Profile** stores user profile data
+
+2. **Exam** stores exam info (not including the questions)
+
+3. **Assignment** stores exam assignment info (i.e. which exam has been assigned to which user), and the user's score in the exam, and status of the assignment (whether the user has started it, completed it, etc.).
+
+4. **Multi-choice Question** stores info about multi-choice questions, like the exam to which a question belongs, the question number, mark, correct answer, and the question itself. However, it doesn't store the options to a question (but it stores the ID to the options record)
+
+5. **Options Group** stores the options to multi-choice questions, and the ID to which the options belong.
+
+6. **Fill-in the blank & Theory Question** stores info about the other two question types.
+
+7. **Question Response** stores data about the user's responses to questions. So it holds the responses, the scores of the responses, and the question and asignment IDs to which the response belongs.
+
+8. **Exam Type** is a lookup table to store the types of exams. It's like an 'enum' in programming languages. It's main purpose is storage efficiency.
+
+9. **Status** is another lookup table. It stores exam assignment status.
+
+### Procedure
+
+#### Sign Up
 * Collect user details
 * Rename uploaded picture to something like '[User ID]_pic.jpg'
 * Insert the details into 'User Profile' table
 
-### Sign In
+#### Sign In
 * Collect user input
 * Check it against records in 'User Profile' table
 * If user ID doesn't exist, suggest signing up
 * If password incorrect, suggest recovering it
 
-## Recover Password
+#### Recover Password
 * Get email
 * Validate email for that user ID
 * (What to do next?)
 
-### View Profile
+#### View Profile
 * Select all fields (except password) for the User ID from 'User Profile' table
 * Print data to screen.
 
-### Update Profile
+#### Update Profile
 * Get new profile details (except user ID)
 * Update the record for the user ID in 'User Profile' table.
 
-### Create Exam
+#### Create Exam
 * Get exam details (course code, course name, exam title, type, no of questions)
 * Get instructor ID from the current user's ID
 * Insert the data into 'Exam' table
@@ -132,7 +180,7 @@ Database Structure
 * Insert user IDs, and exam ID and status into 'Assignment' table. Status ID should point to 'Awaiting approval' initially.
 * Return exam ID to user.
 
-### Exams
+#### Exams
 * Select exam details of all exams assigned to (and not rejected by) current user. Print to screen.
 * When user decides to take a multi-choice exam:
   * Set assignment status ID to indicate 'In progress'
@@ -163,6 +211,6 @@ Database Structure
 * When user accepts exam invitation, set assignment status ID to indicate 'Ready'.
 * When user rejects exam invitation, set assignment status ID to indicate 'Rejected'.
 
-## My Quizzes
+#### My Quizzes
 * Select fields from the 'Exam' table where the instructor ID is the current users ID, and print to screen
 * _(I'd leave the rest for now...)_
