@@ -95,6 +95,7 @@ Naming Convention
 ### HTML/CSS
 * Class name -> `class-name`
 * ID -> `elementId`
+* Form input name -> `inputName`
 
 ### JavaScript
 * Variable -> `myVariable`
@@ -111,6 +112,7 @@ Naming Convention
 ### SQL/DB
 * Command/keyword -> `SELECT`
 * Field name -> `Username`, `RegNo`
+* Database name -> `mydatabase`
 * Use singular names for tables, fields, etc. -> `Exam` table (not `Exams`), `Email`
 
 Database Structure
