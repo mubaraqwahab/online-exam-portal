@@ -16,6 +16,7 @@ Contents
       - [Multi-choice questions](#multi-choice-questions)
     - [Update Profile](#update-profile)
   - [Naming Convention](#naming-convention)
+    - [File/Folder](#filefolder)
     - [HTML/CSS](#htmlcss)
     - [JavaScript](#javascript)
     - [PHP](#php)
@@ -92,6 +93,9 @@ Outline
 Naming Convention
 ---
 
+### File/Folder
+* Name -> `myfile.txt`, `my-file.txt`
+
 ### HTML/CSS
 * Class name -> `class-name`
 * ID -> `elementId`
@@ -112,8 +116,8 @@ Naming Convention
 ### SQL/DB
 * Command/keyword -> `SELECT`
 * Field name -> `Username`, `RegNo`
-* Database name -> `mydatabase`
-* Use singular names for tables, fields, etc. -> `Exam` table (not `Exams`), `Email`
+* Database & table name -> `mydatabase`, `mytable`
+* Use singular names for tables, fields, etc. -> `exam` table (not `exams`), `Email` field
 
 Database Structure
 ---
@@ -128,19 +132,17 @@ Database Structure
 
 3. **Assignment** stores exam assignment info (i.e. which exam has been assigned to which user), and the user's score in the exam, and status of the assignment (whether the user has started it, completed it, etc.).
 
-4. **Multi-choice Question** stores info about multi-choice questions, like the exam to which a question belongs, the question number, mark, correct answer, and the question itself. However, it doesn't store the options to a question (but it stores the ID to the options record)
+4. **Multi-choice Question** stores info about multi-choice questions, like the exam to which a question belongs, the question number, mark, correct answer, the options and the question itself.
 
-5. **Options Group** stores the options to multi-choice questions, and the ID to which the options belong.
+5. **Fill-in the blank & Theory Question** stores info about the other two question types.
 
-> **NB**: What if we merged 'Options Group' with 'Multi-choice Question'?
+6. **Question Response** stores data about the user's responses to questions. So it holds the responses, the scores of the responses, and the question and asignment IDs to which the response belongs.
 
-1. **Fill-in the blank & Theory Question** stores info about the other two question types.
+7. **Level** is a lookup table to store the different possible levels. It's like an 'enum' in programming languages.
 
-2. **Question Response** stores data about the user's responses to questions. So it holds the responses, the scores of the responses, and the question and asignment IDs to which the response belongs.
+8. **Exam Type** is a lookup table to store the types of exams.
 
-3. **Exam Type** is a lookup table to store the types of exams. It's like an 'enum' in programming languages. It's main purpose is storage efficiency.
-
-4. **Status** is another lookup table. It stores exam assignment status.
+9. **Status** is another lookup table. It stores exam assignment status.
 
 ### Procedure
 
