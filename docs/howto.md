@@ -122,7 +122,7 @@ Naming Convention
 Database Structure
 ---
 
-![Database structure](images/db-structure.jpg)
+![Database structure](images/db-structure.jfif)
 
 ### Tables
 
