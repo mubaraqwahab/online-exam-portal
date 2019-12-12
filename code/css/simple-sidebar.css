@@ -47,3 +47,10 @@ body {
     margin-left: -15rem;
   }
 }
+
+/*#page-content-wrapper2 {
+    min-width: 0;
+    width: 100%;
+  }*/
+
+.navbnavbar-static-top { background-color: #9fcbd3; } 
