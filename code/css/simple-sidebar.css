@@ -33,7 +33,7 @@ body {
   margin-left: 0;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 992px) {
   #sidebar-wrapper {
     margin-left: 0;
   }
@@ -48,9 +48,11 @@ body {
   }
 }
 
-/*#page-content-wrapper2 {
-    min-width: 0;
-    width: 100%;
-  }*/
+header {
+  background-color: #9fcbd3;
+}
 
-.navbnavbar-static-top { background-color: #9fcbd3; } 
+.content-center {
+  justify-content: center;
+  align-items: center;
+}
