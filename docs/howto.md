@@ -115,9 +115,8 @@ Naming Convention
 
 ### SQL/DB
 * Command/keyword -> `SELECT`
-* Field name -> `Username`, `RegNo`
-* Database & table name -> `mydatabase`, `mytable`
-* Use singular names for tables, fields, etc. -> `exam` table (not `exams`), `Email` field
+* Database, table & field/column name -> `my_database`, `exam`, `user_id`
+* Use singular names for tables, fields, etc. -> `response` table (not `responses`), `email` field (not `emails`)
 
 Database Structure
 ---
