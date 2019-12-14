@@ -97,9 +97,7 @@ Naming Convention
 * Name -> `myfile.txt`, `my-file.txt`
 
 ### HTML/CSS
-* Class name -> `class-name`
-* ID -> `elementId`
-* Form input name -> `inputName`
+* Class, ID, form input name -> `class-name`, `element-id`, `input-name`
 
 ### JavaScript
 * Variable -> `myVariable`
