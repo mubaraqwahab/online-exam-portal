@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>Home</title>
+  <title>My Quiz</title>
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -30,7 +30,8 @@
       <?php require 'components/_navbar.php' ?>
 
       <!-- Page content -->
-      <div class="container"></div>
+      <div class="container">
+      </div>
 
     </div>
 
@@ -50,12 +51,11 @@
 
     // Page title
     var pageTitle = $(document).attr("title");
-    $("#pageTitle").text(pageTitle);
+    $("#page-title").text(pageTitle);
 
     // Active sidebar menu item
-    // if (pageTitle.toLowerCase() == $('#assessment').attr('id')) {
-    //   $('#assessment').addClass('active');
-    // }
+    var menuID = pageTitle.toLowerCase().replace(" ", "-");
+    $("#" + menuID).toggleClass("bg-light").toggleClass("active");
   </script>
 </body>
 
