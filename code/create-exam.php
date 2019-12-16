@@ -1,3 +1,7 @@
+<?php
+include 'connect.php';
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -22,9 +26,12 @@
       <div class="form-group">
         <label for="course">Course</label>
         <select class="custom-select" name="courseCode" id="courseCode" required>
-          <option value=""></option>
-          <option value=""></option>
-          <option value=""></option>
+          <?php
+          while ($record = $courses->fetch_assoc()) {
+            $courseCode = $record['course_code'];
+            echo '<option value="' . $courseCode . '">' . $courseCode . ' - ' . $record['course_name'] . '</option>';
+          }
+          ?>
         </select>
       </div>
 
@@ -41,9 +48,11 @@
       <div class="form-group">
         <label for="examType">What type of exam is it?</label>
         <select class="custom-select" name="examType" id="examType" required>
-          <option value="1">Multi-choice</option>
-          <option value="2">Fill in the blank</option>
-          <option value="3">Theory</option>
+          <?php
+          while ($record = $examTypes->fetch_assoc()) {
+            echo '<option value="' . $record['type_id'] . '">' . $record['value'] . '</option>';
+          }
+          ?>
         </select>
       </div>
 
