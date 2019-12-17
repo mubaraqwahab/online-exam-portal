@@ -35,8 +35,8 @@
 
                 <button class="btn btn-lg btn-primary btn-block mt-4" name="submit" type="submit">Sign in</button>
                 <div class="text-center">
-                  <a class="d-inline-block text-center mt-2 small" href="sign-up.html">Sign up</a> &middot;
-                  <a class="d-inline-block text-center mt-2 small" href="recover.html">Forgot password?</a>
+                  <a class="d-inline-block text-center mt-2 small" href="sign-up.php">Sign up</a> &middot;
+                  <a class="d-inline-block text-center mt-2 small" href="recover.php">Forgot password?</a>
                 </div>
               </form>
             </div>
