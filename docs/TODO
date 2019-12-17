@@ -1,17 +1,19 @@
 FRONTEND
 
-* Componenting/templating
+* Componenting/templating (d)
 
-* Sign-up page
-* Sign-in page
-* Wireframe recover password page
-* Recover password page
+* Sign-up page (d)
+* Sign-in page (d)
+* Wireframe recover password page (d)
+* Recover password page (d)
+* Reset password (d)
+
 * Profile page
 * Wireframe update profile page
 * Update profile page
 
-* Wireframe create exam page
-* Create exam page
+* Wireframe create exam page (d)
+* Create create-exam page (d)
 
 * Wireframe exam page
 * Exams page
@@ -23,6 +25,16 @@ FRONTEND
 * Wireframe edit exam form
 * Edit exam form
 
+* Sign-up validation (outline criteria) and test
+* Sign-in validation and test
+* Recover password validation and test
+* Update profile validation and test
+* Create exam page validation and test
+* Create exam form validation and test
+* Create my quizzes page validation and test
+* Create edit exam form validation and test
+
+
 BACKEND
 
 * Finalize DB structure (d)
@@ -31,25 +43,20 @@ BACKEND
 * Test database (d)
 
 * Create PHP-HTML connections (d)
-* Test PHP-HTML connections
+* Test PHP-HTML connections (d)
+
+* Create querying functions
 
 * Sign-up PHP
-* Sign-up validation (outline criteria) and test
 * Sign-in PHP
-* Sign-in validation and test
-* Recover password validation and test
 * Password recovery procedure
 
 * Profile page PHP
 * Update profile PHP
-* Update profile validation and test
 
 * Create exam page PHP
-* Create exam page validation and test
 * Create exam form PHP
-* Create exam form validation and test
 
 * Create my quizzes page PHP
-* Create my quizzes page validation and test
 * Create edit exam form PHP
-* Create edit exam form validation and test
+* Excel print students with scores

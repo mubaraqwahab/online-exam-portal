@@ -119,9 +119,10 @@ $(document).ready(function() {
     $('#inviteesList .list-group').append(
       `<li class="list-group-item py-1">
         <input type="text" readonly class="form-control-plaintext"
-        name="invitee` + inviteeCount + `" value="` + $('#inviteByEmail').val() + `">
+        name="invitee` + inviteeCount + `" value="` + $('#inviteByID').val() + `">
       </li>`);
-    $('#inviteByEmail').val('');
+    $('#noOfInvitees').val(inviteeCount);
+    $('#inviteByID').val('');
   })
 
 });

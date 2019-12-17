@@ -1,10 +1,12 @@
 <?php
 include '../connect.php';
 
+$userId = '171103026';
+
 if (isset($_POST['submit'])) {
   $examType = $_POST['examType'];
   $noOfQuestions = $_POST['noOfQuestions'];
-  createExam('171103026', $_POST['courseCode'], $_POST['examTitle'], $examType, $noOfQuestions);
+  createExam($userId, $_POST['courseCode'], $_POST['examTitle'], $examType, $noOfQuestions);
 
   $examId = $conn->insert_id;
 
@@ -25,7 +27,10 @@ if (isset($_POST['submit'])) {
     }
   }
 
-  header('Location: '.$_SERVER['REQUEST_URI']);
+  $noOfInvitees = intval($_POST['noOfInvitees']);
+  for ($i=1; $i <= $noOfInvitees; $i++) {
+    assignStudentExam($examId, $_POST['invitee'.$i]);
+  }
 }
 ?>
 
@@ -120,7 +125,7 @@ if (isset($_POST['submit'])) {
             <div class="form-group">
               <label for="inviteByEmail">Invite them by their emails:</label>
               <div class="input-group mb-3">
-                <input type="email" class="form-control" id="inviteByEmail" aria-describedby="inviteButton">
+                <input type="text" class="form-control" id="inviteByID" aria-describedby="inviteButton">
                 <div class="input-group-append">
                   <button class="btn btn-outline-primary" type="button" id="inviteButton">Invite</button>
                 </div>
@@ -129,6 +134,7 @@ if (isset($_POST['submit'])) {
             <div class="form-group" id="inviteesList">
               <h5>Invitees</h5>
               <ul class="list-group"></ul>
+              <input type="number" id="noOfInvitees" name="noOfInvitees" value="0" class="d-none" readonly>
             </div>
 
             <button type="submit" name="submit" class="btn btn-success mt-3">Finish</button>
