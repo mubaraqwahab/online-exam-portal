@@ -36,6 +36,13 @@ function getUserById($userId) {
   return $conn->query($sql);
 }
 
+function getUserByEmail($email) {
+  $sql = "SELECT user_id, first_name, last_name, password, level_id, profile_picture FROM user WHERE email = '$email'";
+
+  global $conn;
+  return $conn->query($sql);
+}
+
 function updateUser($userId, $firstName, $lastName, $email, $password, int $levelId = null, $profilePicture = null) {
 
 }

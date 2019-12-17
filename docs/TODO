@@ -25,12 +25,12 @@ FRONTEND
 
 BACKEND
 
-* Finalize DB structure
+* Finalize DB structure (d)
 
-* Create database
-* Test database
+* Create database (d)
+* Test database (d)
 
-* Create PHP-HTML connections
+* Create PHP-HTML connections (d)
 * Test PHP-HTML connections
 
 * Sign-up PHP
