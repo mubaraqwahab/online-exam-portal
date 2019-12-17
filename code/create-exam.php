@@ -1,5 +1,33 @@
 <?php
 include 'connect.php';
+
+if (isset($_POST['submit'])) {
+  $examType = $_POST['examType'];
+  $noOfQuestions = $_POST['noOfQuestions'];
+  createExam('171103026', $_POST['courseCode'], $_POST['examTitle'], $examType, $noOfQuestions);
+
+  $examId = $conn->insert_id;
+
+  for ($i=1; $i <= $noOfQuestions; $i++) {
+    switch ($examType) {
+      case 1:
+        addMultiQuestion($examId, $i, $_POST['question'.$i], $_POST['correctAnswer'.$i],
+          $_POST['optionA'.$i], $_POST['optionB'.$i], $_POST['optionC'.$i], $_POST['optionD'.$i], $_POST['mark'.$i]);
+        break;
+
+      case 2:
+        addFillQuestion($examId, $i, $_POST['question'.$i], $_POST['mark'.$i]);
+        break;
+
+      default:
+        addTheoryQuestion($examId, $i, $_POST['question'.$i], $_POST['mark'.$i]);
+        break;
+    }
+  }
+
+  // Refresh the page
+  header("Location:create-finished.html");
+}
 ?>
 
 <!doctype html>
@@ -112,9 +140,3 @@ include 'connect.php';
 </body>
 
 </html>
-
-<?php
-if (isset($_POST['submit'])) {
-  header("Location:index.html");
-}
-?>
