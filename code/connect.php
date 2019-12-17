@@ -63,16 +63,24 @@ function addMultiQuestion(int $examId, int $questionNo, $question, $correctAnswe
 }
 
 function addFillQuestion(int $examId, int $questionNo, $question, float $mark) {
-  $sql = "INSERT INTO fill_in_question(exam_id, question_no, question, mark) VALUES
-  ($examId, $questionNo, '$question', $mark)";
+  $sql = "INSERT INTO fill_in_question(exam_id, question_no, question, mark)
+  VALUES ($examId, $questionNo, '$question', $mark)";
 
   global $conn;
   return $conn->query($sql);
 }
 
 function addTheoryQuestion(int $examId, int $questionNo, $question, float $mark) {
-  $sql = "INSERT INTO theory_question(exam_id, question_no, question, mark) VALUES
-  ($examId, $questionNo, '$question', $mark)";
+  $sql = "INSERT INTO theory_question(exam_id, question_no, question, mark)
+  VALUES ($examId, $questionNo, '$question', $mark)";
+
+  global $conn;
+  return $conn->query($sql);
+}
+
+function assignStudentExam(int $examId, $userId) {
+  $sql = "INSERT INTO exam_assignment(exam_id, assignee_id, total_score, status_id)
+  VALUES ($examId,'$userId',null,1)";
 
   global $conn;
   return $conn->query($sql);
