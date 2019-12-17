@@ -1,5 +1,5 @@
 <?php
-include 'connect.php';
+include '../connect.php';
 
 if (isset($_POST['submit'])) {
   $examType = $_POST['examType'];
@@ -25,7 +25,7 @@ if (isset($_POST['submit'])) {
     }
   }
 
-  header("Location:index.html");
+  header('Location: '.$_SERVER['REQUEST_URI']);
 }
 ?>
 
@@ -47,18 +47,18 @@ if (isset($_POST['submit'])) {
 
 <body>
 
-  <?php include 'components/_header.php' ?>
+  <?php include '../components/_header.php' ?>
 
   <div class="d-flex" id="wrapper">
 
     <!-- Sidebar -->
-    <?php require 'components/_sidebar.php' ?>
+    <?php require '../components/_sidebar.php' ?>
 
     <!-- Page content wrapper -->
     <div id="page-content-wrapper">
 
       <!-- Navbar -->
-      <?php require 'components/_navbar.php' ?>
+      <?php require '../components/_navbar.php' ?>
 
       <!-- Page content -->
       <div class="container py-3 px-5">

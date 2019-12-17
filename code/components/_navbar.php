@@ -7,13 +7,13 @@
   <div class="dropdown">
     <button class="btn" id="profileDropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       <span class="d-none d-md-inline-block mr-2">Username</span>
-      <img src="img/avatar2.png" height="30px" width="30px">
+      <img src="../img/avatar2.png" height="30px" width="30px">
     </button>
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
       <a class="dropdown-item" href="#">View Profile</a>
       <a class="dropdown-item" href="#">Edit Profile</a>
       <div class="dropdown-divider"></div>
-      <a class="dropdown-item" href="#">Sign Out</a>
+      <form method="post"><button name="signOut" class="dropdown-item">Sign Out</button></form>
     </div>
   </div>
 </nav>
