@@ -9,13 +9,20 @@ $(document).ready(function() {
   });
 
   function createQuestionGroup(optionGroupContent, formGroupContent, i) {
+    var marks = `<div class="form-group form-row">
+      <label for="mark" class="col-sm-1 col-form-label">Mark </label>
+      <div class="col-sm-2">
+        <input type="number" class="form-control" name="mark" id="mark" step="0.1" required>
+      </div>
+    </div>`;
     $questionGroup = $('<div></div>').addClass('question-group mb-4').append(
       $('<div></div>').addClass('form-group').append(
         $('<label></label>').addClass('h5').prop({ for : 'question' }).text('Question ' + i),
         formGroupContent,
         $('<textarea></textarea>').addClass('form-control mt-1').prop({ id : 'question', name : 'question', required : true })
       ),
-      $('<div></div>').addClass('option-group').append(optionGroupContent)
+      $('<div></div>').addClass('option-group').append(optionGroupContent),
+      marks
     );
 
     $questionGroup.find('*').each(function() {
@@ -41,8 +48,8 @@ $(document).ready(function() {
         ['A','B','C','D'].forEach(function(opt) {
           optionGroupContent += (
             `<div class="form-group form-row">
-              <label for="option` + opt + `" class="col-sm-2 col-form-label">Option ` + opt + `</label>
-              <div class="col-sm-10">
+              <label for="option` + opt + `" class="col-sm-1 col-form-label">Option ` + opt + `</label>
+              <div class="col-sm-11">
                 <input type="text" class="form-control" name="option` + opt + `" id="option` + opt + `" required>
               </div>
             </div>`
@@ -51,8 +58,8 @@ $(document).ready(function() {
 
         optionGroupContent += (
           `<div class="form-group form-row">
-            <label for="correctOption" class="col-sm-2 col-form-label">The correct option is </label>
-            <div class="col-sm-10">
+            <label for="correctOption" class="col-sm-1 col-form-label">The correct option is </label>
+            <div class="col-sm-2">
               <select class="custom-select" name="correctOption" id="correctOption" required>
                 <option value="A">A</option>
                 <option value="B">B</option>
