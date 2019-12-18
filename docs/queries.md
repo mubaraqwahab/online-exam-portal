@@ -69,3 +69,7 @@ Insert
   * mark
 
 > ALTER TABLE `exam_portal`.`user` DROP INDEX `password_UNIQUE`, ADD UNIQUE `email_UNIQUE` (`email`) USING BTREE
+
+
+
+# GET ALL EXAMS SET BY A LECTURER

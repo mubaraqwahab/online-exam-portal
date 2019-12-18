@@ -27,6 +27,7 @@ Contents
       - [Sign Up](#sign-up)
       - [Sign In](#sign-in)
       - [Recover Password](#recover-password)
+      - [Reset password](#reset-password)
       - [View Profile](#view-profile)
       - [Update Profile](#update-profile-1)
       - [Create Exam](#create-exam)
@@ -158,6 +159,10 @@ Database Structure
 * Get email
 * Validate email for that user ID
 * (What to do next?)
+
+#### Reset password
+* Get new password
+* Update db
 
 #### View Profile
 * Select all fields (except password) for the User ID from 'User Profile' table
