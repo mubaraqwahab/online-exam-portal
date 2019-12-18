@@ -85,4 +85,11 @@ function assignStudentExam(int $examId, $userId) {
   global $conn;
   return $conn->query($sql);
 }
+
+function getInstructorExams($instructorId) {
+  $sql = "SELECT exam_id, instructor_id, course_code, title, type_id, no_of_questions FROM exam WHERE instructor_id = '$instructorId'";
+
+  global $conn;
+  return $conn->query($sql);
+}
 ?>

@@ -3,17 +3,18 @@ include '../connect.php';
 
 $userId = '171103026';
 
+$result = $conn->query("SHOW TABLE STATUS WHERE `Name` = 'Exam'");
+$examId = ($result->fetch_assoc())['Auto_increment'];
+
 if (isset($_POST['submit'])) {
   $examType = $_POST['examType'];
   $noOfQuestions = $_POST['noOfQuestions'];
   createExam($userId, $_POST['courseCode'], $_POST['examTitle'], $examType, $noOfQuestions);
 
-  $examId = $conn->insert_id;
-
   for ($i=1; $i <= $noOfQuestions; $i++) {
     switch ($examType) {
       case 1:
-        addMultiQuestion($examId, $i, $_POST['question'.$i], $_POST['correctAnswer'.$i],
+        addMultiQuestion($examId, $i, $_POST['question'.$i], $_POST['correctOption'.$i],
           $_POST['optionA'.$i], $_POST['optionB'.$i], $_POST['optionC'.$i], $_POST['optionD'.$i], $_POST['mark'.$i]);
         break;
 
@@ -31,6 +32,8 @@ if (isset($_POST['submit'])) {
   for ($i=1; $i <= $noOfInvitees; $i++) {
     assignStudentExam($examId, $_POST['invitee'.$i]);
   }
+
+  header('Location: '.$_SERVER['REQUEST_URI']);
 }
 ?>
 
@@ -106,24 +109,24 @@ if (isset($_POST['submit'])) {
             </div>
 
             <button type="button" data-direction="next" class="btn btn-primary mt-3">Next</button>
-            <button type="reset" class="btn btn-danger mt-3" onClick="history.go(0);">Reset</button>
+            <button type="reset" class="btn btn-danger mt-3" onClick="window.location.reload(true)">Reset</button>
           </fieldset>
 
           <fieldset id="create2" class="mt-4">
             <div id="createQuestion"></div>
 
             <button type="button" data-direction="next" class="btn btn-primary mt-3">Next</button>
-            <button type="reset" class="btn btn-danger mt-3" onClick="history.go(0);">Reset</button>
+            <button type="reset" class="btn btn-danger mt-3" onClick="window.location.reload(true)">Reset</button>
           </fieldset>
 
           <fieldset id="create3" class="mt-4">
             <div class="form-group">
               <p>Share this link to invite students to take the exam:</p>
-              <p class="h5 border p-2 d-inline-block">qS31kUil</p>
+              <p class="lead border p-2 d-inline-block"><?php echo $examId; ?></p>
             </div>
             <p class="my-3">OR</p>
             <div class="form-group">
-              <label for="inviteByEmail">Invite them by their emails:</label>
+              <label for="inviteByID">Invite them by their IDs:</label>
               <div class="input-group mb-3">
                 <input type="text" class="form-control" id="inviteByID" aria-describedby="inviteButton">
                 <div class="input-group-append">
@@ -138,7 +141,7 @@ if (isset($_POST['submit'])) {
             </div>
 
             <button type="submit" name="submit" class="btn btn-success mt-3">Finish</button>
-            <button type="button" class="btn btn-danger mt-3" onClick="history.go(0);">Reset</button>
+            <button type="button" class="btn btn-danger mt-3" onClick="window.location.reload(true)">Reset</button>
           </fieldset>
 
         </form>
