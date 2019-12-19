@@ -2,7 +2,7 @@
 
   include 'connect.php';
 
-  $id = $_GET['id'];
+  $id = base64_decode(urldecode($_GET['id']));
   // do some validation here to ensure id is safe
 
   $sql = "SELECT profile_picture FROM user WHERE user_id='$id'";

@@ -1,7 +1,7 @@
 <?php
 include '../connect.php';
 
-$userId = '171103050';
+$userId = '171103007';
 
 $result = $conn->query("SHOW TABLE STATUS WHERE `Name` = 'Exam'");
 $examId = ($result->fetch_assoc())['Auto_increment'];
