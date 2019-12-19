@@ -1,10 +1,13 @@
 <?php
 include '../connect.php';
 
-$userId = '171103026';
+$userId = '171103050';
 
 $result = $conn->query("SHOW TABLE STATUS WHERE `Name` = 'Exam'");
 $examId = ($result->fetch_assoc())['Auto_increment'];
+
+$randLength = 5;
+$inviteCode = isset($examId) ? generateRandomString($randLength) . $examId : 'Not available';
 
 if (isset($_POST['submit'])) {
   $examType = $_POST['examType'];
@@ -121,8 +124,10 @@ if (isset($_POST['submit'])) {
 
           <fieldset id="create3" class="mt-4">
             <div class="form-group">
-              <p>Share this link to invite students to take the exam:</p>
-              <p class="lead border p-2 d-inline-block"><?php echo $examId; ?></p>
+              <label for="inviteCode">Share this code to invite students to take the exam:</label>
+              <input type="text" readonly class="d-block lead border p-2 col-2 text-center"
+              id="inviteCode" value="<?php echo $inviteCode; ?>">
+
             </div>
             <p class="my-3">OR</p>
             <div class="form-group">

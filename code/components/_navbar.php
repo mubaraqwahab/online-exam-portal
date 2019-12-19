@@ -6,8 +6,9 @@
 
   <div class="dropdown">
     <button class="btn" id="profileDropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span class="d-none d-md-inline-block mr-2">Username</span>
-      <img src="../img/avatar2.png" height="30px" width="30px">
+      <span class="d-none d-md-inline-block mr-1"><?php echo isset($userId) ? $userId : "User ID"; ?></span>
+      <img src="<?php echo "../profile-pic.php?id=".$userId; ?>" class="rounded-circle" height="30px" width="30px"
+      onerror="this.onerror=null; this.src='../img/avatar2.png'">
     </button>
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
       <a class="dropdown-item" href="#">View Profile</a>
