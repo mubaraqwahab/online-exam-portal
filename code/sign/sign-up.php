@@ -85,7 +85,7 @@
                 </div>
 
                 <button class="btn btn-lg btn-primary btn-block text-uppercase" name="submit" type="submit">Sign up</button>
-                <a class="d-block text-center mt-2 small" href="sign-in.html">Sign in</a>
+                <a class="d-block text-center mt-2 small" href="sign-in.php">Sign in</a>
               </form>
             </div>
           </div>
