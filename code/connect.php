@@ -22,8 +22,8 @@ $assignmentStatuses = $conn->query('SELECT * FROM assignment_status');
 function addUser($userId, $firstName, $lastName, $email, $password, int $levelId = null, $profilePicture = null) {
   $sql = "INSERT INTO user(user_id, first_name, last_name, email, password, level_id, profile_picture)
   VALUES ('$userId','$firstName','$lastName','$email','$password',"
-  . (is_null($levelId) ? "null" : $levelId) . ","
-  . (is_null($profilePicture) ? "null" : '$profilePicture') . ")";
+  . (empty($levelId) ? "NULL" : $levelId) . ","
+  . (empty($profilePicture) ? "NULL" : '$profilePicture') . ")";
 
   global $conn;
   return $conn->query($sql);
@@ -43,9 +43,18 @@ function getUserByEmail($email) {
   return $conn->query($sql);
 }
 
-function updateUser($userId, $firstName, $lastName, $email, $password, int $levelId = null, $profilePicture = null) {
+function updateUser($userId, $firstName, $lastName, $email, $password = null, $profilePicture = null) {
+  $sql = "UPDATE user SET first_name = '$firstName', last_name = '$lastName', email = '$email'"
+  . (empty($password) ? "" : ", password = '$password'")
+  . (empty($profilePicture) ? "" : ", profile_picture = '$profilePicture'") . " WHERE user_id = '$userId'";
 
+  echo $sql;
+
+  global $conn;
+  return $conn->query($sql);
 }
+
+updateUser('171103026', 'Isah', 'Elleman', 'mub.wahab26@gmail.com');
 
 function createExam($instructorId, $courseCode, $title, int $typeId, int $noOfQuestions) {
   $sql = "INSERT INTO exam(instructor_id, course_code, title, type_id, no_of_questions)
@@ -80,7 +89,7 @@ function addTheoryQuestion(int $examId, int $questionNo, $question, float $mark)
 
 function assignStudentExam(int $examId, $userId) {
   $sql = "INSERT INTO exam_assignment(exam_id, assignee_id, total_score, status_id)
-  VALUES ($examId,'$userId',null,1)";
+  VALUES ($examId,'$userId',NULL,1)";
 
   global $conn;
   return $conn->query($sql);
