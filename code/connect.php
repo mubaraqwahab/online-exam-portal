@@ -54,8 +54,6 @@ function updateUser($userId, $firstName, $lastName, $email, $password = null, $p
   return $conn->query($sql);
 }
 
-updateUser('171103026', 'Isah', 'Elleman', 'mub.wahab26@gmail.com');
-
 function createExam($instructorId, $courseCode, $title, int $typeId, int $noOfQuestions) {
   $sql = "INSERT INTO exam(instructor_id, course_code, title, type_id, no_of_questions)
   VALUES ('$instructorId','$courseCode','$title',$typeId,$noOfQuestions)";
