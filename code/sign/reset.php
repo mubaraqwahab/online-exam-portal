@@ -1,3 +1,21 @@
+<?php
+
+$email = $_POST['email'];
+
+if(isset($_POST['submitt'])){
+
+  $newpassword = $_POST['password'];
+  $token = $_POST['token'];
+
+  $sql = "SELECT key FROM user WHERE email='$email'";
+
+  if($token === 'key'){
+  $sql = "UPDATE user SET password='$newpassword' WHERE email='$email'";
+
+  }
+}
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -10,7 +28,7 @@
 
     <link rel="stylesheet" href="../css/style.css">
 
-    <title>Sign in</title>
+    <title>Reset Password</title>
   </head>
   <body>
     <div class="container">
@@ -19,7 +37,17 @@
           <div class="card card-sign">
             <div class="card-body p-4 p-md-5">
               <h2 class="mb-5 text-center font-weight-light">Reset Password</h2>
-              <form method="post">
+              <form method="POST">
+
+              <div class="form-group row">
+                  <label for="token" class="col-sm-3 col-form-label">Enter token</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="password" name="token" aria-describedby="passwordHelp" required autofocus>
+                    <small id="passwordHelp" class="form-text text-muted">
+                      Enter the 6-digit token that was sent to your email address.
+                    </small>
+                  </div>
+                </div>
                 <div class="form-group row">
                   <label for="password" class="col-sm-3 col-form-label">New password</label>
                   <div class="col-sm-9">
@@ -29,14 +57,8 @@
                     </small>
                   </div>
                 </div>
-                <div class="form-group row">
-                  <label for="confirmPassword" class="col-sm-3 col-form-label">Confirm password</label>
-                  <div class="col-sm-9">
-                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
-                  </div>
-                </div>
 
-                <button class="btn btn-lg btn-primary btn-block mt-4" name="submit" type="submit">Reset password</button>
+                <button class="btn btn-lg btn-primary btn-block mt-4" name="submitt" type="submit">Reset password</button>
               </form>
             </div>
           </div>
