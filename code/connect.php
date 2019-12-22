@@ -114,4 +114,14 @@ function generateRandomString($length = 10) {
   return $randomString;
 }
 
+function generateRandomToken($length = 6) {
+  $characters = '01234567892819403817293';
+  $charactersLength = strlen($characters);
+  $randomString = '';
+  for ($i = 0; $i < $length; $i++) {
+      $randomString .= $characters[rand(0, $charactersLength - 1)];
+  }
+  return $randomString;
+}
+
 ?>
