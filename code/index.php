@@ -1,6 +1,9 @@
 <?php
 session_start();
 
+$_SESSION['userID'] = '171103018';
+$_SESSION['profilePicture'] = '6bb000002217edf20324947d1d8eb5b1.jpg';
+
 if (!isset($_SESSION['userID'])) {
   header("Location: sign/sign-in.php");
 } else if (is_numeric($_SESSION['userID'])) {

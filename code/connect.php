@@ -128,21 +128,33 @@ function renameProfilePic($userId) {
   // Check file size <= 2MB
   // Allow certain file formats (jpg, jpeg, png, gif, bmp)
 
+  $profilePicture = '';
+
   if (is_uploaded_file($_FILES["profilePicture"]["tmp_name"])) {
-    $target_file = PROFILE_TARGET_DIR . basename($_FILES["profilePicture"]["name"]);
-    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+    $targetFile = PROFILE_TARGET_DIR . basename($_FILES["profilePicture"]["name"]);
+    $imageFileType = strtolower(pathinfo($targetFile,PATHINFO_EXTENSION));
 
     // Rename
-    $profilePicture = $userId . '.' . $imageFileType; //base64_decode(urldecode($userId)) . $imageFileType;
+    // $profilePicture = $userId . '.' . $imageFileType; //base64_decode(urldecode($userId)) . $imageFileType;
+    $profilePicture = md5($userId.$imageFileType) . '.' . $imageFileType;
   }
 
-  return isset($profilePicture) ? $profilePicture : '';
+  return $profilePicture;
 }
 
 function saveProfilePic($profilePicture) {
   if (empty($profilePicture)) return false;
 
   $targetFile = PROFILE_TARGET_DIR . $profilePicture;
+
+  if(file_exists($targetFile)) {
+    // Change the file permissions if allowed
+    chmod($targetFile, 0755);
+    // Remove the file
+    unlink($targetFile);
+  }
+
   return move_uploaded_file($_FILES["profilePicture"]["tmp_name"], $targetFile);
 }
+
 ?>

@@ -14,7 +14,9 @@
       <div class="dropdown-divider d-md-none"></div>
       <a class="dropdown-item" href="/online-exam-portal/code/sign/profile.php">Edit Profile</a>
       <div class="dropdown-divider"></div>
-      <form method="post" class="m-0"><button name="signOut" class="dropdown-item">Sign Out</button></form>
+      <form method="post" action="../sign/sign-out.php" class="m-0">
+        <button name="signOut" class="dropdown-item">Sign Out</button>
+      </form>
     </div>
   </div>
 </nav>

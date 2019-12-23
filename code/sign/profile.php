@@ -29,6 +29,7 @@ if (isset($_POST['update'])) {
 
   if (saveProfilePic($profilePicture)) {
     updateUser($userId, $firstName, $lastName, $email, $password, $profilePicture);
+    $_SESSION['profilePicture'] = $profilePicture;
   } else {
     updateUser($userId, $firstName, $lastName, $email, $password);
   }
