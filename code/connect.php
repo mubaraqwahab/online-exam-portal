@@ -48,8 +48,6 @@ function updateUser($userId, $firstName, $lastName, $email, $password = null, $p
   . (empty($password) ? "" : ", password = '$password'")
   . (empty($profilePicture) ? "" : ", profile_picture = '$profilePicture'") . " WHERE user_id = '$userId'";
 
-  echo $sql;
-
   global $conn;
   return $conn->query($sql);
 }
@@ -102,8 +100,8 @@ function getInstructorExams($instructorId) {
 
 
 
-function generateRandomString($length = 10) {
-  $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+function generateRandomString($length, $isNum = false) {
+  $characters = '0123456789' . ($isNum ? '' : 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
   $charactersLength = strlen($characters);
   $randomString = '';
   for ($i = 0; $i < $length; $i++) {
@@ -122,4 +120,29 @@ function generateRandomToken($length = 6) {
   return $randomString;
 }
 
+const PROFILE_TARGET_DIR = '../profile-pic/';
+
+function renameProfilePic($userId) {
+  // TODO in frontend:
+  // Check if image file is an actual image or fake image
+  // Check file size <= 2MB
+  // Allow certain file formats (jpg, jpeg, png, gif, bmp)
+
+  if (is_uploaded_file($_FILES["profilePicture"]["tmp_name"])) {
+    $target_file = PROFILE_TARGET_DIR . basename($_FILES["profilePicture"]["name"]);
+    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+    // Rename
+    $profilePicture = $userId . '.' . $imageFileType; //base64_decode(urldecode($userId)) . $imageFileType;
+  }
+
+  return isset($profilePicture) ? $profilePicture : '';
+}
+
+function saveProfilePic($profilePicture) {
+  if (empty($profilePicture)) return false;
+
+  $targetFile = PROFILE_TARGET_DIR . $profilePicture;
+  return move_uploaded_file($_FILES["profilePicture"]["tmp_name"], $targetFile);
+}
 ?>

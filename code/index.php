@@ -1,3 +1,15 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['userID'])) {
+  header("Location: sign/sign-in.php");
+} else if (is_numeric($_SESSION['userID'])) {
+  header("Location: sign/profile.php");
+} else {
+  header("Location: create-exam/create-exam.php");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
