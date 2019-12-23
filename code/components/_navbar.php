@@ -11,7 +11,6 @@
       onerror="this.onerror=null; this.src='../img/avatar2.png'">
     </button>
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
-      <a class="dropdown-item" href="#">View Profile</a>
       <a class="dropdown-item" href="#">Edit Profile</a>
       <div class="dropdown-divider"></div>
       <form method="post"><button name="signOut" class="dropdown-item">Sign Out</button></form>
