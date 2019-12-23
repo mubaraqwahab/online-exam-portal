@@ -1,14 +1,13 @@
 <?php
 include "../connect.php";
 
-
-$email = $_GET['email'];
+$email = base64_decode(urldecode($_GET['email']));
 
 if(isset($_POST['submitt'])){
 
   $newpassword = $_POST['password'];
   $token = $_POST['token'];
-  
+
   $sql = "SELECT `key` FROM user WHERE email='$email'";
   $result = mysqli_query($conn, $sql);
   $row = mysqli_fetch_array($result);
