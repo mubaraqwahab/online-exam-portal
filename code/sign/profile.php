@@ -74,8 +74,11 @@ if (isset($_POST['update'])) {
         <form method="post" class="mt-4" enctype="multipart/form-data">
           <div class="form-group">
             <label for="profilePicture">Profile picture</label>
-            <img src="../profile-pic/<?php echo (!file_exists(PROFILE_TARGET_DIR . $profilePicture) ? 'blank-square.jpg' : $profilePicture); ?>"
-              class="rounded-circle img-responsive col-sm-4 col-md-3 mb-2 d-block" alt="Profile picture">
+            <img src="../profile-pic/<?php
+                echo (empty($profilePicture) || !file_exists(PROFILE_TARGET_DIR . $profilePicture) ? 'blank-square.jpg' : $profilePicture);
+                ?>"
+              class="rounded-circle img-responsive col-sm-4 col-md-3 mb-2 d-block"
+              alt="Profile picture">
             <div class="custom-file col-sm-5">
               <input type="file" class="custom-file-input" name="profilePicture" id="profilePicture" aria-describedby="profilePictureHelp">
               <label class="custom-file-label m-0">No file chosen</label>
