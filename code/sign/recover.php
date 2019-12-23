@@ -18,7 +18,6 @@ if(isset($_POST['submit'])) {
 
   if (mysqli_num_rows($result) > 0) {
     $key = generateRandomToken($length = 6);
-    $keysql = $_POST[$key];
     
       while($row = mysqli_fetch_assoc($result)) {
           
@@ -45,23 +44,24 @@ if(isset($_POST['submit'])) {
           // Content
           $mail->isHTML(true);                                  // Set email format to HTML
           $mail->Subject = 'Reset Password';
-          $mail->Body    = "The token is  $key";
-          $mail->AltBody = "The token is  $key";
+          $mail->Body    = "The token is:  $key";
+          $mail->AltBody = "The token is:  $key";
           
           
           
           
           if($mail->send()){
-            echo 'Reset link has been sent';
-            $sqlinsert = "INSERT INTO 'user' ( 'key' ) VALUES ( '$keysql' )";
-            $sql = "UPDATE user SET key='$key' WHERE email='$emailaddress'";
+            //echo 'Reset link has been sent';
+            $sql = "UPDATE user SET `key`= $key WHERE email= '$emailaddress'";
+            echo $sql;
+            $sqlquery = mysqli_query($conn, $sql);
 
           }
           else{
             echo "ERRORRR";
           }
           
-          //header("Location: reset.php");
+          header("Location: reset.php?email=$emailaddress");
           
         
         }
