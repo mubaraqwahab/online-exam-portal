@@ -70,4 +70,4 @@ BACKEND
 * Document the code
 * Require connect.PHP
 * Create sessions
-* Fix bsCustomInput
+* Fix bsCustomInput (d)
