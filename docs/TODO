@@ -35,6 +35,10 @@ FRONTEND
 * Create my quizzes page validation and test
 * Create edit exam form validation and test
 
+// Check if image file is an actual image or fake image
+// Check file size <= 2MB
+// Allow certain file formats (jpg, jpeg, png, gif, bmp)
+
 
 BACKEND
 
@@ -64,3 +68,6 @@ BACKEND
 
 * Change sign directory to 'account'
 * Document the code
+* Require connect.PHP
+* Create sessions
+* Fix bsCustomInput
