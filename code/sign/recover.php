@@ -18,15 +18,15 @@ if(isset($_POST['submit'])) {
 
   if (mysqli_num_rows($result) > 0) {
     $key = generateRandomToken($length = 6);
-    
+
       while($row = mysqli_fetch_assoc($result)) {
-          
-          //Random key/token generator        
-          
-          
+
+          //Random key/token generator
+
+
           $mail = new PHPMailer(true);
 
-          
+
           //Server settings
           $mail->isSMTP();                                            // Send using SMTP
           $mail->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through
@@ -35,7 +35,7 @@ if(isset($_POST['submit'])) {
           $mail->Password   = 'esat1234';                               // SMTP password
           $mail->SMTPSecure = "tls";         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
           $mail->Port       = 587;                                    // TCP port to connect to
-        
+
           //Recipients
           $mail->setFrom($emailaddress, 'Exam Portal(Group 5)');
           $mail->addAddress($emailaddress, 'User');     // Add a recipient
@@ -46,10 +46,10 @@ if(isset($_POST['submit'])) {
           $mail->Subject = 'Reset Password';
           $mail->Body    = "The token is:  $key";
           $mail->AltBody = "The token is:  $key";
-          
-          
-          
-          
+
+
+
+
           if($mail->send()){
             //echo 'Reset link has been sent';
             $sql = "UPDATE user SET `key`= $key WHERE email= '$emailaddress'";
@@ -60,13 +60,13 @@ if(isset($_POST['submit'])) {
           else{
             echo "ERRORRR";
           }
-          
-          header("Location: reset.php?email=$emailaddress");
-          
-        
+
+          header("Location: reset.php?email=".urlencode(base64_encode($emailaddress)));
+
+
         }
     }
-    
+
 }
 
 
