@@ -1,17 +1,21 @@
 <?php
+include "../connect.php";
 
-$email = $_POST['email'];
+
+$email = $_GET['email'];
 
 if(isset($_POST['submitt'])){
 
   $newpassword = $_POST['password'];
   $token = $_POST['token'];
+  
+  $sql = "SELECT `key` FROM user WHERE email='$email'";
+  $result = mysqli_query($conn, $sql);
+  $row = mysqli_fetch_array($result);
 
-  $sql = "SELECT key FROM user WHERE email='$email'";
-
-  if($token === 'key'){
+if($token === $row['key']){
   $sql = "UPDATE user SET password='$newpassword' WHERE email='$email'";
-
+  $result = mysqli_query($conn, $sql);
   }
 }
 ?>
