@@ -157,4 +157,36 @@ function saveProfilePic($profilePicture) {
   return move_uploaded_file($_FILES["profilePicture"]["tmp_name"], $targetFile);
 }
 
+function squareCropPicture($picturePath) {
+  $im = imagecreatefromjpeg($picturePath);
+
+  $crop_width = imagesx($im);
+  $crop_height = imagesy($im);
+
+  $size = min($crop_width, $crop_height);
+
+  $imd = abs($crop_width-$crop_height) / 2;
+
+  // Crop image
+  $im2 = imagecrop($im,
+    ['x' => ($crop_width >= $crop_height) ? $imd : 0,
+    'y' => ($crop_width < $crop_height) ? $imd : 0,
+    'width' => $size,
+    'height' => $size]
+  );
+
+  // Replace image
+  if ($im2 !== FALSE) {
+    imagejpeg($im2, $picturePath);
+    imagedestroy($im2);
+  }
+  imagedestroy($im);
+}
+
+function getMIMEType($filePath) {
+  $finfo = new finfo(FILEINFO_MIME_TYPE, null);
+  return $finfo->file($filePath);
+}
+
+
 ?>
