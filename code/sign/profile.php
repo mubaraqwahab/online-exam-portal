@@ -25,14 +25,16 @@ if (isset($_POST['update'])) {
   $password = $_POST['password'];
 
   // Get profile picture name
-  $profilePicture = renameProfilePic($userId);
-
-  if (saveProfilePic($profilePicture)) {
-    updateUser($userId, $firstName, $lastName, $email, $password, $profilePicture);
-    $_SESSION['profilePicture'] = $profilePicture;
-  } else {
-    updateUser($userId, $firstName, $lastName, $email, $password);
+  $newPic = renameProfilePic($userId);
+  if (!empty($newPic)) {
+    $profilePicture = $_SESSION['profilePicture'] = $newPic;
+    // Save picture
+    saveProfilePic($profilePicture);
+    // Crop picture
+    squareCropPicture(PROFILE_TARGET_DIR . $profilePicture);
   }
+
+  updateUser($userId, $firstName, $lastName, $email, $password, $profilePicture);
 
 }
 ?>
@@ -74,8 +76,8 @@ if (isset($_POST['update'])) {
         <form method="post" class="mt-4" enctype="multipart/form-data">
           <div class="form-group">
             <label for="profilePicture">Profile picture</label>
-            <img src="../profile-pic/<?php
-                echo (empty($profilePicture) || !file_exists(PROFILE_TARGET_DIR . $profilePicture) ? 'blank-square.jpg' : $profilePicture);
+            <img src="<?php
+                echo PROFILE_TARGET_DIR . (empty($profilePicture) || !file_exists(PROFILE_TARGET_DIR . $profilePicture) ? 'blank-square.jpg' : $profilePicture);
                 ?>"
               class="rounded-circle img-responsive col-sm-4 col-md-3 mb-2 d-block"
               alt="Profile picture">
@@ -84,7 +86,9 @@ if (isset($_POST['update'])) {
               <label class="custom-file-label m-0">No file chosen</label>
             </div>
             <small id="profilePictureHelp" class="form-text text-muted">
-              Your file size should not exceed 2MB. Only JPG, JPEG, PNG & GIF files are allowed.
+              Only JPG, JPEG, PNG & GIF files are allowed.
+              Your image size should not exceed 2MB.
+              Your image would be square cropped.
             </small>
           </div>
 

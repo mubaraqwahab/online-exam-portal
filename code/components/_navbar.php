@@ -7,8 +7,8 @@
   <div class="dropdown">
     <button class="btn" id="profileDropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       <span class="d-none d-md-inline-block mr-1"><?php echo isset($userId) ? $userId : "User ID"; ?></span>
-      <img src="../profile-pic/<?php
-        echo (empty($profilePicture) || !file_exists(PROFILE_TARGET_DIR . $profilePicture) ? 'blank-square.jpg' : $profilePicture); ?>"
+      <img src="<?php
+        echo PROFILE_TARGET_DIR . (empty($profilePicture) || !file_exists(PROFILE_TARGET_DIR . $profilePicture) ? 'blank-square.jpg' : $profilePicture); ?>"
         class="rounded-circle" height="30px" width="30px">
     </button>
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
