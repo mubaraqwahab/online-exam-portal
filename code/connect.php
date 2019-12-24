@@ -99,6 +99,7 @@ function getInstructorExams($instructorId) {
 }
 
 
+const INVITE_CODE_PREFIX_LENGTH = 5;
 
 function generateRandomString($length, $isNum = false) {
   $characters = '0123456789' . ($isNum ? '' : 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');

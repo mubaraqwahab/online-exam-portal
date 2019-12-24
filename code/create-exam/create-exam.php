@@ -13,8 +13,7 @@ $profilePicture = $_SESSION['profilePicture'];
 $result = $conn->query("SHOW TABLE STATUS WHERE `Name` = 'Exam'");
 $examId = ($result->fetch_assoc())['Auto_increment'];
 
-$randLength = 5;
-$inviteCode = isset($examId) ? generateRandomString($randLength) . $examId : 'Not available';
+$inviteCode = generateRandomString(INVITE_CODE_PREFIX_LENGTH) . $examId;
 
 if (isset($_POST['submit'])) {
   $examType = $_POST['examType'];
