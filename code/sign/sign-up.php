@@ -1,3 +1,30 @@
+<?php
+// You'll need this at the top to log the user in
+session_start();
+
+include '../connect.php';
+
+if (isset($_POST['signUp'])) {
+  $userID = $_POST['userID'];
+  $firstName = $_POST['firstName'];
+  $lastName = $_POST['lastName'];
+  $email = $_POST['email'];
+  $password = $_POST['password'];
+  $level = $_POST['level'];
+
+  // We can do some validation here
+
+  addUser($userID, $firstName, $lastName, $email, $password, $level);
+
+  // Log the user in
+  $_SESSION['userID'] = $userID;
+
+  // Redirect to home page (no home page for now tho)
+  header('Location: ../create-exam/create-exam.php');
+}
+
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -6,86 +33,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="../css/sign.css">
+    <link rel="stylesheet" href="../css/style.css">
 
     <title>Sign up</title>
   </head>
   <body>
     <div class="container">
       <div class="row">
-        <div class="col-sm-9 col-md-8 col-lg-6 mx-auto">
-          <div class="card card-signin my-5">
-            <div class="card-body">
-              <h5 class="card-title text-center">Sign Up</h5>
-              <form class="form-signin">
-                <div class="form-label-group">
-                  <input type="text" id="userID" name="userID" class="form-control" placeholder="User ID" aria-describedby="userIDHelp" required autofocus>
-                  <label for="userID">User ID</label>
-                  <small id="userIDHelp" class="form-text text-muted ml-3">
-                    Use your student ID if you're a student. User ID should be between 8 and 16 characters. Only numbers and letters are valid.
-                  </small>
-                </div>
-                <div class="form-label-group">
-                  <input type="text" id="firstName" name="firstName" class="form-control" placeholder="First name" required>
-                  <label for="firstName">First name</label>
-                </div>
-                <div class="form-label-group">
-                  <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Last name" required>
-                  <label for="lastName">Last name</label>
-                </div>
-
-                <div class="form-label-group">
-                  <input type="email" id="email" name="email" class="form-control" placeholder="Email address" required>
-                  <label for="email">Email address</label>
-                </div>
-
-                <div class="form-label-group">
-                  <input type="password" id="password" name="password" class="form-control" aria-describedby="passwordHelp" placeholder="Password" required>
-                  <label for="password">Password</label>
-                  <small id="passwordHelp" class="form-text text-muted ml-3">
-                    Password should be 8 to 45 characters.
-                  </small>
-                </div>
-
-                <div class="form-label-group">
-                  <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Password" required>
-                  <label for="confirmPassword">Confirm password</label>
-                </div>
-
-                <hr>
-
-                <div class="form-label-group">
-                  <!-- <input type="text" id="level" name="level" class="form-control" aria-describedby="levelHelp" placeholder="Level (optional)" required> -->
-                  <select id="level" name="level" class="custom-select form-control rounded-pill" aria-describedby="levelHelp">
-                    <option value=""></option>
-                    <option value="1">100</option>
-                    <option value="2">200</option>
-                    <option value="3">300</option>
-                    <option value="4">400</option>
-                  </select>
-                  <!-- <label for="level">Level (optional)</label> -->
-                  <small id="levelHelp" class="form-text text-muted ml-3">
-                    Leave this field blank if you're not a student.
-                  </small>
-                </div>
-
-                <div class="mb-3">
-                  <div class="d-flex justify-content-center">
-                    <img src="../img/blank-square.jpg"
-                      class="rounded-circle text-center" width="25%" alt="Profile picture">
+        <div class="col-sm-9 col-md-8 col-lg-7 mx-auto my-5">
+          <div class="card card-sign">
+            <div class="card-body p-4 p-md-5">
+              <h2 class="mb-5 text-center font-weight-light">Sign Up</h2>
+              <form method="post">
+                <div class="form-group row">
+                  <label for="userID" class="col-sm-3 col-form-label">User ID<span class="text-danger">*</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="userID" name="userID" aria-describedby="userIDHelp" required autofocus>
+                    <small id="userIDHelp" class="form-text text-muted">
+                      Use your student ID if you're a student. User ID should be 8 to 16 characters. Only numbers and letters are valid.
+                    </small>
                   </div>
-                  <div class="d-flex justify-content-center">
-                    <div class="custom-file mt-2 w-75">
-                      <input type="file" class="form-control custom-file-input" placeholder="Profile picture (optional)" id="profilePicture" name="profilePicture">
-                      <label class="custom-file-label" for="profilePicture">Profile picture (optional)</label>
+                </div>
+                <div class="form-group row">
+                  <label for="firstName" class="col-sm-3 col-form-label">First name<span class="text-danger">*</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="firstName" name="firstName" required>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="lastName" class="col-sm-3 col-form-label">Last name<span class="text-danger">*</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="lastName" name="lastName" required>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="email" class="col-sm-3 col-form-label">Email<span class="text-danger">*</span></label>
+                  <div class="col-sm-9">
+                    <input type="email" class="form-control" id="email" name="email" required>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="password" class="col-sm-3 col-form-label">Password<span class="text-danger">*</span></label>
+                  <div class="col-sm-9">
+                    <input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" required>
+                    <small id="passwordHelp" class="form-text text-muted">
+                      Password should be 8 to 45 characters.
+                    </small>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="confirmPassword" class="col-sm-3 col-form-label">Confirm password<span class="text-danger">*</span></label>
+                  <div class="col-sm-9">
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                  </div>
+                </div>
+
+                <hr class="my-4">
+
+                <div class="form-group row">
+                  <label for="level" class="col-sm-3 col-form-label">Level</label>
+                  <div class="col-sm-9">
+                    <select class="custom-select" name="level" aria-describedby="levelHelp">
+                      <option selected></option>
+                      <option value="1">100</option>
+                      <option value="2">200</option>
+                      <option value="3">300</option>
+                      <option value="4">400</option>
+                      <option value="5">500</option>
+                    </select>
+                    <small id="levelHelp" class="form-text text-muted">
+                      Ignore this if you're not a student.
+                    </small>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="profilePicture" class="col-sm-3 col-form-label">Profile picture</label>
+                  <div class="col-sm-9">
+                    <img src="../img/blank-square.jpg"
+                      class="rounded-circle w-50 mb-2 d-block" alt="Profile picture">
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" id="profilePicture">
+                      <label class="custom-file-label m-0">No file chosen</label>
                     </div>
                   </div>
                 </div>
 
-                <button class="btn btn-lg btn-primary btn-block text-uppercase" name="submit" type="submit">Sign up</button>
-                <a class="d-block text-center mt-2 small" href="sign-in.php">Sign in</a>
+                <button class="btn btn-lg btn-primary btn-block mt-4" name="signUp" type="submit">Sign up</button>
+                <a class="d-block text-center mt-2 small" href="sign-in.html">Sign in</a>
               </form>
             </div>
           </div>
@@ -95,8 +131,15 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        bsCustomFileInput.init()
+      })
+    </script>
   </body>
 </html>
