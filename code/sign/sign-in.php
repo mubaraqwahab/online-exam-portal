@@ -9,7 +9,7 @@ if (isset($_POST['signIn'])) {
   $password = $_POST['password'];
 
   
-  $checkdetails = mysqli_query("SELECT user_id, password FROM user WHERE userID = '" . $userID . "' AND  password = '" . $password . "'");
+  $checkdetails = mysqli_query("SELECT user_id, password FROM user WHERE user_id = '" . $userID . "' AND  password = '" . $password . "'");
 
   if (mysqli_num_rows($checkdetails) > 0) {
     // Log the user in
