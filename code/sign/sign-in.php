@@ -8,18 +8,22 @@ if (isset($_POST['signIn'])) {
   $userID = $_POST['userID'];
   $password = $_POST['password'];
 
-  
-  $checkdetails = mysqli_query("SELECT user_id, password FROM user WHERE user_id = '" . $userID . "' AND  password = '" . $password . "'");
+  $sql = "SELECT user_id, password FROM user WHERE user_id = '" . $userID . "' AND  password = '" . $password . "'";
 
-  if (mysqli_num_rows($checkdetails) > 0) {
+  $checkdetails = $conn->query($sql);
+  //$checkdetails = mysqli_query($sql);
+
+  // if (mysqli_num_rows($checkdetails) > 0) {
+  if ($checkdetails->num_rows > 0) {
     // Log the user in
     $_SESSION['userID'] = $userID;
+
+    // Redirect to home page (no home page for now tho)
+    header('Location: ../create-exam/create-exam.php');
   } else {
     echo 'The username or password are incorrect!';
   }
 
-  // Redirect to home page (no home page for now tho)
-  header('Location: ../create-exam/create-exam.php');
 }
 
 ?>
