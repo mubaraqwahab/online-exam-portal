@@ -76,3 +76,5 @@ BACKEND
 * Require session.php
 * Create sessions (d)
 * Fix bsCustomInput (d)
+
+* Prepare queries for execution

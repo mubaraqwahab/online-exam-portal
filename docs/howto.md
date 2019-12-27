@@ -151,7 +151,8 @@ Database Structure
 * The current session must validated at the top of main pages
 * To do that you can include (or require) `/code/session.php` at the top. (Make sure to include with appropriate path tho).
 * The HTML template for a basic 'main page' can be found at `/code/index.php`
-
+* Link this script `/code/js/show-file-input.js` in any page where there is a file input.
+* Also, make sure to document your code with comments, so others can understand too 🙂.
 
 
 
