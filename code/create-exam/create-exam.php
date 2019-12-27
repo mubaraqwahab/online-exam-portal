@@ -3,7 +3,7 @@ include '../session.php';
 
 include '../connect.php';
 
-$userId = $_SESSION['userID'];
+$userID = $_SESSION['userID'];
 $profilePicture = $_SESSION['profilePicture'];
 
 $result = $conn->query("SHOW TABLE STATUS WHERE `Name` = 'Exam'");
@@ -15,7 +15,7 @@ $inviteCode = isset($examId) ? generateRandomString($randLength) . $examId : 'No
 if (isset($_POST['submit'])) {
   $examType = $_POST['examType'];
   $noOfQuestions = $_POST['noOfQuestions'];
-  createExam($userId, $_POST['courseCode'], $_POST['examTitle'], $examType, $noOfQuestions);
+  createExam($userID, $_POST['courseCode'], $_POST['examTitle'], $examType, $noOfQuestions);
 
   for ($i=1; $i <= $noOfQuestions; $i++) {
     switch ($examType) {

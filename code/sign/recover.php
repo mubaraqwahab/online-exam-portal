@@ -17,7 +17,7 @@ if(isset($_POST['submit'])) {
   $result = mysqli_query($conn, $sql);
 
   if (mysqli_num_rows($result) > 0) {
-    $key = generateRandomToken($length = 6);
+    $key = generateRandomString(6);
 
       while($row = mysqli_fetch_assoc($result)) {
 
@@ -53,7 +53,7 @@ if(isset($_POST['submit'])) {
           if($mail->send()){
             //echo 'Reset link has been sent';
             $sql = "UPDATE user SET `key`= $key WHERE email= '$emailaddress'";
-            echo $sql;
+            // echo $sql;
             $sqlquery = mysqli_query($conn, $sql);
 
           }

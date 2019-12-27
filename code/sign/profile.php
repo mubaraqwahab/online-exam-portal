@@ -3,10 +3,10 @@ include '../session.php';
 
 include '../connect.php';
 
-$userId = $_SESSION['userID'];
+$userID = $_SESSION['userID'];
 $profilePicture = $_SESSION['profilePicture'];
 
-$result = getUserById($userId);
+$result = getUserById($userID);
 $record = $result->fetch_assoc();
 
 $firstName = $record['first_name'];
@@ -21,7 +21,7 @@ if (isset($_POST['update'])) {
   $password = $_POST['password'];
 
   // Get profile picture name
-  $newPic = renameProfilePic($userId);
+  $newPic = renameProfilePic($userID);
   if (!empty($newPic)) {
     $profilePicture = $_SESSION['profilePicture'] = $newPic;
     // Save picture
@@ -30,7 +30,7 @@ if (isset($_POST['update'])) {
     squareCropPicture(PROFILE_TARGET_DIR . $profilePicture);
   }
 
-  updateUser($userId, $firstName, $lastName, $email, $password, $profilePicture);
+  updateUser($userID, $firstName, $lastName, $email, $password, $profilePicture);
 
 }
 ?>
@@ -91,7 +91,7 @@ if (isset($_POST['update'])) {
           <div class="form-group">
             <strong class="form-text">
               <span class="">User ID:&nbsp;</span>
-              <span><?php echo $userId; ?></span>
+              <span><?php echo $userID; ?></span>
             </strong>
             <?php if (isset($level)) {
               echo

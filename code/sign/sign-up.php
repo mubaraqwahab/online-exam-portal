@@ -12,12 +12,22 @@ if (isset($_POST['signUp'])) {
   $password = $_POST['password'];
   $level = $_POST['level'];
 
+  // Get profile picture name
+  $profilePicture = renameProfilePic($userID);
+  if (!empty($profilePicture)) {
+    // Save picture
+    saveProfilePic($profilePicture);
+    // Crop picture
+    squareCropPicture(PROFILE_TARGET_DIR . $profilePicture);
+  }
+
   // We can do some validation here
 
   addUser($userID, $firstName, $lastName, $email, $password, $level);
 
   // Log the user in
   $_SESSION['userID'] = $userID;
+  $_SESSION['profilePicture'] = $profilePicture;
 
   // Redirect to home page (no home page for now tho)
   header('Location: ../create-exam/create-exam.php');
