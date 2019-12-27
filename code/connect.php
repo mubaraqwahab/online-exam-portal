@@ -19,9 +19,10 @@ $examTypes = $conn->query('SELECT * FROM exam_type');
 $assignmentStatuses = $conn->query('SELECT * FROM assignment_status');
 
 
-function addUser($userId, $firstName, $lastName, $email, $password, int $levelId = null, $profilePicture = null) {
+// Add a user to the database
+function addUser($userID, $firstName, $lastName, $email, $password, int $levelId = null, $profilePicture = null) {
   $sql = "INSERT INTO user(user_id, first_name, last_name, email, password, level_id, profile_picture)
-  VALUES ('$userId','$firstName','$lastName','$email','$password',"
+  VALUES ('$userID','$firstName','$lastName','$email','$password',"
   . (empty($levelId) ? "NULL" : $levelId) . ","
   . (empty($profilePicture) ? "NULL" : '$profilePicture') . ")";
 
@@ -29,8 +30,9 @@ function addUser($userId, $firstName, $lastName, $email, $password, int $levelId
   return $conn->query($sql);
 }
 
-function getUserById($userId) {
-  $sql = "SELECT first_name, last_name, email, password, level_id, profile_picture FROM user WHERE user_id = '$userId'";
+//
+function getUserById($userID) {
+  $sql = "SELECT first_name, last_name, email, password, level_id, profile_picture FROM user WHERE user_id = '$userID'";
 
   global $conn;
   return $conn->query($sql);
@@ -43,15 +45,17 @@ function getUserByEmail($email) {
   return $conn->query($sql);
 }
 
-function updateUser($userId, $firstName, $lastName, $email, $password = null, $profilePicture = null) {
+// Update details of a user. User ID and Level can't be updated
+function updateUser($userID, $firstName, $lastName, $email, $password = null, $profilePicture = null) {
   $sql = "UPDATE user SET first_name = '$firstName', last_name = '$lastName', email = '$email'"
   . (empty($password) ? "" : ", password = '$password'")
-  . (empty($profilePicture) ? "" : ", profile_picture = '$profilePicture'") . " WHERE user_id = '$userId'";
+  . (empty($profilePicture) ? "" : ", profile_picture = '$profilePicture'") . " WHERE user_id = '$userID'";
 
   global $conn;
   return $conn->query($sql);
 }
 
+// Create an exam
 function createExam($instructorId, $courseCode, $title, int $typeId, int $noOfQuestions) {
   $sql = "INSERT INTO exam(instructor_id, course_code, title, type_id, no_of_questions)
   VALUES ('$instructorId','$courseCode','$title',$typeId,$noOfQuestions)";
@@ -59,6 +63,7 @@ function createExam($instructorId, $courseCode, $title, int $typeId, int $noOfQu
   return $conn->query($sql);
 }
 
+// Add a multichoice question
 function addMultiQuestion(int $examId, int $questionNo, $question, $correctAnswer, $a, $b, $c, $d, float $mark) {
   $sql = "INSERT INTO multi_choice_question(exam_id, question_no, question, correct_answer, a, b, c, d, mark)
   VALUES ($examId, $questionNo, '$question', '$correctAnswer', '$a', '$b', '$c', '$d', $mark)";
@@ -67,6 +72,7 @@ function addMultiQuestion(int $examId, int $questionNo, $question, $correctAnswe
   return $conn->query($sql);
 }
 
+// Add a fill in the blank question
 function addFillQuestion(int $examId, int $questionNo, $question, float $mark) {
   $sql = "INSERT INTO fill_in_question(exam_id, question_no, question, mark)
   VALUES ($examId, $questionNo, '$question', $mark)";
@@ -75,6 +81,7 @@ function addFillQuestion(int $examId, int $questionNo, $question, float $mark) {
   return $conn->query($sql);
 }
 
+// Add a theory question
 function addTheoryQuestion(int $examId, int $questionNo, $question, float $mark) {
   $sql = "INSERT INTO theory_question(exam_id, question_no, question, mark)
   VALUES ($examId, $questionNo, '$question', $mark)";
@@ -83,14 +90,16 @@ function addTheoryQuestion(int $examId, int $questionNo, $question, float $mark)
   return $conn->query($sql);
 }
 
-function assignStudentExam(int $examId, $userId) {
+// Assign an exam to a student
+function assignStudentExam(int $examId, $userID) {
   $sql = "INSERT INTO exam_assignment(exam_id, assignee_id, total_score, status_id)
-  VALUES ($examId,'$userId',NULL,1)";
+  VALUES ($examId,'$userID',NULL,1)";
 
   global $conn;
   return $conn->query($sql);
 }
 
+// Get all exams owned by an instructor
 function getInstructorExams($instructorId) {
   $sql = "SELECT exam_id, instructor_id, course_code, title, type_id, no_of_questions FROM exam WHERE instructor_id = '$instructorId'";
 
@@ -99,7 +108,8 @@ function getInstructorExams($instructorId) {
 }
 
 
-
+// Generate a random string of length $length.
+// $isNum specifies whether the string should be numeric.
 function generateRandomString($length, $isNum = false) {
   $characters = '0123456789' . ($isNum ? '' : 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
   $charactersLength = strlen($characters);
@@ -110,23 +120,16 @@ function generateRandomString($length, $isNum = false) {
   return $randomString;
 }
 
-function generateRandomToken($length = 6) {
-  $characters = '01234567892819403817293';
-  $charactersLength = strlen($characters);
-  $randomString = '';
-  for ($i = 0; $i < $length; $i++) {
-      $randomString .= $characters[rand(0, $charactersLength - 1)];
-  }
-  return $randomString;
-}
+
 
 const PROFILE_TARGET_DIR = '../profile-pic/';
 
-function renameProfilePic($userId) {
+// Rename an uploaded profile picture to a unique hash.
+function renameProfilePic($userID) {
   // TODO in frontend:
   // Check if image file is an actual image or fake image
   // Check file size <= 2MB
-  // Allow certain file formats (jpg, jpeg, png, gif, bmp)
+  // Allow certain file formats (jpg, jpeg, png, bmp)
 
   $profilePicture = '';
 
@@ -135,13 +138,14 @@ function renameProfilePic($userId) {
     $imageFileType = strtolower(pathinfo($targetFile,PATHINFO_EXTENSION));
 
     // Rename
-    // $profilePicture = $userId . '.' . $imageFileType; //base64_decode(urldecode($userId)) . $imageFileType;
-    $profilePicture = md5($userId.$imageFileType) . '.' . $imageFileType;
+    // $profilePicture = $userID . '.' . $imageFileType; //base64_decode(urldecode($userID)) . $imageFileType;
+    $profilePicture = md5($userID.$imageFileType) . '.' . $imageFileType;
   }
 
   return $profilePicture;
 }
 
+// Save uploaded profile picture as name given in argument $profilePicture
 function saveProfilePic($profilePicture) {
   if (empty($profilePicture)) return false;
 
@@ -157,6 +161,7 @@ function saveProfilePic($profilePicture) {
   return move_uploaded_file($_FILES["profilePicture"]["tmp_name"], $targetFile);
 }
 
+// Crop a picture in the middle to a square (the square is as big as possible)
 function squareCropPicture($picturePath) {
   $im = imagecreatefromjpeg($picturePath);
 

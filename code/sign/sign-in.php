@@ -8,15 +8,18 @@ if (isset($_POST['signIn'])) {
   $userID = $_POST['userID'];
   $password = $_POST['password'];
 
-  $sql = "SELECT user_id, password FROM user WHERE user_id = '" . $userID . "' AND  password = '" . $password . "'";
+  // $sql = "SELECT user_id, password FROM user WHERE user_id = '" . $userID . "' AND  password = '" . $password . "'";
+  $sql = "SELECT profile_picture FROM user WHERE user_id = '" . $userID . "' AND  password = '" . $password . "'";
 
   $checkdetails = $conn->query($sql);
-  //$checkdetails = mysqli_query($sql);
 
-  // if (mysqli_num_rows($checkdetails) > 0) {
   if ($checkdetails->num_rows > 0) {
+    // Get the profile pic
+    $profilePicture  = $checkdetails->fetch_assoc()['profile_picture'];
+
     // Log the user in
     $_SESSION['userID'] = $userID;
+    $_SESSION['profilePicture'] = $profilePicture;
 
     // Redirect to home page (no home page for now tho)
     header('Location: ../create-exam/create-exam.php');
