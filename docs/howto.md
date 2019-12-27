@@ -100,7 +100,8 @@ Naming Convention
 * Name -> `myfile.txt`, `my-file.txt`
 
 ### HTML/CSS
-* Class, ID, form input name -> `class-name`, `element-id`, `input-name`
+* Class -> `class-name`
+* ID, form input name -> `elementİD`, `inputName`
 
 ### JavaScript
 * Variable -> `myVariable`
@@ -112,7 +113,6 @@ Naming Convention
 * Constant -> `MY_CONSTANT`
 * Function -> `doSomething()`
 * Class -> `MyClass`
-* Keyword -> `true`
 
 ### SQL/DB
 * Command/keyword -> `SELECT`
