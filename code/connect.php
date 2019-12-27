@@ -32,14 +32,14 @@ function addUser($userID, $firstName, $lastName, $email, $password, int $levelId
 
 //
 function getUserById($userID) {
-  $sql = "SELECT first_name, last_name, email, password, level_id, profile_picture FROM user WHERE user_id = '$userID'";
+  $sql = "SELECT * FROM user WHERE user_id = '$userID'";
 
   global $conn;
   return $conn->query($sql);
 }
 
 function getUserByEmail($email) {
-  $sql = "SELECT user_id, first_name, last_name, password, level_id, profile_picture FROM user WHERE email = '$email'";
+  $sql = "SELECT * FROM user WHERE email = '$email'";
 
   global $conn;
   return $conn->query($sql);
@@ -56,44 +56,44 @@ function updateUser($userID, $firstName, $lastName, $email, $password = null, $p
 }
 
 // Create an exam
-function createExam($instructorId, $courseCode, $title, int $typeId, int $noOfQuestions) {
-  $sql = "INSERT INTO exam(instructor_id, course_code, title, type_id, no_of_questions)
-  VALUES ('$instructorId','$courseCode','$title',$typeId,$noOfQuestions)";
+function createExam($instructorId, $courseCode, $title, int $typeId, int $noOfQuestions, $invitePrefix) {
+  $sql = "INSERT INTO exam(instructor_id, course_code, title, type_id, no_of_questions, invite_prefix)
+  VALUES ('$instructorId','$courseCode','$title',$typeId,$noOfQuestions,'$invitePrefix')";
   global $conn;
   return $conn->query($sql);
 }
 
 // Add a multichoice question
-function addMultiQuestion(int $examId, int $questionNo, $question, $correctAnswer, $a, $b, $c, $d, float $mark) {
+function addMultiQuestion(int $examID, int $questionNo, $question, $correctAnswer, $a, $b, $c, $d, float $mark) {
   $sql = "INSERT INTO multi_choice_question(exam_id, question_no, question, correct_answer, a, b, c, d, mark)
-  VALUES ($examId, $questionNo, '$question', '$correctAnswer', '$a', '$b', '$c', '$d', $mark)";
+  VALUES ($examID, $questionNo, '$question', '$correctAnswer', '$a', '$b', '$c', '$d', $mark)";
 
   global $conn;
   return $conn->query($sql);
 }
 
 // Add a fill in the blank question
-function addFillQuestion(int $examId, int $questionNo, $question, float $mark) {
+function addFillQuestion(int $examID, int $questionNo, $question, float $mark) {
   $sql = "INSERT INTO fill_in_question(exam_id, question_no, question, mark)
-  VALUES ($examId, $questionNo, '$question', $mark)";
+  VALUES ($examID, $questionNo, '$question', $mark)";
 
   global $conn;
   return $conn->query($sql);
 }
 
 // Add a theory question
-function addTheoryQuestion(int $examId, int $questionNo, $question, float $mark) {
+function addTheoryQuestion(int $examID, int $questionNo, $question, float $mark) {
   $sql = "INSERT INTO theory_question(exam_id, question_no, question, mark)
-  VALUES ($examId, $questionNo, '$question', $mark)";
+  VALUES ($examID, $questionNo, '$question', $mark)";
 
   global $conn;
   return $conn->query($sql);
 }
 
 // Assign an exam to a student
-function assignStudentExam(int $examId, $userID) {
+function assignStudentExam(int $examID, $userID) {
   $sql = "INSERT INTO exam_assignment(exam_id, assignee_id, total_score, status_id)
-  VALUES ($examId,'$userID',NULL,1)";
+  VALUES ($examID,'$userID',NULL,1)";
 
   global $conn;
   return $conn->query($sql);

@@ -7,35 +7,36 @@ $userID = $_SESSION['userID'];
 $profilePicture = $_SESSION['profilePicture'];
 
 $result = $conn->query("SHOW TABLE STATUS WHERE `Name` = 'Exam'");
-$examId = ($result->fetch_assoc())['Auto_increment'];
+$examID = ($result->fetch_assoc())['Auto_increment'];
 
-$inviteCode = generateRandomString(INVITE_CODE_PREFIX_LENGTH) . $examId;
+$invitePrefix = generateRandomString(INVITE_CODE_PREFIX_LENGTH);
+$inviteCode = $invitePrefix . $examID;
 
 if (isset($_POST['submit'])) {
   $examType = $_POST['examType'];
   $noOfQuestions = $_POST['noOfQuestions'];
-  createExam($userID, $_POST['courseCode'], $_POST['examTitle'], $examType, $noOfQuestions);
+  createExam($userID, $_POST['courseCode'], $_POST['examTitle'], $examType, $noOfQuestions, $invitePrefix);
 
   for ($i=1; $i <= $noOfQuestions; $i++) {
     switch ($examType) {
       case 1:
-        addMultiQuestion($examId, $i, $_POST['question'.$i], $_POST['correctOption'.$i],
+        addMultiQuestion($examID, $i, $_POST['question'.$i], $_POST['correctOption'.$i],
           $_POST['optionA'.$i], $_POST['optionB'.$i], $_POST['optionC'.$i], $_POST['optionD'.$i], $_POST['mark'.$i]);
         break;
 
       case 2:
-        addFillQuestion($examId, $i, $_POST['question'.$i], $_POST['mark'.$i]);
+        addFillQuestion($examID, $i, $_POST['question'.$i], $_POST['mark'.$i]);
         break;
 
       default:
-        addTheoryQuestion($examId, $i, $_POST['question'.$i], $_POST['mark'.$i]);
+        addTheoryQuestion($examID, $i, $_POST['question'.$i], $_POST['mark'.$i]);
         break;
     }
   }
 
   $noOfInvitees = intval($_POST['noOfInvitees']);
   for ($i=1; $i <= $noOfInvitees; $i++) {
-    assignStudentExam($examId, $_POST['invitee'.$i]);
+    assignStudentExam($examID, $_POST['invitee'.$i]);
   }
 
   header('Location: '.$_SERVER['REQUEST_URI']);
