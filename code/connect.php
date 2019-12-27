@@ -107,6 +107,8 @@ function getInstructorExams($instructorId) {
   return $conn->query($sql);
 }
 
+// Length of random invite code prefix
+const INVITE_CODE_PREFIX_LENGTH = 5;
 
 // Generate a random string of length $length.
 // $isNum specifies whether the string should be numeric.
@@ -121,7 +123,7 @@ function generateRandomString($length, $isNum = false) {
 }
 
 
-
+// Folder to store profile pictures
 const PROFILE_TARGET_DIR = '../profile-pic/';
 
 // Rename an uploaded profile picture to a unique hash.
