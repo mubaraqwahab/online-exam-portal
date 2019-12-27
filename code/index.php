@@ -3,7 +3,7 @@ session_start();
 
 include 'connect.php';
 
-$_SESSION['userID'] = '171103018';
+// $_SESSION['userID'] = '171103018';
 
 // Get profile pic from db
 $sql = "SELECT profile_picture FROM user WHERE user_id='{$_SESSION['userID']}'";
