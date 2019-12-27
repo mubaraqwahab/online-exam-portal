@@ -1,7 +1,14 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['userID'])) {
+  header("Location: ../sign/sign-in.php");
+}
+
 include '../connect.php';
 
-$userId = '171103007';
+$userId = $_SESSION['userID'];
+$profilePicture = $_SESSION['profilePicture'];
 
 $result = $conn->query("SHOW TABLE STATUS WHERE `Name` = 'Exam'");
 $examId = ($result->fetch_assoc())['Auto_increment'];
@@ -162,6 +169,7 @@ if (isset($_POST['submit'])) {
 
   <!-- Custom Script -->
   <script src="../js/script.js"></script>
+  <script src="../js/create-exam.js"></script>
 </body>
 
 </html>
