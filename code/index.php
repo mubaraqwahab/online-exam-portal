@@ -3,8 +3,6 @@ session_start();
 
 include 'connect.php';
 
-// $_SESSION['userID'] = '171103018';
-
 // Get profile pic from db
 $sql = "SELECT profile_picture FROM user WHERE user_id='{$_SESSION['userID']}'";
 $result = $conn->query($sql);
@@ -14,11 +12,11 @@ if ($result->num_rows === 1) {
 }
 
 if (!isset($_SESSION['userID'])) {
-  header("Location: sign/sign-in.php");
+  header("Location: account/sign-in.php");
 } else if (is_numeric($_SESSION['userID'])) {
-  header("Location: sign/profile.php");
+  header("Location: account/profile.php");
 } else {
-  header("Location: create-exam/create-exam.php");
+  header("Location: create-exam/");
 }
 ?>
 

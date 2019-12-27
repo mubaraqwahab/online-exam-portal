@@ -4,16 +4,18 @@
 
 session_start();
 
+const ROOT_DIR = '/online-exam-portal/code/';
+
 // Go to Sign In if not signed in
 if (!isset($_SESSION['userID'])) {
-  header("Location: /online-exam-portal/code/sign/sign-in.php");
+  header("Location: " . ROOT_DIR . "account/sign-in.php");
 }
 
 // Sign out
 if (isset($_POST['signOut'])) {
   session_destroy();
 
-  header('Location: /online-exam-portal/code/sign/sign-in.php');
+  header("Location: " . ROOT_DIR . "account/sign-in.php");
 }
 
 ?>

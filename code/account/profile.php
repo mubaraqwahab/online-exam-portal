@@ -23,7 +23,8 @@ if (isset($_POST['update'])) {
   // Get profile picture name
   $newPic = renameProfilePic($userID);
   if (!empty($newPic)) {
-    $profilePicture = $_SESSION['profilePicture'] = $newPic;
+    $profilePicture = $newPic;
+    $_SESSION['profilePicture'] = $profilePicture;
     // Save picture
     saveProfilePic($profilePicture);
     // Crop picture
