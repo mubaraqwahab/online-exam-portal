@@ -9,12 +9,12 @@ $profilePicture = $_SESSION['profilePicture'];
 $result = $conn->query("SHOW TABLE STATUS WHERE `Name` = 'Exam'");
 $examID = ($result->fetch_assoc())['Auto_increment'];
 
-$invitePrefix = generateRandomString(INVITE_CODE_PREFIX_LENGTH);
-$inviteCode = $invitePrefix . $examID;
+$inviteCode = generateRandomString(INVITE_CODE_PREFIX_LENGTH) . $examID;
 
 if (isset($_POST['submit'])) {
   $examType = $_POST['examType'];
   $noOfQuestions = $_POST['noOfQuestions'];
+  $invitePrefix = substr($_POST['inviteCode'], 0, INVITE_CODE_PREFIX_LENGTH);
   createExam($userID, $_POST['courseCode'], $_POST['examTitle'], $examType, $noOfQuestions, $invitePrefix);
 
   for ($i=1; $i <= $noOfQuestions; $i++) {
@@ -129,7 +129,7 @@ if (isset($_POST['submit'])) {
             <div class="form-group">
               <label for="inviteCode">Share this code to invite students to take the exam:</label>
               <input type="text" readonly class="d-block lead border p-2 col-2 text-center"
-              id="inviteCode" value="<?php echo $inviteCode; ?>">
+              id="inviteCode" name="inviteCode" value="<?php echo $inviteCode; ?>">
 
             </div>
             <p class="my-3">OR</p>
