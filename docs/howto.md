@@ -152,6 +152,7 @@ Database Structure
 * To do that you can include (or require) `/code/session.php` at the top. (Make sure to include with appropriate path tho).
 * The HTML template for a basic 'main page' can be found at `/code/index.php`
 * Link this script `/code/js/show-file-input.js` in any page where there is a file input.
+* When you're testing anything, don't type quotes into form inputs. It could break the code (We need to fix that)
 * Also, make sure to document your code with comments, so others can understand too 🙂.
 
 
