@@ -22,7 +22,7 @@ if (isset($_POST['signIn'])) {
     $_SESSION['profilePicture'] = $profilePicture;
 
     // Redirect to home page (no home page for now tho)
-    header('Location: ../create-exam/create-exam.php');
+    header('Location: ../create-exam/');
   } else {
     echo 'The username or password are incorrect!';
   }

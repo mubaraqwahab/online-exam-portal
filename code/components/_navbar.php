@@ -14,7 +14,7 @@
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
       <div class="dropdown-item d-md-none"><?php echo isset($userID) ? $userID : "User ID"; ?></div>
       <div class="dropdown-divider d-md-none"></div>
-      <a class="dropdown-item" href="/online-exam-portal/code/sign/profile.php">Edit Profile</a>
+      <a class="dropdown-item" href="<?php echo ROOT_DIR . 'account/profile.php' ?>">Edit Profile</a>
       <div class="dropdown-divider"></div>
       <form method="post" class="m-0">
         <button name="signOut" type="submit" class="dropdown-item">Sign Out</button>
