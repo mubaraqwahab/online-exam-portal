@@ -27,9 +27,8 @@ Contents
       - [Sign Up](#sign-up)
       - [Sign In](#sign-in)
       - [Recover Password](#recover-password)
-      - [Reset password](#reset-password)
-      - [View Profile](#view-profile)
-      - [Update Profile](#update-profile-1)
+      - [Reset Password](#reset-password)
+      - [Profile Page](#profile-page)
       - [Create Exam](#create-exam)
       - [Exams](#exams)
       - [My Quizzes](#my-quizzes)
@@ -146,31 +145,38 @@ Database Structure
 
 ### Procedure
 
+**NB:**
+* 'Main pages' here refers to all pages that have the dashboard (i.e. excluding sign up, sign in and the likes).
+* The current session must validated at the top of main pages
+* To do that you can include (or require) '/code/session.php' at the top. (Make sure to include with appropriate path tho).
+* The HTML template for a basic 'main page' can be found at '/code/index.php'
+
+
+
+
 #### Sign Up
 * Collect user details
-* Rename uploaded picture to something like '[User ID]_pic.jpg'
-* Insert the details into 'User Profile' table
+* Rename uploaded picture to something like 'abcdefgh123.jpg'
+* Insert the details into 'user' table
+* Create session for user (the session would be used to keep the user logged in)
 
 #### Sign In
 * Collect user input
 * Check it against records in 'User Profile' table
-* If user ID doesn't exist, suggest signing up
-* If password incorrect, suggest recovering it
+* If user ID doesn't exist, suggest signing up *
+* If password incorrect, suggest recovering it *
+* Create session for user
 
 #### Recover Password
 * Get email
 * Validate email for that user ID
 * (What to do next?)
 
-#### Reset password
+#### Reset Password
 * Get new password
 * Update db
 
-#### View Profile
-* Select all fields (except password) for the User ID from 'User Profile' table
-* Print data to screen.
-
-#### Update Profile
+#### Profile Page
 * Get new profile details (except user ID)
 * Update the record for the user ID in 'User Profile' table.
 

@@ -26,6 +26,9 @@ FRONTEND
 * Wireframe edit exam form
 * Edit exam form
 
+* Wireframe notifications page
+* Create notifications page
+
 * Sign-up validation (outline criteria) and test
 * Sign-in validation and test
 * Recover password validation and test
@@ -52,12 +55,13 @@ BACKEND
 
 * Create querying functions
 
-* Sign-up PHP
-* Sign-in PHP
+* Sign-up PHP (d)
+* Sign-in PHP (d)
 * Password recovery procedure
 
-* Profile page PHP
-* Update profile PHP
+* Update profile PHP (d)
+
+* PHP the notifications
 
 * Create exam page PHP (d)
 * Create exam form PHP (d)
@@ -66,8 +70,9 @@ BACKEND
 * Create edit exam form PHP
 * Excel print students with scores
 
-* Change sign directory to 'account'
+* Change sign directory to 'account' (d)
 * Document the code
-* Require connect.PHP
-* Create sessions
+* Require connect.php
+* Require session.php
+* Create sessions (d)
 * Fix bsCustomInput (d)
