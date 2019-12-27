@@ -1,3 +1,27 @@
+<?php
+session_start();
+
+include 'connect.php';
+
+$_SESSION['userID'] = '171103018';
+
+// Get profile pic from db
+$sql = "SELECT profile_picture FROM user WHERE user_id='{$_SESSION['userID']}'";
+$result = $conn->query($sql);
+if ($result->num_rows === 1) {
+  $record = $result->fetch_assoc();
+  $_SESSION['profilePicture'] = $record['profile_picture'];
+}
+
+if (!isset($_SESSION['userID'])) {
+  header("Location: sign/sign-in.php");
+} else if (is_numeric($_SESSION['userID'])) {
+  header("Location: sign/profile.php");
+} else {
+  header("Location: create-exam/create-exam.php");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

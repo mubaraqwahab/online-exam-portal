@@ -1,7 +1,14 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['userID'])) {
+  header("Location: ../sign/sign-in.php");
+}
+
 include '../connect.php';
 
-$userId = '171103007';
+$userId = $_SESSION['userID'];
+$profilePicture = $_SESSION['profilePicture'];
 
 $result = getUserById($userId);
 $record = $result->fetch_assoc();
@@ -11,14 +18,24 @@ $lastName = $record['last_name'];
 $email = $record['email'];
 $level = 300;
 
-if (isset($_POST['submit'])) {
+if (isset($_POST['update'])) {
   $firstName = $_POST['firstName'];
   $lastName = $_POST['lastName'];
   $email = $_POST['email'];
   $password = $_POST['password'];
-  $profilePicture = $_POST['profilePicture'];
-  
+
+  // Get profile picture name
+  $newPic = renameProfilePic($userId);
+  if (!empty($newPic)) {
+    $profilePicture = $_SESSION['profilePicture'] = $newPic;
+    // Save picture
+    saveProfilePic($profilePicture);
+    // Crop picture
+    squareCropPicture(PROFILE_TARGET_DIR . $profilePicture);
+  }
+
   updateUser($userId, $firstName, $lastName, $email, $password, $profilePicture);
+
 }
 ?>
 
@@ -56,26 +73,38 @@ if (isset($_POST['submit'])) {
       <!-- Page content -->
       <div class="container py-3 px-5">
 
-        <form method="post" class="mt-4">
+        <form method="post" class="mt-4" enctype="multipart/form-data">
           <div class="form-group">
             <label for="profilePicture">Profile picture</label>
-            <img src="<?php echo "../profile-pic.php?id=".urlencode(base64_encode($userId)); ?>"
-              class="rounded-circle img-responsive col-sm-4 col-md-3 mb-2 d-block" alt="Profile picture" onerror="this.onerror=null; this.src='../img/avatar2.png'">
+            <img src="<?php
+                echo PROFILE_TARGET_DIR . (empty($profilePicture) || !file_exists(PROFILE_TARGET_DIR . $profilePicture) ? 'blank-square.jpg' : $profilePicture);
+                ?>"
+              class="rounded-circle img-responsive col-sm-4 col-md-3 mb-2 d-block"
+              alt="Profile picture">
             <div class="custom-file col-sm-5">
-              <input type="file" class="custom-file-input" id="profilePicture">
+              <input type="file" class="custom-file-input" name="profilePicture" id="profilePicture" aria-describedby="profilePictureHelp">
               <label class="custom-file-label m-0">No file chosen</label>
             </div>
+            <small id="profilePictureHelp" class="form-text text-muted">
+              Only JPG, JPEG, PNG & GIF files are allowed.
+              Your image size should not exceed 2MB.
+              Your image would be square cropped.
+            </small>
           </div>
 
-          <div class="form-group lead text-muted">
+          <div class="form-group">
             <strong class="form-text">
               <span class="">User ID:&nbsp;</span>
               <span><?php echo $userId; ?></span>
             </strong>
-            <strong class="form-text">
-              <span class="">Level:&nbsp;</span>
-              <span><?php echo $level; ?></span>
-            </strong>
+            <?php if (isset($level)) {
+              echo
+              '<strong class="form-text">
+                <span class="">Level:&nbsp;</span>
+                <span>' . $level . '</span>
+              </strong>';
+            }
+            ?>
           </div>
 
           <div class="form-group">
@@ -95,7 +124,7 @@ if (isset($_POST['submit'])) {
 
           <div class="form-group">
             <label for="password">New password</label>
-            <input type="password" class="form-control" name="password" id="password" required>
+            <input type="password" class="form-control" name="password" id="password">
             <small id="levelHelp" class="form-text text-muted">
               Ignore this field and the next if you don't want to change your password. Password should be 8 to 45 characters.
             </small>
@@ -103,10 +132,10 @@ if (isset($_POST['submit'])) {
 
           <div class="form-group">
             <label for="confirmPassword">Confirm password</label>
-            <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" required>
+            <input type="password" class="form-control" name="confirmPassword" id="confirmPassword">
           </div>
 
-          <button type="submit" name="submit" class="btn btn-success mt-3">Update</button>
+          <button type="submit" name="update" class="btn btn-success mt-3">Update</button>
           <button type="button" class="btn btn-danger mt-3" onClick="window.location.reload(true)">Reset</button>
 
         </form>
@@ -119,9 +148,12 @@ if (isset($_POST['submit'])) {
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
 
   <!-- Custom Script -->
   <script src="../js/script.js"></script>
+  <script src="../js/show-file-input.js"></script>
+
 </body>
 
 </html>

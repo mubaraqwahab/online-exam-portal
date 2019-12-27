@@ -87,9 +87,12 @@
                     <img src="../img/blank-square.jpg"
                       class="rounded-circle w-50 mb-2 d-block" alt="Profile picture">
                     <div class="custom-file">
-                      <input type="file" class="custom-file-input" id="profilePicture">
+                      <input type="file" class="custom-file-input" id="profilePicture" name="profilePicture" aria-describedby="profilePictureHelp">
                       <label class="custom-file-label m-0">No file chosen</label>
                     </div>
+                    <small id="profilePictureHelp" class="form-text text-muted">
+                      Your file size should not exceed 2MB. Only JPG, JPEG, PNG & GIF files are allowed.
+                    </small>
                   </div>
                 </div>
 
@@ -109,10 +112,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
 
-    <script>
-      $(document).ready(function () {
-        bsCustomFileInput.init()
-      })
-    </script>
+    <script src="../js/show-file-input.js"></script>
   </body>
 </html>
