@@ -3,22 +3,18 @@ session_start();
 
 include 'connect.php';
 
-// Get profile pic from db
-$sql = "SELECT profile_picture FROM user WHERE user_id='{$_SESSION['userID']}'";
-$result = $conn->query($sql);
-if ($result->num_rows === 1) {
-  $record = $result->fetch_assoc();
-  $_SESSION['profilePicture'] = $record['profile_picture'];
-}
-
+// If there's no user logged in, redirect to sign in page.
 if (!isset($_SESSION['userID'])) {
   header("Location: account/sign-in.php");
-} else if (is_numeric($_SESSION['userID'])) {
-  header("Location: account/profile.php");
 } else {
-  header("Location: create-exam/");
+  header("Location: account/profile.php");
 }
 ?>
+
+<!--
+The HTML below is just a template you can use to create new 'main' pages.
+When you use it, make sure to re-link files as necessary
+ -->
 
 <!DOCTYPE html>
 <html lang="en">
