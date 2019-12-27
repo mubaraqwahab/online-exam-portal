@@ -24,11 +24,12 @@ Contents
   - [Database Structure](#database-structure)
     - [Tables](#tables)
     - [Procedure](#procedure)
+      - [NB:](#nb)
       - [Sign Up](#sign-up)
       - [Sign In](#sign-in)
+      - [Profile Page](#profile-page)
       - [Recover Password](#recover-password)
       - [Reset Password](#reset-password)
-      - [Profile Page](#profile-page)
       - [Create Exam](#create-exam)
       - [Exams](#exams)
       - [My Quizzes](#my-quizzes)
@@ -145,27 +146,34 @@ Database Structure
 
 ### Procedure
 
-**NB:**
+#### NB:
 * 'Main pages' here refers to all pages that have the dashboard (i.e. excluding sign up, sign in and the likes).
 * The current session must validated at the top of main pages
-* To do that you can include (or require) '/code/session.php' at the top. (Make sure to include with appropriate path tho).
-* The HTML template for a basic 'main page' can be found at '/code/index.php'
+* To do that you can include (or require) `/code/session.php` at the top. (Make sure to include with appropriate path tho).
+* The HTML template for a basic 'main page' can be found at `/code/index.php`
 
 
 
 
 #### Sign Up
 * Collect user details
-* Rename uploaded picture to something like 'abcdefgh123.jpg'
-* Insert the details into 'user' table
+* Rename uploaded picture to something like `abcdefgh123.jpg`
+* Save the picture at `/code/profile-pic/`
+* Insert the details into `user` table
 * Create session for user (the session would be used to keep the user logged in)
 
 #### Sign In
 * Collect user input
-* Check it against records in 'User Profile' table
-* If user ID doesn't exist, suggest signing up *
-* If password incorrect, suggest recovering it *
+* Check it against records in `user` table
+* If user ID doesn't exist, suggest signing up (not done)
+* If password incorrect, suggest recovering it (not done)
 * Create session for user
+
+#### Profile Page
+* Get new profile details (except user ID)
+* Update the record for the user ID in 'User Profile' table.
+
+> **The rest of this procedure section is out of date**
 
 #### Recover Password
 * Get email
@@ -176,9 +184,6 @@ Database Structure
 * Get new password
 * Update db
 
-#### Profile Page
-* Get new profile details (except user ID)
-* Update the record for the user ID in 'User Profile' table.
 
 #### Create Exam
 * Get exam details (course code, course name, exam title, type, no of questions)
