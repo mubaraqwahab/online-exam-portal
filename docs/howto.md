@@ -148,10 +148,32 @@ Database Structure
 
 #### NB:
 * 'Main pages' here refers to all pages that have the dashboard (i.e. excluding sign up, sign in and the likes).
-* The current session must validated at the top of main pages
-* To do that you can include (or require) `/code/session.php` at the top. (Make sure to include with appropriate path tho).
-* The HTML template for a basic 'main page' can be found at `/code/index.php`
+* The current session must be validated at the top of main pages
+* To do that, add this at the top:
+```php
+<?php
+include '/code/session.php'; // Change the path as necessary.
+
+$userID = $_SESSION['userID'];
+$profilePicture = $_SESSION['profilePicture'];
+
+// ...
+```
+* As for non-main pages, start them with like so:
+```php
+<?php
+session_start();
+```
+* The HTML template for a basic 'main page' can be found at `/code/index.php`. You can use it to create a new main page.
 * Link this script `/code/js/show-file-input.js` in any page where there is a file input.
+* If you're using AJAX in a page, replace (because AJAX isn't included in jQuery's slim build):
+```html
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+```
+with
+```html
+<script src="https://code.jquery.com/jquery-3.4.1.min.js">
+```
 * When you're testing anything, don't type quotes into form inputs. It could break the code (We need to fix that)
 * Also, make sure to document your code with comments, so others can understand too 🙂.
 
