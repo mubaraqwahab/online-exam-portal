@@ -16,18 +16,18 @@
 
 <body>
 
-  <!-- <?php include '../components/_header.php' ?> -->
+  <?php include '../components/_header.php' ?>
 
-  <!-- <div class="d-flex" id="wrapper"> -->
+  <div class="d-flex" id="wrapper">
 
     <!-- Sidebar -->
-    <!-- <?php require '../components/_sidebar.php' ?> -->
+    <?php require '../components/_sidebar.php' ?>
 
     <!-- Page content wrapper -->
-    <!-- <div id="page-content-wrapper"> -->
+    <div id="page-content-wrapper">
 
       <!-- Navbar -->
-      <!-- <?php require '../components/_navbar.php' ?> -->
+      <?php require '../components/_navbar.php' ?>
 
       <!-- Page content -->
       <div class="container">
@@ -129,6 +129,9 @@
 
     });
 
+    // Close exam with examID on database
+    // Callback is a function specifying what to do if the exam has been closed
+    // Params is an array of parameters to be passed to callback
     function closeExam(examID, callback, params) {
       $.ajax({
         url: 'close-exam.php',
@@ -143,8 +146,8 @@
       });
     }
 
+    // Move exam to which closeBtn belongs to closed section
     function moveClosedExam(closeBtn) {
-      console.log(closeBtn)
 
       // Move the exam to #closedExam section
       closeBtn.parents('.card').detach().prependTo('#closedExams > .list-unstyled');
