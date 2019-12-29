@@ -40,26 +40,31 @@
 
             <!-- Each card represents an exam -->
 
-            <!-- The server side should set the value of 'data-exam-id' to the exam id -->
-            <li class="card my-2" data-exam-id="">
-              <div class="card-body d-flex flex-column flex-md-row justify-content-between">
+            <!-- The server side should set the value of 'data-exam-id' to the exam id.
+              The JavaScript here uses it to close the exam.
+            -->
+            <li class="card my-2" data-exam-id="12">
+              <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
                 <div class="d-flex flex-column flex-xl-row align-items-xl-center">
                   <!-- The format is: [Course Code] ([Course Name]) [Exam Title] -->
                   <span class="mr-md-3">CSC303 (Introduction to Computer Architecture and Organization) Midterm Exam</span>
                   <span>
+                    <!-- Replace the number of assignees and submissions -->
                     <small class="mr-2">10 Assignees</small>
                     <small>9 Submissions</small>
                   </span>
                 </div>
                 <div class="mt-2 mt-md-0">
-                  <a href="#" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
+                  <!-- Notice how the href is. It's going to send the examID to the exam.php page through GET
+                    The examID value in the url should be the same as the data-exam-id above -->
+                  <a href="exam.php?examID=12" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
                   <button class="btn btn-warning close-exam-btn" type="button">Close</button>
                 </div>
               </div>
             </li>
 
-            <li class="card my-2" data-exam-id="">
-              <div class="card-body d-flex flex-column flex-md-row justify-content-between">
+            <li class="card my-2" data-exam-id="34">
+              <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
                 <div class="d-flex flex-column flex-xl-row align-items-xl-center">
                   <span class="mr-md-3">CSC303 (Introduction to Computer Architecture and Organization) Midterm Exam</span>
                   <span>
@@ -68,7 +73,7 @@
                   </span>
                 </div>
                 <div class="mt-2 mt-md-0">
-                  <a href="#" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
+                  <a href="exam.php?examID=34" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
                   <button class="btn btn-warning close-exam-btn" type="button">Close</button>
                 </div>
               </div>
@@ -88,8 +93,8 @@
 
             <!-- Each card represents an exam -->
 
-            <li class="card my-2" data-exam-id="">
-              <div class="card-body d-flex flex-column flex-md-row justify-content-between">
+            <li class="card my-2" data-exam-id="45">
+              <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
                 <div class="d-flex flex-column flex-xl-row align-items-xl-center">
                   <span class="mr-md-3">CSC303 (Web) Midterm Exam</span>
                   <span>
@@ -98,7 +103,7 @@
                   </span>
                 </div>
                 <div class="mt-2 mt-md-0">
-                  <a href="#" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
+                  <a href="exam.php?examID=45" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
                 </div>
               </div>
             </li>
@@ -120,6 +125,6 @@
   <!-- Custom Script -->
   <script src="../js/script.js"></script>
   <script src="../js/manage-exam.js"></script>
-  
+
 </body>
 </html>

@@ -42,6 +42,9 @@
               <span id="status">Invite Code: y6GiQ32</span>
             </div>
             <form method="POST" action="" class="mt-2 mt-md-0">
+              <!-- Exam id from $_GET['examID'] should be kept in the value of this input below.
+                The JavaScript here uses it to close the exam
+              -->
               <input type="hidden" name="examID" value="32">
               <button type="submit" name="exportToCSV" class="btn btn-primary">Export to CSV</button>
               <button type="button" class="btn btn-warning close-exam-btn">Close</button>
@@ -97,7 +100,13 @@
                           </span> -->
                         </div>
                         <div class="mt-2 mt-md-0">
-                          <a href="#" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
+                          <!-- Notice how the url is. It's going to send the examID and assigneeID to theory-response.php
+                            through GET. The examID value should be set as set above in the input.
+                            The value of assigneeID should be the ID of the student.
+                            Also note that it links to 'theory-response.php'. So, if the exam is a fill-in exam,
+                            the link would be fill-response.php instead. And for a multi-choice exam, multi-response.php
+                          -->
+                          <a href="theory-response.php?examID=32&assigneeID=171103026" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
                         </div>
                       </div>
                     </div>
@@ -115,7 +124,7 @@
                           </span> -->
                         </div>
                         <div class="mt-2 mt-md-0">
-                          <a href="#" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
+                          <a href="theory-response.php?examID=32&assigneeID=171103018" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
                         </div>
                       </div>
                     </div>
@@ -147,7 +156,7 @@
                           </span>
                         </div>
                         <div class="mt-2 mt-md-0">
-                          <a href="#" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
+                          <a href="theory-response.php?examID=32&assigneeID=171103010" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
                         </div>
                       </div>
                     </div>
@@ -164,7 +173,7 @@
                           </span>
                         </div>
                         <div class="mt-2 mt-md-0">
-                          <a href="#" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
+                          <a href="theory-response.php?examID=32&assigneeID=171103007" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
                         </div>
                       </div>
                     </div>
