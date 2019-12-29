@@ -65,7 +65,7 @@
               <strong class="form-inline">
                 Score:
                 <!-- input name should change. So the first question has score1, the next score2, ... -->
-                <input class="form-control col-1" type="number" step="0.1" min="0" max="10" name="score1" required>
+                <input class="form-control col-3 col-sm-2 col-lg-1" type="number" step="0.1" min="0" max="10" name="score1" required>
                 /10
                 <!-- PHP should put marks for each question.
                 the value for max in the score input is the mark for the question -->
@@ -83,7 +83,7 @@
 
               <strong class="form-inline">
                 Score:
-                <input class="form-control col-1" type="number" step="0.1" min="0" max="5" name="score2" required>
+                <input class="form-control col-3 col-sm-2 col-lg-1" type="number" step="0.1" min="0" max="5" name="score2" required>
                 /5
               </strong>
             </div>

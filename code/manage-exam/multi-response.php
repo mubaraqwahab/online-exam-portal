@@ -64,10 +64,10 @@
                 <div class="px-3 py-2">
                   A. Lorem ipsum dolor sit amet
                 </div>
-                <!-- Correct answer should have these four extra classes:
-                    border, rounded-pill, text-white, bg-success
+                <!-- Correct answer should have these three extra classes:
+                    rounded, text-white, bg-success
                 If student's response == correct answer, do nothing -->
-                <div class="px-3 py-2 border rounded-pill text-white bg-success">
+                <div class="px-3 py-2 rounded text-white bg-success">
                   B. Lorem ipsum dolor sit amet
                 </div>
                 <div class="px-3 py-2">
@@ -80,7 +80,7 @@
 
               <strong class="form-inline">
                 Score:
-                <span class="d-inline-block border rounded p-2 col-1 text-muted">10</span>
+                <span class="d-inline-block border rounded p-2 col-3 col-sm-2 col-lg-1 text-muted">10</span>
                 /10
                 <!-- The auto generated score, and the mark for the question should be put -->
               </strong>
@@ -98,29 +98,29 @@
               </p>
 
               <div class="card-text mb-3">
-                <!-- Correct answer should have these four extra classes:
-                    border, rounded-pill, text-white, bg-success
+                <!-- Correct answer should have these three extra classes:
+                    rounded, text-white, bg-success
                 If student's response != correct answer, add these classes to student's response:
-                    border, rounded-pill, text-white, bg-danger
+                    rounded, text-white, bg-danger
                 -->
                 <div class="px-3 py-2">
                   A. Lorem ipsum dolor sit amet
                 </div>
-                <div class="px-3 py-2 border rounded-pill text-white bg-danger">
+                <div class="px-3 py-2 rounded text-white bg-danger">
                   B. Lorem ipsum dolor sit amet
                 </div>
                 <div class="px-3 py-2">
                   C. Lorem ipsum dolor sit amet
                 </div>
                 <!-- If correct answer != response,  -->
-                <div class="px-3 py-2 border rounded-pill text-white bg-success">
+                <div class="px-3 py-2 rounded text-white bg-success">
                   D. Lorem ipsum dolor sit amet
                 </div>
               </div>
 
               <strong class="form-inline">
                 Score:
-                <span class="d-inline-block border rounded p-2 col-1 text-muted">10</span>
+                <span class="d-inline-block border rounded p-2 col-3 col-sm-2 col-lg-1 text-muted">10</span>
                 /10
                 <!-- The auto generated score, and the mark for the question should be put -->
               </strong>
