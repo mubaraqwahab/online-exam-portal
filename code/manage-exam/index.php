@@ -30,7 +30,7 @@
       <?php require '../components/_navbar.php' ?>
 
       <!-- Page content -->
-      <div class="container">
+      <div class="container py-3 px-5">
 
         <!-- Open Exams -->
         <section id="openExams">
@@ -43,35 +43,38 @@
             <!-- The server side should set the value of 'data-exam-id' to the exam id -->
             <li class="card my-2" data-exam-id="">
               <div class="card-body d-flex flex-column flex-md-row justify-content-between">
-                <div class="d-flex flex-column flex-md-row align-items-md-center">
-                  <span class="mr-md-3">CSC303 (Web) Midterm</span>
+                <div class="d-flex flex-column flex-xl-row align-items-xl-center">
+                  <!-- The format is: [Course Code] ([Course Name]) [Exam Title] -->
+                  <span class="mr-md-3">CSC303 (Introduction to Computer Architecture and Organization) Midterm Exam</span>
                   <span>
                     <small class="mr-2">10 Assignees</small>
                     <small>9 Submissions</small>
                   </span>
                 </div>
                 <div class="mt-2 mt-md-0">
-                  <a href="#" class="btn btn-primary">View</a>
+                  <a href="#" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
                   <button class="btn btn-warning close-exam-btn" type="button">Close</button>
                 </div>
               </div>
             </li>
 
-            <li class="card my-2">
+            <li class="card my-2" data-exam-id="">
               <div class="card-body d-flex flex-column flex-md-row justify-content-between">
-                <div class="d-flex flex-column flex-md-row align-items-md-center">
-                  <span class="mr-md-3">CSC303 (Web) Midterm</span>
+                <div class="d-flex flex-column flex-xl-row align-items-xl-center">
+                  <span class="mr-md-3">CSC303 (Introduction to Computer Architecture and Organization) Midterm Exam</span>
                   <span>
                     <small class="mr-2">10 Assignees</small>
                     <small>9 Submissions</small>
                   </span>
                 </div>
                 <div class="mt-2 mt-md-0">
-                  <a href="#" class="btn btn-primary">View</a>
+                  <a href="#" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
                   <button class="btn btn-warning close-exam-btn" type="button">Close</button>
                 </div>
               </div>
             </li>
+
+
 
           </ul>
 
@@ -85,17 +88,17 @@
 
             <!-- Each card represents an exam -->
 
-            <li class="card my-2">
+            <li class="card my-2" data-exam-id="">
               <div class="card-body d-flex flex-column flex-md-row justify-content-between">
-                <div class="d-flex flex-column flex-md-row align-items-md-center">
-                  <span class="mr-md-3">CSC303 (Web) Midterm</span>
+                <div class="d-flex flex-column flex-xl-row align-items-xl-center">
+                  <span class="mr-md-3">CSC303 (Web) Midterm Exam</span>
                   <span>
                     <small class="mr-2">10 Assignees</small>
                     <small>9 Submissions</small>
                   </span>
                 </div>
                 <div class="mt-2 mt-md-0">
-                  <a href="#" class="btn btn-primary">View</a>
+                  <a href="#" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
                 </div>
               </div>
             </li>
