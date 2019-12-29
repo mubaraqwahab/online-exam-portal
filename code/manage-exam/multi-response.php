@@ -42,9 +42,6 @@
               <div>Student ID: 0123456789</div>
               <div>Student Name: Abdulhakeem Audu</div>
             </div>
-            <div>
-              Total Score: <span id="totalScore">100</span>
-            </div>
           </div>
         </header>
 
