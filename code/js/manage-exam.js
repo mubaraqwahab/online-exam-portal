@@ -4,6 +4,7 @@ $('document').ready(function() {
   $('#openExams .close-exam-btn').on('click', function() {
     var examCard = $(this).parents('.card');
     var examID = examCard.data('exam-id');
+    console.log(examID)
     closeExam( examID, moveClosedExam, [examCard] );
   });
 
@@ -27,7 +28,7 @@ $('document').ready(function() {
 // Params is an array of parameters to be passed to callback
 function closeExam(examID, callback, params) {
   $.ajax({
-    url: '../close-exam.php',
+    url: '../ajax/close-exam.php',
     method: 'post',
     data: "examID=" + examID,
     success: function(response) {
