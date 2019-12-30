@@ -4,7 +4,6 @@ $('document').ready(function() {
   $('#openExams .close-exam-btn').on('click', function() {
     var examCard = $(this).parents('.card');
     var examID = examCard.data('exam-id');
-    console.log(examID)
     closeExam( examID, moveClosedExam, [examCard] );
   });
 
