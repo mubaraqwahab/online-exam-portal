@@ -9,6 +9,8 @@ if (!isset($_SESSION['userID'])) {
 } else {
   header("Location: account/profile.php");
 }
+
+exit;
 ?>
 
 <!--
