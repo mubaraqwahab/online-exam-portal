@@ -1,7 +1,7 @@
 <nav class="navbar navbar-light sticky-top bg-light border-bottom">
   <div class="d-flex align-items-center">
     <button class="btn btn-light" id="menu-toggle"><i class="fa fa-bars"></i></button>
-    <h4 class="ml-3 mb-0" id="page-title">Page Title</h4>
+    <h4 class="ml-3 mb-0" id="page-title">Section Title</h4>
   </div>
 
   <div class="dropdown">
