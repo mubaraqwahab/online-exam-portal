@@ -1,3 +1,62 @@
+<?php
+include "../connect.php";
+
+$examID = $_GET['examID'];
+$sql = "SELECT * FROM exam WHERE exam_id = $examID";
+$result = mysqli_query($conn, $sql);
+$exam = mysqli_fetch_assoc($result);
+
+$invitePrefix = $exam['invite_prefix'];
+$examTitle = $exam['title'];
+$courseCode = $exam['course_code'];
+$noOfQuestion = $exam['no_of_questions'];
+$examTypeID = $exam['type_id'];
+
+$inviteCode = "$invitePrefix" . "$examID";
+
+$sql2 = "SELECT *
+FROM exam
+INNER JOIN exam_type ON exam.type_id = exam_type.type_id WHERE exam_id = $examID";
+$result2 = mysqli_query($conn, $sql2);
+$exam2 = mysqli_fetch_assoc($result2);
+
+$examType = $exam2['value'];
+
+//List of Assignees
+$sql3 = "SELECT *
+FROM exam_assignment
+INNER JOIN user ON exam_assignment.assignee_id = user.user_id WHERE exam_id = $examID";
+$result3 = mysqli_query($conn, $sql3);
+$noOfAssignees = mysqli_num_rows($result3);
+
+$sql4 = "SELECT *
+FROM exam_assignment
+INNER JOIN user ON exam_assignment.assignee_id = user.user_id WHERE exam_id = $examID AND status_id = '6'";
+$result4 = mysqli_query($conn, $sql4);
+$noOfGraded = mysqli_num_rows($result4);
+
+
+$sql5 = "SELECT *
+FROM exam_assignment
+INNER JOIN user ON exam_assignment.assignee_id = user.user_id WHERE exam_id = $examID AND status_id = '5'";
+$result5 = mysqli_query($conn, $sql5);
+$noOfNotGraded = mysqli_num_rows($result5);
+
+switch($examTypeID){
+  case 1 :
+    $examTypeDestination = "multi-response.php";
+  break;
+  case 2:
+    $examTypeDestination = "fill-response.php";
+  break;
+  case 3:
+    $examTypeDestination = "theory-response.php";
+  break;
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,18 +92,18 @@
 
         <!-- Heading -->
         <header class="mb-4" id="examHeader">
-          <h4>CSC303 (Web) Midterm</h4>
+          <h4><?php echo $courseCode . " " . "(" . $examTitle . ")"?></h4>
           <div class="d-flex flex-column flex-md-row align-items-md-center">
             <div class="mr-md-3 text-muted">
-              <span>Theory</span>
-              <span>&bull; 10 Questions &bull;</span>
-              <span id="status">Invite Code: y6GiQ32</span>
+              <span><?php echo $examType?></span>
+              <span>&bull; <?php echo $noOfQuestion . " Question(s)"?> &bull;</span>
+              <span id="status">Invite Code: <?php echo $inviteCode?></span>
             </div>
             <form method="POST" action="" class="mt-2 mt-md-0">
               <!-- Exam id from $_GET['examID'] should be kept in the value of this input below.
                 The JavaScript here uses it to close the exam
               -->
-              <input type="hidden" name="examID" value="32">
+              <input type="hidden" name="examID" value="<?php echo $examID; ?>">
               <button type="submit" name="exportToCSV" class="btn btn-primary">Export to CSV</button>
               <button type="button" class="btn btn-warning close-exam-btn">Close</button>
             </form>
@@ -54,21 +113,16 @@
         <!-- Assignees list -->
         <div>
           <a class="my-1 d-block" data-toggle="collapse" href="#assignees" role="button" aria-expanded="false" aria-controls="assignees">
-            <i class="fas fa-angle-down"></i> Assignees (10)
+            <i class="fas fa-angle-down"></i> Assignees <?php echo "(" . $noOfAssignees . ")"?>
           </a>
           <div class="collapse" id="assignees">
             <div class="container">
               <div class="row" role="list">
-                <div class="col-md-6 col-lg-4 p-2">ID - Name Surname</div>
-                <div class="col-md-6 col-lg-4 p-2">ID - Name Surname</div>
-                <div class="col-md-6 col-lg-4 p-2">ID - Name Surname</div>
-                <div class="col-md-6 col-lg-4 p-2">ID - Name Surname</div>
-                <div class="col-md-6 col-lg-4 p-2">ID - Name Surname</div>
-                <div class="col-md-6 col-lg-4 p-2">ID - Name Surname</div>
-                <div class="col-md-6 col-lg-4 p-2">ID - Name Surname</div>
-                <div class="col-md-6 col-lg-4 p-2">ID - Name Surname</div>
-                <div class="col-md-6 col-lg-4 p-2">ID - Name Surname</div>
-                <div class="col-md-6 col-lg-4 p-2">ID - Name Surname</div>
+              <?php while($row = $result3->fetch_assoc()){
+                echo '<div class="col-md-6 col-lg-4 p-2">' . "[" . $row['user_id'] . "] " . $row['first_name'] . " " . $row['last_name'] . "</div>";
+              }
+              ?>
+
               </div>
             </div>
           </div>
@@ -81,53 +135,38 @@
           <!-- Not-graded exams -->
           <div>
             <a class="my-2 d-block" data-toggle="collapse" href="#notGradedList" role="button" aria-expanded="true" aria-controls="notGradedList">
-              <i class="fas fa-angle-up"></i> Not Graded (2)
+              <i class="fas fa-angle-up"></i> <?php echo "Not Graded " . "(" . $noOfNotGraded . ")"?>
             </a>
             <div class="collapse show" id="notGradedList">
               <div class="container">
                 <div class="row" role="list">
-
-                  <div class="col-lg-6 p-1">
+                <?php
+                while($row = $result5->fetch_assoc()){
+                  echo '<div class="col-lg-6 p-1">
                     <div class="card" data-exam-id="" role="listitem">
                       <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
                         <div class="d-flex flex-column flex-xl-row align-items-xl-center">
                           <!-- The format is: [ID] - [First Name] [Last Name] -->
-                          <span class="mr-md-3">ID - Name Surname</span>
-                          <!-- <span>
+                          <span class="mr-md-3">' . $row['user_id'] . " " . $row['first_name'] . " " . $row['last_name'] . '</span>
+                          <!--<span>
                             <small class="mr-2">10 Assignees</small>
                             <small class="mr-2">9 Submissions</small>
-                          </span> -->
+                          </span>-->
                         </div>
                         <div class="mt-2 mt-md-0">
-                          <!-- Notice how the url is. It's going to send the examID and assigneeID to theory-response.php
+                            <!--Notice how the url is. It\'s going to send the examID and assigneeID to theory-response.php
                             through GET. The examID value should be set as set above in the input.
                             The value of assigneeID should be the ID of the student.
-                            Also note that it links to 'theory-response.php'. So, if the exam is a fill-in exam,
+                            Also note that it links to theory-response.php. So, if the exam is a fill-in exam,
                             the link would be fill-response.php instead. And for a multi-choice exam, multi-response.php
-                          -->
-                          <a href="theory-response.php?examID=32&assigneeID=171103026" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
+                            -->
+                          <a href="' . $examTypeDestination . '?' . "examID=" . $examID . '&' . "assigneeID=" . $row['user_id'] . '" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div>';
+                  }?>
 
-                  <div class="col-lg-6 p-1">
-                    <div class="card" data-exam-id="" role="listitem">
-                      <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
-                        <div class="d-flex flex-column flex-xl-row align-items-xl-center">
-                          <!-- The format is: [ID] - [First Name] [Last Name] -->
-                          <span class="mr-md-3">ID - Name Surname</span>
-                          <!-- <span>
-                            <small class="mr-2">10 Assignees</small>
-                            <small class="mr-2">9 Submissions</small>
-                          </span> -->
-                        </div>
-                        <div class="mt-2 mt-md-0">
-                          <a href="theory-response.php?examID=32&assigneeID=171103018" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
 
                 </div>
               </div>
@@ -138,45 +177,33 @@
           <!-- Graded exams -->
           <div>
             <a class="my-2 d-block" data-toggle="collapse" href="#gradedList" role="button" aria-expanded="true" aria-controls="gradedList">
-              <i class="fas fa-angle-up"></i> Graded (2)
+              <i class="fas fa-angle-up"></i> <?php echo "Graded " . "(" . $noOfGraded . ")"?>
             </a>
             <div class="collapse show" id="gradedList">
               <div class="container">
                 <div class="row" role="list">
 
-                  <div class="col-lg-6 p-1">
+                <?php
+                while($row = $result4->fetch_assoc()){
+                  echo '<div class="col-lg-6 p-1">
                     <div class="card" data-exam-id="" role="listitem">
                       <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
                         <div class="d-flex flex-column flex-xl-row align-items-xl-center">
                           <!-- The format is: [ID] - [First Name] [Last Name] -->
-                          <span class="mr-md-3">ID - Name Surname</span>
+                          <span class="mr-md-3">' . "[" . $row['user_id'] . "] " . $row['first_name'] . " " . $row['last_name'] . '</span>
                           <span>
-                            <small class="mr-2">100/100</small>
+                            <small class="mr-2">' . $row['total_score'] . '/100</small>
                           </span>
                         </div>
                         <div class="mt-2 mt-md-0">
-                          <a href="theory-response.php?examID=32&assigneeID=171103010" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
+                        <a href="' . $examTypeDestination . '?' . "examID=" . $examID . '&' . "assigneeID=" . $row['user_id'] . '" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div>';}
+                  ?>
 
-                  <div class="col-lg-6 p-1">
-                    <div class="card" data-exam-id="" role="listitem">
-                      <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
-                        <div class="d-flex flex-column flex-xl-row align-items-xl-center">
-                          <!-- The format is: [ID] - [First Name] [Last Name] -->
-                          <span class="mr-md-3">ID - Name Surname</span>
-                          <span>
-                            <small class="mr-2">100/100</small>
-                          </span>
-                        </div>
-                        <div class="mt-2 mt-md-0">
-                          <a href="theory-response.php?examID=32&assigneeID=171103007" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+
 
                 </div>
               </div>
