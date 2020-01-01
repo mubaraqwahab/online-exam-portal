@@ -41,19 +41,53 @@ $profilePicture = $_SESSION['profilePicture'];
       <!-- Page content -->
       <div class="container py-3 px-5">
 
-        <!-- Your code goes here -->
-        <div class="card">
-          <div class="card-body d-flex flex-row justify-content-between">
-            <div>
-              <div class="card-text d-inline-block mr-2">Abdulhakeem Audu has invited you to take Web Exam</div>
-              <button class="btn btn-success" data-response="accept">Accept</button>
-              <button class="btn btn-danger" data-response="decline">Decline</button>
-            </div>
-            <div>
-              <small class="text-muted">07:49 28-Dec-19</small>
-            </div>
-          </div>
-        </div>
+        <section>
+          <h5 class="mb-3">New</h5>
+
+          <ul class="list-unstyled">
+
+            <!-- Each card is a notification -->
+            <li class="card my-2" data-exam-id="12">
+              <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
+                <div class="d-flex flex-column flex-xl-row align-items-xl-center">
+                  <span class="mr-md-3">Abdulhakeem Audu has invited you to take Web Exam</span>
+                  <span>
+                    <small class="mr-2">07:49 28-Dec-19</small>
+                  </span>
+                </div>
+                <div class="mt-2 mt-md-0">
+                  <button class="btn btn-success d-md-block d-xl-inline-block my-1" data-response="accept">Accept</button>
+                  <button class="btn btn-danger" data-response="decline">Decline</button>
+                </div>
+              </div>
+            </li>
+
+          </ul>
+        </section>
+
+        <section>
+          <h5 class="mb-3">Earlier</h5>
+
+          <ul class="list-unstyled">
+
+            <!-- Each card is a notification -->
+            <li class="card my-2" data-exam-id="12">
+              <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
+                <div class="d-flex flex-column flex-xl-row align-items-xl-center">
+                  <span class="mr-md-3">Abdulhakeem Audu has invited you to take Web Exam</span>
+                  <span>
+                    <small class="mr-2">07:49 28-Dec-19</small>
+                  </span>
+                </div>
+                <div class="mt-2 mt-md-0">
+                  <button class="btn btn-success d-md-block d-xl-inline-block my-1" data-response="accept">Accept</button>
+                  <button class="btn btn-danger" data-response="decline">Decline</button>
+                </div>
+              </div>
+            </li>
+
+          </ul>
+        </section>
 
       </div>
 
