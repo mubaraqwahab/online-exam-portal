@@ -23,14 +23,24 @@ if (isset($_POST['signUp'])) {
 
   // We can do some validation here
 
-  addUser($userID, $firstName, $lastName, $email, $password, $level);
+  if (addUser($userID, $firstName, $lastName, $email, $password, $level)) {
 
-  // Log the user in
-  $_SESSION['userID'] = $userID;
-  $_SESSION['profilePicture'] = $profilePicture;
+    // Log the user in
+    $_SESSION['userID'] = $userID;
+    $_SESSION['profilePicture'] = $profilePicture;
 
-  // Redirect to home page (no home page for now tho)
-  header('Location: ../create-exam/');
+    if (isset($_GET['redirectTo'])) {
+      header('Location: ' . base64_decode(urldecode($_GET['redirectTo'])));
+    } else {
+      // Redirect to home page (no home page for now tho)
+      header('Location: profile.php');
+    }
+
+  } else {
+    // Error message
+    showError("Unable to register.");
+  }
+
 }
 
 ?>
@@ -131,7 +141,9 @@ if (isset($_POST['signUp'])) {
                 </div>
 
                 <button class="btn btn-lg btn-primary btn-block mt-4" name="signUp" type="submit">Sign up</button>
-                <a class="d-block text-center mt-2 small" href="sign-in.html">Sign in</a>
+                <a class="d-block text-center mt-2 small" href="sign-in.php">
+                  Sign in
+                </a>
               </form>
             </div>
           </div>
@@ -146,10 +158,6 @@ if (isset($_POST['signUp'])) {
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
 
-    <script>
-      $(document).ready(function () {
-        bsCustomFileInput.init()
-      })
-    </script>
+    <script src="../js/show-file-input.js"></script>
   </body>
 </html>
