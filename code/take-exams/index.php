@@ -62,9 +62,6 @@ $profilePicture = $_SESSION['profilePicture'];
 
             <!-- Each card represents an exam -->
 
-            <!-- The server side should set the value of 'data-exam-id' to the exam id.
-              The JavaScript here uses it to close the exam.
-            -->
             <li class="card my-2">
               <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
                 <div class="d-flex flex-column flex-xl-row align-items-xl-center">
@@ -78,7 +75,7 @@ $profilePicture = $_SESSION['profilePicture'];
                 </div>
                 <div class="mt-2 mt-md-0">
                   <!-- Notice how the href is. It's going to send the examID to the exam.php page through GET -->
-                  <a href="exam.php?examID=12" class="btn btn-primary d-md-block d-xl-inline-block my-1">Start</a>
+                  <a href="multi-exam.php?examID=12" class="btn btn-primary d-md-block d-xl-inline-block my-1">Start</a>
                 </div>
               </div>
             </li>
@@ -93,7 +90,7 @@ $profilePicture = $_SESSION['profilePicture'];
                   </span>
                 </div>
                 <div class="mt-2 mt-md-0">
-                  <a href="exam.php?examID=34" class="btn btn-primary d-md-block d-xl-inline-block my-1">Start</a>
+                  <a href="theory-exam.php?examID=34" class="btn btn-primary d-md-block d-xl-inline-block my-1">Start</a>
                 </div>
               </div>
             </li>
