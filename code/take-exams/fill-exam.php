@@ -69,11 +69,11 @@ $profilePicture = $_SESSION['profilePicture'];
                 <small>(10 Marks)</small>
               </h5>
               <!-- Question should change as well -->
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-
-              <h6 class=" mb-2">Response</h6>
-              <!-- Textarea name should change -->
-              <textarea class="form-control" name="response1" maxlength="256"></textarea>
+              <p class="card-text form-inline">
+                <?php echo prepareFillInQuestion(
+                  "Some quick example text to ___ title and make up the bulk of the card's content.", 1
+                ) ?>
+              </p>
             </div>
           </div>
 
@@ -83,10 +83,11 @@ $profilePicture = $_SESSION['profilePicture'];
                 Question 2
                 <small>(10 Marks)</small>
               </h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-
-              <h6 class=" mb-2">Response</h6>
-              <textarea class="form-control" name="response2" maxlength="256"></textarea>
+              <p class="card-text form-inline">
+                <?php echo prepareFillInQuestion(
+                  "Some quick example text to ___ title and make up the bulk of the card's content.", 2
+                ) ?>
+              </p>
             </div>
           </div>
 
@@ -111,7 +112,6 @@ $profilePicture = $_SESSION['profilePicture'];
 
   <!-- Custom Script -->
   <script src="../js/script.js"></script>
-  <script src="../js/manage-exam.js"></script>
 
 </body>
 </html>

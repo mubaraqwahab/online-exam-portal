@@ -203,7 +203,7 @@ function prepareFillInQuestion(string $question, int $queNo, string $response = 
   $replace = '';
 
   if (is_null($response)) {
-    $replace = '<input class="form-control col-3 col-sm-2" type="text" name="response' . $queNo . '">';
+    $replace = '<input class="form-control" type="text" name="response' . $queNo . '">';
   } else {
     $replace = '<span class="px-1"><u>' . $response . '</u></span>';
   }

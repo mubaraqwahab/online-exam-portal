@@ -111,7 +111,6 @@ $profilePicture = $_SESSION['profilePicture'];
 
   <!-- Custom Script -->
   <script src="../js/script.js"></script>
-  <script src="../js/manage-exam.js"></script>
 
 </body>
 </html>
