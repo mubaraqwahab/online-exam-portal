@@ -8,7 +8,7 @@ if (isset($_POST['signIn'])) {
   $userID = $_POST['userID'];
   $password = $_POST['password'];
 
-  // $sql = "SELECT user_id, password FROM user WHERE user_id = '" . $userID . "' AND  password = '" . $password . "'";
+  $sql = "SELECT user_id, password FROM user WHERE user_id = '" . $userID . "' AND  password = '" . $password . "'";
   $sql = "SELECT profile_picture FROM user WHERE user_id = '" . $userID . "' AND  password = '" . $password . "'";
 
   $checkdetails = $conn->query($sql);
@@ -21,10 +21,14 @@ if (isset($_POST['signIn'])) {
     $_SESSION['userID'] = $userID;
     $_SESSION['profilePicture'] = $profilePicture;
 
-    // Redirect to home page (no home page for now tho)
-    header('Location: ../create-exam/');
+    if (isset($_GET['redirectTo'])) {
+      header('Location: ' . base64_decode(urldecode($_GET['redirectTo'])));
+    } else {
+      // Redirect to home page (no home page for now tho)
+      header('Location: profile.php');
+    }
   } else {
-    echo 'The username or password are incorrect!';
+    showError('The username or password are incorrect!');
   }
 
 }
@@ -69,7 +73,10 @@ if (isset($_POST['signIn'])) {
 
               <button class="btn btn-lg btn-primary btn-block mt-4" name="signIn" type="submit">Sign in</button>
               <div class="text-center">
-                <a class="d-inline-block text-center mt-2 small" href="sign-up.php">Sign up</a> &middot;
+                <a class="d-inline-block text-center mt-2 small"
+                href="sign-up.php<?php echo isset($_GET['redirectTo']) ? "?redirectTo={$_GET['redirectTo']}" : '' ?>">
+                  Sign up
+                </a> &middot;
                 <a class="d-inline-block text-center mt-2 small" href="recover.php">Forgot password?</a>
               </div>
             </form>
