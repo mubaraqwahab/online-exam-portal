@@ -72,64 +72,26 @@ $profilePicture = $_SESSION['profilePicture'];
               <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
 
               <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="option1" id="option1A" value="A">
-                <label class="custom-control-label" for="option1A">
+                <input class="custom-control-input" type="radio" name="response1" id="response1A" value="A">
+                <label class="custom-control-label" for="response1A">
                   A. Default radio
                 </label>
               </div>
               <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="option1" id="option1B" value="B">
-                <label class="custom-control-label" for="option1B">
+                <input class="custom-control-input" type="radio" name="response1" id="response1B" value="B">
+                <label class="custom-control-label" for="response1B">
                   B. Default radio
                 </label>
               </div>
               <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="option1" id="option1C" value="C">
-                <label class="custom-control-label" for="option1C">
+                <input class="custom-control-input" type="radio" name="response1" id="response1C" value="C">
+                <label class="custom-control-label" for="response1C">
                   C. Default radio
                 </label>
               </div>
               <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="option1" id="option1D" value="D">
-                <label class="custom-control-label" for="option1D">
-                  D. Default radio
-                </label>
-              </div>
-
-            </div>
-          </div>
-
-          <div class="card my-3">
-            <div class="card-body">
-              <!-- Question no and marks should change -->
-              <h5 class="card-title">
-                Question 2
-                <small>(10 Marks)</small>
-              </h5>
-              <!-- Question should change as well -->
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="option2" id="option2A" value="A">
-                <label class="custom-control-label" for="option2A">
-                  A. Default radio
-                </label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="option2" id="option2B" value="B">
-                <label class="custom-control-label" for="option2B">
-                  B. Default radio
-                </label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="option2" id="option2C" value="C">
-                <label class="custom-control-label" for="option2C">
-                  C. Default radio
-                </label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="option2" id="option2D" value="D">
-                <label class="custom-control-label" for="option2D">
+                <input class="custom-control-input" type="radio" name="response1" id="response1D" value="D">
+                <label class="custom-control-label" for="response1D">
                   D. Default radio
                 </label>
               </div>
