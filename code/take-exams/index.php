@@ -136,7 +136,7 @@ $profilePicture = $_SESSION['profilePicture'];
               window.location.reload(true);
             } else {
               $('#addByInviteCode').append(
-                '<?php showError("Unable to join exam. The invite code may be wrong, or the exam has been closed"); ?>'
+                `<?php showError("Unable to add exam. The invite code may be wrong, or the exam has been closed"); ?>`
               );
             }
           },

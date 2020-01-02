@@ -195,6 +195,14 @@ function getMIMEType($filePath) {
   return $finfo->file($filePath);
 }
 
+function showError($errMsg) {
+  echo '<div class="alert alert-danger" role="alert">';
+  echo '<strong>Error!</strong>&nbsp;';
+  echo $errMsg;
+  echo '</div>';
+}
+
+
 // prepare a fill in question for display
 // $question is the raw question from the db
 // $queNo is the question no
