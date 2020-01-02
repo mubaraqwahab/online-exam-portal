@@ -53,10 +53,13 @@ switch($examTypeID){
     $examTypeDestination = "theory-response.php";
   break;
 }
+<<<<<<< HEAD
 
 
 
 
+=======
+>>>>>>> 8494cbcc18a522ca84f1ea74513aba8985dc7b98
 ?>
 
 
@@ -107,7 +110,11 @@ switch($examTypeID){
               <!-- Exam id from $_GET['examID'] should be kept in the value of this input below.
                 The JavaScript here uses it to close the exam
               -->
+<<<<<<< HEAD
               <input type="hidden" name="examID" value="1">
+=======
+              <input type="hidden" name="examID" value="<?php echo $examID; ?>">
+>>>>>>> 8494cbcc18a522ca84f1ea74513aba8985dc7b98
               <button type="submit" name="exportToCSV" class="btn btn-primary">Export to CSV</button>
               <button type="button" class="btn btn-warning close-exam-btn">Close</button>
             </form>
@@ -152,6 +159,7 @@ switch($examTypeID){
                         <div class="d-flex flex-column flex-xl-row align-items-xl-center">
                           <!-- The format is: [ID] - [First Name] [Last Name] -->
                           <span class="mr-md-3">' . $row['user_id'] . " " . $row['first_name'] . " " . $row['last_name'] . '</span>
+<<<<<<< HEAD
                           /*<span>
                             <small class="mr-2">10 Assignees</small>
                             <small class="mr-2">9 Submissions</small>
@@ -159,18 +167,35 @@ switch($examTypeID){
                         </div>
                         <div class="mt-2 mt-md-0">
                             /*Notice how the url is. It\'s going to send the examID and assigneeID to theory-response.php
+=======
+                          <!--<span>
+                            <small class="mr-2">10 Assignees</small>
+                            <small class="mr-2">9 Submissions</small>
+                          </span>-->
+                        </div>
+                        <div class="mt-2 mt-md-0">
+                            <!--Notice how the url is. It\'s going to send the examID and assigneeID to theory-response.php
+>>>>>>> 8494cbcc18a522ca84f1ea74513aba8985dc7b98
                             through GET. The examID value should be set as set above in the input.
                             The value of assigneeID should be the ID of the student.
                             Also note that it links to theory-response.php. So, if the exam is a fill-in exam,
                             the link would be fill-response.php instead. And for a multi-choice exam, multi-response.php
+<<<<<<< HEAD
                             */
+=======
+                            -->
+>>>>>>> 8494cbcc18a522ca84f1ea74513aba8985dc7b98
                           <a href="' . $examTypeDestination . '?' . "examID=" . $examID . '&' . "assigneeID=" . $row['user_id'] . '" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
                         </div>
                       </div>
                     </div>
                   </div>';
                   }?>
+<<<<<<< HEAD
                   
+=======
+
+>>>>>>> 8494cbcc18a522ca84f1ea74513aba8985dc7b98
 
                 </div>
               </div>
@@ -200,14 +225,23 @@ switch($examTypeID){
                           </span>
                         </div>
                         <div class="mt-2 mt-md-0">
+<<<<<<< HEAD
                         <a href="' . $examTypeDestination . '?' . "examID=" . $examID . '&' . "assigneeID=" . $row['user_id'] . '" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>                        
+=======
+                        <a href="' . $examTypeDestination . '?' . "examID=" . $examID . '&' . "assigneeID=" . $row['user_id'] . '" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
+>>>>>>> 8494cbcc18a522ca84f1ea74513aba8985dc7b98
                         </div>
                       </div>
                     </div>
                   </div>';}
                   ?>
+<<<<<<< HEAD
 
                   
+=======
+
+
+>>>>>>> 8494cbcc18a522ca84f1ea74513aba8985dc7b98
 
                 </div>
               </div>
