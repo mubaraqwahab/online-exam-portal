@@ -216,6 +216,20 @@ function prepareFillInQuestion(string $question, int $queNo, string $response = 
     $replace = '<span class="px-1"><u>' . $response . '</u></span>';
   }
 
-  return str_replace('___', $replace, $question);
+  return replaceFirstOccurence('___', $replace, $question);
 
+}
+
+// replace the first occurence of $search in $subject with $replace
+// and return the result
+// if $search doesn't exist in $subject, return $subject unchanged
+function replaceFirstOccurence(string $search, string $replace, string $subject) {
+  $result = $subject;
+
+  $pos = strpos($subject, $search);
+  if ($pos !== false) {
+    $result = substr_replace($subject, $replace, $pos, strlen($search));
+  }
+
+  return $result;
 }
