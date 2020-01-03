@@ -1,3 +1,13 @@
+<?php
+include '../session.php';
+
+include '../connect.php';
+
+$userID = $_SESSION['userID'];
+$profilePicture = $_SESSION['profilePicture'];
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,6 +22,10 @@
   <link href="../css/simple-sidebar.css" rel="stylesheet">
 
 </head>
+
+<?php
+
+?>
 
 <body>
 
