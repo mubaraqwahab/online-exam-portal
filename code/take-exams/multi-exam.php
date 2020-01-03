@@ -29,6 +29,8 @@ $profilePicture = $_SESSION['profilePicture'];
 // TODO: decode examID
 $examID = $_GET['examID'];
 
+$typeID = 1;
+
 // Get the exam details from database
 
 $headerSql = "SELECT e.*, c.course_name, t.value AS type, CONCAT(u.first_name, ' ', u.last_name) AS instructor
@@ -39,7 +41,7 @@ $headerSql = "SELECT e.*, c.course_name, t.value AS type, CONCAT(u.first_name, '
   WHERE e.exam_id = ? AND e.instructor_id = ? AND e.type_id = ?";
 
 $headerStmt = $conn->prepare($headerSql);
-$headerStmt->bind_param('isi', $examID, $userID, 1);
+$headerStmt->bind_param('isi', $examID, $userID, $typeID);
 $headerStmt->execute();
 $headerResult = $headerStmt->get_result();
 
