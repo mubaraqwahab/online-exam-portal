@@ -101,7 +101,7 @@ $responseResult = $responseStmt->get_result();
               <div>Student ID: <?php echo $assignment['assignee_id']; ?></div>
               <div>Student Name: <?php echo $assignment['assignee']; ?></div>
             </div>
-            <div class="">Total Score: <?php echo "{$assignment['total_score']}/{$assignment['total_mark']}"; ?></div>
+            <div>Total Score: <?php echo "{$assignment['total_score']}/{$assignment['total_mark']}"; ?></div>
           </div>
         </header>
 
