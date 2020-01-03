@@ -122,24 +122,35 @@ $responseResult = $responseStmt->get_result();
                       $response['question']
                     .'</p>
 
-                    <div class="card-text mb-3">
-                      <div class="px-3 py-2'.
-                        (strcasecmp($response['correct_answer'], 'a') == 0 ? ' rounded text-white bg-success' : '')
-                        .'">
-                        A.'. $response['a']
-                      .'</div>
-                      <!-- Correct answer should have these three extra classes:
-                          rounded, text-white, bg-success
-                      If student\'s response == correct answer, do nothing -->
-                      <div class="px-3 py-2">
-                        B.'. $response['b']
-                      .'</div>
-                      <div class="px-3 py-2">
-                        C.'. $response['c']
-                      .'</div>
-                      <div class="px-3 py-2">
-                        D.'. $response['d']
-                      .'</div>
+                    <!-- Correct answer should have these three extra classes:
+                        rounded, text-white, bg-success
+                    If student\'s response == correct answer, do nothing -->
+
+                    <div class="card-text mb-3">';
+
+                $options = array('a', 'b', 'c', 'd');
+                foreach ($options as $opt) {
+                  // if he chose a and a is correct, color green
+                  // if he chose a and a is wrong, color red
+                  // if he didn't choose a and a is correct, color green
+                  if (compareStrWithoutCase($response['response'], $opt)
+                      && compareStrWithoutCase($response['correct_answer'], $opt)) {
+                    // color green
+                    echo '<div class="px-3 py-2 rounded text-white bg-success">'. strtoupper($opt) . '. ' . $response[$opt] . '</div>';
+                  } else if (compareStrWithoutCase($response['response'], $opt)
+                      && !compareStrWithoutCase($response['correct_answer'], $opt)) {
+                    // color red
+                    echo '<div class="px-3 py-2 rounded text-white bg-danger">'. strtoupper($opt) . '. ' . $response[$opt] . '</div>';
+                  } else if (!compareStrWithoutCase($response['response'], $opt)
+                    && compareStrWithoutCase($response['correct_answer'], $opt)) {
+                    // color green
+                    echo '<div class="px-3 py-2 rounded text-white bg-success">'. strtoupper($opt) . '. ' . $response[$opt] . '</div>';
+                  } else {
+                    echo '<div class="px-3 py-2 rounded">'. strtoupper($opt) . '. ' . $response[$opt] . '</div>';
+                  }
+                }
+
+                echo '
                     </div>
 
                     <strong class="form-inline">

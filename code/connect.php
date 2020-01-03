@@ -239,3 +239,9 @@ function replaceFirstOccurence(string $search, string $replace, string $subject)
 function pluralSuffix($count) {
   return $count == 1 ? '' : 's';
 }
+
+// Return true if a and b are equal, regardless of their cases
+// Return false otherwise
+function compareStrWithoutCase(string $a, string $b) {
+  return strcasecmp($a, $b) == 0;
+}
