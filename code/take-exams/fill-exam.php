@@ -24,6 +24,36 @@ $profilePicture = $_SESSION['profilePicture'];
 
 </head>
 
+<?php
+
+$examID = $_GET['examID'];
+
+// Get the exam details from database
+
+$headerSql = "SELECT e.*, c.course_name, t.value AS type, CONCAT(u.first_name, ' ', u.last_name) AS instructor
+  FROM `exam` AS e
+  INNER JOIN user AS u ON u.user_id = e.instructor_id
+  INNER JOIN `course` AS c ON c.course_code = e.course_code
+  INNER JOIN exam_type AS t ON t.type_id = e.type_id
+  WHERE e.exam_id = ?";
+
+$headerStmt = $conn->prepare($headerSql);
+$headerStmt->bind_param('i', $examID);
+$headerStmt->execute();
+$headerResult = $headerStmt->get_result();
+
+$exam= $headerResult->fetch_assoc();
+
+// Get questions from database
+
+$questionSql = "SELECT * FROM `fill_in_question` WHERE exam_id = ?";
+
+$questionStmt = $conn->prepare($questionSql);
+$questionStmt->bind_param('i', $examID);
+$questionStmt->execute();
+$questionResult = $questionStmt->get_result();
+?>
+
 <body>
 
   <?php include '../components/_header.php' ?>
@@ -45,12 +75,17 @@ $profilePicture = $_SESSION['profilePicture'];
         <!-- Heading -->
         <header class="mb-4" id="examHeader">
           <!-- Format: Mark [Course Code] ([Course Name]) [Exam Title] (Exam Type) -->
-          <h4>Mark CSC303 (Web) Midterm <small class="text-muted">(Theory)</small></h4>
+          <h4>
+            <?php
+            echo "{$exam['course_code']} ({$exam['course_name']}) {$exam['title']}
+            <small class='text-muted'>({$exam['type']})</small>";
+            ?>
+          </h4>
           <div class="d-flex flex-column flex-md-row">
             <div class="mr-md-3">
               <!-- PHP should put ID and Name here -->
-              <div>Instructor: Abdulhakeem Audu</div>
-              <div>10 Questions</div>
+              <div>Instructor: <?php echo $exam['instructor']; ?></div>
+              <div><?php echo $exam['no_of_questions']; ?> Question<?php echo pluralSuffix($exam['no_of_questions']); ?></div>
             </div>
           </div>
         </header>
@@ -61,40 +96,31 @@ $profilePicture = $_SESSION['profilePicture'];
           <!-- Each card is a question group -->
 
           <!-- How a theory question card should look. -->
-          <div class="card my-3">
-            <div class="card-body">
-              <!-- Question no and marks should change -->
-              <h5 class="card-title">
-                Question 1
-                <small>(10 Marks)</small>
-              </h5>
-              <!-- Question should change as well -->
-              <p class="card-text form-inline">
-                <?php echo prepareFillInQuestion(
-                  "Some quick example text to ___ title and make up the bulk of the card's content.", 1
-                ) ?>
-              </p>
-            </div>
-          </div>
-
-          <div class="card my-3">
-            <div class="card-body">
-              <h5 class="card-title">
-                Question 2
-                <small>(10 Marks)</small>
-              </h5>
-              <p class="card-text form-inline">
-                <?php echo prepareFillInQuestion(
-                  "Some quick example text to ___ title and make up the bulk of the card's content.", 2
-                ) ?>
-              </p>
-            </div>
-          </div>
+          <?php
+          if ($questionResult->num_rows > 0) {
+            while ($question = $questionResult->fetch_assoc()) {
+              echo "
+              <div class='card my-3'>
+                <div class='card-body'>
+                  <!-- Question no and marks should change -->
+                  <h5 class='card-title'>
+                    Question {$question['question_no']}
+                    <small>({$question['mark']} Mark". pluralSuffix($question['mark']) . ")</small>
+                  </h5>
+                  <!-- Question should change as well -->
+                  <p class='card-text form-inline'>" .
+                    prepareFillInQuestion($question['question'], $question['question_no'])
+                  . "</p>
+                </div>
+              </div>";
+            }
+          }
+          ?>
 
 
           <!-- Place the user ID and exam ID in the values below -->
-          <input type="hidden" name="userID" value="">
-          <input type="hidden" name="examID" value="">
+          <input type="hidden" name="userID" value="<?php echo $userID; ?>">
+          <input type="hidden" name="examID" value="<?php echo $examID; ?>">
 
           <button type="submit" name="submit" class="btn btn-success">Submit</button>
         </form>

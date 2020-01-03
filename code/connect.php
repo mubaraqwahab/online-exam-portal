@@ -233,3 +233,9 @@ function replaceFirstOccurence(string $search, string $replace, string $subject)
 
   return $result;
 }
+
+// pluralSuffix(1) returns ''
+// pluralSuffix(any other number) returns 's'
+function pluralSuffix($count) {
+  return $count == 1 ? '' : 's';
+}
