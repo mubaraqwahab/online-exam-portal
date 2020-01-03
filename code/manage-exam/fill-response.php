@@ -126,8 +126,8 @@ $responseResult = $responseStmt->get_result();
                     <strong class="form-inline">
                       Score:
                       <!-- input name should change. So the first question has score1, the next score2, ... -->
-                      <input class="form-control col-3 col-sm-2 col-lg-1" type="number" step="0.1" min="0" max="'. $response['mark'] .'" name="score'. $response['question_no'] .'" required>
-                      /10
+                      <input class="form-control col-3 col-sm-2 col-lg-1" type="number" step="0.1" min="0" max="'. $response['mark'] .'" name="score'. $response['question_no'] .'" value="'. $response['score'] .'" required>
+                      /'. $response['mark'] .'
                       <!-- PHP should put marks for each question, the value for max is the mark for the question -->
                     </strong>
                   </div>
