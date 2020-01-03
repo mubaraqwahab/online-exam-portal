@@ -25,6 +25,44 @@ $profilePicture = $_SESSION['profilePicture'];
 
 <?php
 
+// TODO: decode examID
+$examID = $_GET['examID'];
+$assigneeID = $_GET['assigneeID'];
+
+// Get the assignment details from database
+// Validate the instructor ID as well
+
+$headerSql = "SELECT a.*, e.course_code, e.title, c.course_name, et.value AS exam_type, CONCAT(u.first_name, ' ', u.last_name) AS assignee
+  FROM exam_assignment AS a
+  INNER JOIN exam AS e ON e.exam_id = a.exam_id
+  INNER JOIN exam_type AS et ON e.type_id = et.type_id
+  INNER JOIN course AS c ON c.course_code = e.course_code
+  INNER JOIN user AS u ON u.user_id = a.assignee_id
+  WHERE a.assignee_id = ? AND a.exam_id = ? AND e.instructor_id = ?";
+
+$headerStmt = $conn->prepare($headerSql);
+$headerStmt->bind_param('sis', $assigneeID, $examID, $userID);
+$headerStmt->execute();
+$headerResult = $headerStmt->get_result();
+
+// If no such exam, give error
+
+if ($headerResult->num_rows != 1) {
+  echo $userID;
+  // showError('Page not available.');
+  exit;
+}
+
+$exam = $headerResult->fetch_assoc();
+
+// Get questions from database
+
+$questionSql = "SELECT * FROM `fill_in_question` WHERE exam_id = ? ORDER BY question_no ASC";
+
+$questionStmt = $conn->prepare($questionSql);
+$questionStmt->bind_param('i', $examID);
+$questionStmt->execute();
+$questionResult = $questionStmt->get_result();
 ?>
 
 <body>
