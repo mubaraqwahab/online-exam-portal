@@ -49,8 +49,7 @@ $headerResult = $headerStmt->get_result();
 // If no such exam, give error
 
 if ($headerResult->num_rows != 1) {
-  echo $userID;
-  // showError('Page not available.');
+  showError('Page not available.');
   exit;
 }
 
@@ -115,7 +114,7 @@ $responseResult = $responseStmt->get_result();
                 <div class="card my-3">
                   <div class="card-body">
                     <!-- Question no. should change -->
-                    <h5 class="card-title">Question '. $response['question'] .'</h5>
+                    <h5 class="card-title">Question '. $response['question_no'] .'</h5>
                     <!-- Question should change as well -->
                     <p class="card-text">
                       Some quick example text to build on
