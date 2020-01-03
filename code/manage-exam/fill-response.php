@@ -59,7 +59,8 @@ $assignment = $headerResult->fetch_assoc();
 
 $responseSql = "SELECT r.*, q.question, q.mark
   FROM `fill_in_response` AS r
-  INNER JOIN fill_in_question AS q ON q.exam_id = r.exam_id
+  INNER JOIN fill_in_question AS q
+  ON (q.exam_id = r.exam_id AND q.question_no = r.question_no)
   WHERE r.exam_id = ? AND r.assignee_id = ?
   ORDER BY r.question_no ASC";
 

@@ -57,9 +57,10 @@ $assignment = $headerResult->fetch_assoc();
 
 // Get questions and responses from database
 
-$responseSql = "SELECT r.*, q.question, q.mark
+$responseSql = "SELECT r.*, q.question, q.mark, q.correct_answer, q.a, q.b, q.c, q.d
   FROM `multi_choice_response` AS r
-  INNER JOIN multi_choice_question AS q ON q.exam_id = r.exam_id
+  INNER JOIN multi_choice_question AS q
+  ON (q.exam_id = r.exam_id AND q.question_no = r.question_no)
   WHERE r.exam_id = ? AND r.assignee_id = ?
   ORDER BY r.question_no ASC";
 
@@ -122,20 +123,22 @@ $responseResult = $responseStmt->get_result();
                     .'</p>
 
                     <div class="card-text mb-3">
-                      <div class="px-3 py-2">'.
-                        A. $response['a']
+                      <div class="px-3 py-2'.
+                        (strcasecmp($response['correct_answer'], 'a') == 0 ? ' rounded text-white bg-success' : '')
+                        .'">
+                        A.'. $response['a']
                       .'</div>
                       <!-- Correct answer should have these three extra classes:
                           rounded, text-white, bg-success
                       If student\'s response == correct answer, do nothing -->
-                      <div class="px-3 py-2 rounded text-white bg-success">'.
-                        B. $response['b']
+                      <div class="px-3 py-2">
+                        B.'. $response['b']
                       .'</div>
-                      <div class="px-3 py-2">'.
-                        C. $response['c']
+                      <div class="px-3 py-2">
+                        C.'. $response['c']
                       .'</div>
-                      <div class="px-3 py-2">'.
-                        D. $response['d']
+                      <div class="px-3 py-2">
+                        D.'. $response['d']
                       .'</div>
                     </div>
 
