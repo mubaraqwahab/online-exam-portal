@@ -52,7 +52,6 @@ BACKEND
 * Create PHP-HTML connections (d)
 * Test PHP-HTML connections (d)
 
-* Create querying functions
 
 * Sign-up PHP (d)
 * Sign-in PHP (d)
@@ -65,9 +64,8 @@ BACKEND
 * Create exam page PHP (d)
 * Create exam form PHP (d)
 
-* Create my quizzes page PHP
 * Create edit exam form PHP
-* Excel print students with scores
+* Excel print students with scores (d)
 
 * Change sign directory to 'account' (d)
 * Document the code
@@ -76,6 +74,6 @@ BACKEND
 * Create sessions (d)
 * Fix bsCustomInput (d)
 * Encode url GET params
-* 
+*
 
 * Prepare queries for execution
