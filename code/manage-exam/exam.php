@@ -24,6 +24,7 @@ $result2 = mysqli_query($conn, $sql2);
 $exam2 = mysqli_fetch_assoc($result2);
 
 $examType = $exam2['value'];
+$totalMark = $exam2['total_mark'];
 
 //List of Assignees
 $sql3 = "SELECT *
@@ -194,7 +195,7 @@ switch($examTypeID){
                           <!-- The format is: [ID] - [First Name] [Last Name] -->
                           <span class="mr-md-3">' . "[" . $row['user_id'] . "] " . $row['first_name'] . " " . $row['last_name'] . '</span>
                           <span>
-                            <small class="mr-2">' . $row['total_score'] . '/100</small>
+                            <small class="mr-2">' . $row['total_score'] . '/' . $totalMark . '</small>
                           </span>
                         </div>
                         <div class="mt-2 mt-md-0">
