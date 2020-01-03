@@ -81,38 +81,42 @@ if (isset($_POST['signUp'])) {
           <div class="card card-sign">
             <div class="card-body p-4 p-md-5">
               <h2 class="mb-5 text-center font-weight-light">Sign Up</h2>
-              <form method="post">
+              <form method="post" class="needs-validation" novalidate>
+
                 <div class="form-group row">
                   <label for="userID" class="col-sm-3 col-form-label">User ID<span class="text-danger">*</span></label>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control" id="userID" name="userID" aria-describedby="userIDHelp" required autofocus>
+                  <div class="col-sm-9" id="userIDGroup">
+                    <input type="text" class="form-control" id="userID" name="userID" minlength="4" maxlength="16" pattern="[0-9a-zA-Z]+" aria-describedby="userIDHelp" required>
+                    <div class="invalid-feedback" id="userIDFeedback"></div>
                     <small id="userIDHelp" class="form-text text-muted">
-                      Use your student ID if you're a student. User ID should be 8 to 16 characters. Only numbers and letters are valid.
+                      Use your student ID if you're a student. User ID should be 4 to 16 characters. Only numbers and letters are valid.
                     </small>
                   </div>
                 </div>
+
                 <div class="form-group row">
                   <label for="firstName" class="col-sm-3 col-form-label">First name<span class="text-danger">*</span></label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="firstName" name="firstName" required>
+                    <input type="text" class="form-control" id="firstName" name="firstName" maxlength="45" pattern="[a-zA-Z]+" required>
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="lastName" class="col-sm-3 col-form-label">Last name<span class="text-danger">*</span></label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="lastName" name="lastName" required>
+                    <input type="text" class="form-control" id="lastName" name="lastName" maxlength="45" pattern="[a-zA-Z]+" required>
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="email" class="col-sm-3 col-form-label">Email<span class="text-danger">*</span></label>
                   <div class="col-sm-9">
-                    <input type="email" class="form-control" id="email" name="email" required>
+                    <input type="email" class="form-control" id="email" name="email" maxlength="45" required>
+                    <div class="invalid-feedback" id="emailFeedback"></div>
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="password" class="col-sm-3 col-form-label">Password<span class="text-danger">*</span></label>
                   <div class="col-sm-9">
-                    <input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" required>
+                    <input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" minlength="8" maxlength="45" required>
                     <small id="passwordHelp" class="form-text text-muted">
                       Password should be 8 to 45 characters.
                     </small>
@@ -121,7 +125,7 @@ if (isset($_POST['signUp'])) {
                 <div class="form-group row">
                   <label for="confirmPassword" class="col-sm-3 col-form-label">Confirm password<span class="text-danger">*</span></label>
                   <div class="col-sm-9">
-                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" minlength="8" maxlength="45" required>
                   </div>
                 </div>
 
@@ -146,19 +150,19 @@ if (isset($_POST['signUp'])) {
                 <div class="form-group row">
                   <label for="profilePicture" class="col-sm-3 col-form-label">Profile picture</label>
                   <div class="col-sm-9">
-                    <img src="../img/blank-square.jpg"
-                      class="rounded-circle w-50 mb-2 d-block" alt="Profile picture">
                     <div class="custom-file">
-                      <input type="file" class="custom-file-input" id="profilePicture">
-                      <label class="custom-file-label m-0">No file chosen</label>
+                      <input type="file" class="custom-file-input" id="profilePicture" accept="image/jpeg,image/png">
+                      <label class="custom-file-label d-inline-block text-truncate m-0">No picture chosen</label>
+                      <div class="invalid-feedback" id="profilePictureFeedback"></div>
+                      <small id="profilePictureHelp" class="form-text text-muted">
+                        Picture size should not exceed 2MB. A square picture is preferred.
+                      </small>
                     </div>
                   </div>
                 </div>
 
-                <button class="btn btn-lg btn-primary btn-block mt-4" name="signUp" type="submit">Sign up</button>
-                <a class="d-block text-center mt-2 small" href="sign-in.php">
-                  Sign in
-                </a>
+                <button class="btn btn-lg btn-primary btn-block mt-4" id="signUp" name="signUp" type="submit">Sign up</button>
+                <a class="d-block text-center mt-2 small" href="sign-in.html">Sign in</a>
               </form>
             </div>
           </div>
@@ -168,11 +172,90 @@ if (isset($_POST['signUp'])) {
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
 
     <script src="../js/show-file-input.js"></script>
+
+    <script>
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+    </script>
+
+    <script>
+      $(document).ready(function () {
+
+        $('#userID').on('keyup', function() {
+          checkAvailability($(this).attr('id'));
+        });
+
+        $('#email').on('keyup', function() {
+          checkAvailability($(this).attr('id'));
+        });
+
+        $('#confirmPassword').on('keyup', function() {
+          if ($(this).val() === $('#password').val()) {
+            $(this)[0].setCustomValidity("");
+          } else {
+            $(this)[0].setCustomValidity("Passwords don't match");
+          }
+        });
+
+        $('#profilePicture').on('change', function() {
+          var file = $(this)[0].files[0]; // get file
+          var filesize = ((file.size/1024)/1024).toFixed(4); // MB
+
+          if (filesize <= 2) {
+            $(this)[0].setCustomValidity("");
+            $('#profilePictureFeedback').empty();
+          } else {
+            var msg = "The file is too large";
+            $(this)[0].setCustomValidity(msg);
+            $('#profilePictureFeedback').text(msg);
+          }
+        });
+      });
+
+      function checkAvailability(inputID) {
+        $.ajax({
+          url: 'check-availability.php',
+          type: 'POST',
+          data: inputID + '=' + $('#'+inputID).val(),
+          dataType: 'json',
+          success: function(response) {
+            console.log(response);
+            if (response['isAvailable'] === false) {
+              var msg = 'This is already taken.';
+              $('#'+inputID)[0].setCustomValidity(msg);
+
+              $('#'+inputID+'Feedback').text(msg);
+            } else {
+              $('#'+inputID)[0].setCustomValidity('');
+
+              $('#'+inputID+'Feedback').empty();
+            }
+          },
+          error: function() {}
+        });
+      }
+    </script>
   </body>
 </html>
