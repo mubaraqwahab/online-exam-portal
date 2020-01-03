@@ -8,25 +8,24 @@ FRONTEND
 * Recover password page (d)
 * Reset password (d)
 
-* Wireframe
-* Profile page
-* Wireframe update profile page
-* Update profile page
+* Wireframe (d)
+* Profile page (d)
+* Wireframe update profile page (d)
+* Update profile page (d)
 
 * Wireframe create exam page (d)
 * Create create-exam page (d)
 
-* Wireframe exam page
-* Exams page
-* Wireframe exam form
-* Exam form
+* Wireframe manage exam page (d)
+* Manage Exams pages (d)
 
-* Wireframe my quizzes page
-* My Quizzes page
-* Wireframe edit exam form
-* Edit exam form
+* Wireframe take exams page (d)
+* Take exams pages (d)
 
-* Wireframe notifications page
+* Wireframe Submissions page (d)
+* Submissions pages
+
+* Wireframe notifications page (d)
 * Create notifications page
 
 * Sign-up validation (outline criteria) and test
@@ -76,5 +75,7 @@ BACKEND
 * Require session.php
 * Create sessions (d)
 * Fix bsCustomInput (d)
+* Encode url GET params
+* 
 
 * Prepare queries for execution
