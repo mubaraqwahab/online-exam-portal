@@ -1,6 +1,9 @@
 <?php
+include '../session.php';
 include "../connect.php";
 
+$userID = $_SESSION['userID'];
+$profilePicture = $_SESSION['profilePicture'];
 $examID = $_GET['examID'];
 $sql = "SELECT * FROM exam WHERE exam_id = $examID";
 $result = mysqli_query($conn, $sql);
