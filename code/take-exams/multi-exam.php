@@ -36,10 +36,10 @@ $headerSql = "SELECT e.*, c.course_name, t.value AS type, CONCAT(u.first_name, '
   INNER JOIN user AS u ON u.user_id = e.instructor_id
   INNER JOIN `course` AS c ON c.course_code = e.course_code
   INNER JOIN exam_type AS t ON t.type_id = e.type_id
-  WHERE e.exam_id = ? AND e.instructor_id = ?";
+  WHERE e.exam_id = ? AND e.instructor_id = ? AND e.type_id = ?";
 
 $headerStmt = $conn->prepare($headerSql);
-$headerStmt->bind_param('is', $examID, $userID);
+$headerStmt->bind_param('isi', $examID, $userID, 1);
 $headerStmt->execute();
 $headerResult = $headerStmt->get_result();
 
@@ -54,7 +54,7 @@ $exam = $headerResult->fetch_assoc();
 
 // Get questions from database
 
-$questionSql = "SELECT * FROM `fill_in_question` WHERE exam_id = ?";
+$questionSql = "SELECT * FROM `multi_choice_question` WHERE exam_id = ?";
 
 $questionStmt = $conn->prepare($questionSql);
 $questionStmt->bind_param('i', $examID);
