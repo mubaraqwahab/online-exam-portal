@@ -40,7 +40,7 @@ $profilePicture = $_SESSION['profilePicture'];
       <?php require '../components/_navbar.php' ?>
 
       <!-- Page content -->
-      <div class="container py-3 px-5">
+      <div class="container py-4 px-5">
 
         <div class="d-flex flex-column align-items-center">
           <?php
@@ -51,18 +51,21 @@ $profilePicture = $_SESSION['profilePicture'];
               if ($feedback == 'success') {
                 // print big success
                 echo '<div class="text-success mb-2"><i class="fas fa-check-circle fa-10x"></i></div>';
-                echo '<p class="text-success">Your CSC303 (Web) Midterm has been submitted successfully.</p>';
+                echo '<p class="text-success"><strong>Your CSC303 (Web) Midterm has been submitted successfully.</strong></p>';
 
               } else if ($feedback == 'failure') {
-                // print big failure TODO
-                echo '<div class="text-danger mb-2"><i class="fas fa-check-circle fa-10x"></i></div>';
-                echo '<p class="text-danger">Your CSC303 (Web) Midterm could not be submitted. The exam might have been closed</p>';
+                // print big failure
+                echo '<span class="text-danger mb-2 fa-stack fa-5x">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fas fa-times fa-stack-1x fa-inverse"></i>
+                </span>';
+                echo '<p class="text-danger"><strong>Your CSC303 (Web) Midterm could not be submitted. The exam might have been closed</strong></p>';
               }
             }
 
           ?>
 
-          <div>
+          <div class="mt-3">
             <a href="./index.php" class="btn btn-primary">Take another exam</a>
           </div>
         </div>
