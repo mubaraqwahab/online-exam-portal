@@ -102,7 +102,7 @@ switch($examTypeID){
               <span>&bull; <?php echo $noOfQuestion . " Question(s)"?> &bull;</span>
               <span id="status">Invite Code: <?php echo $inviteCode?></span>
             </div>
-            <form method="POST" action="export-to-csv.php?examID= <?php $examID ?>" class="mt-2 mt-md-0">
+            <form method="POST" action="_export-to-csv.php?examID= <?php $examID ?>" class="mt-2 mt-md-0">
               <!-- Exam id from $_GET['examID'] should be kept in the value of this input below.
                 The JavaScript here uses it to close the exam
               -->
