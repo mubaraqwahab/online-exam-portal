@@ -196,7 +196,7 @@ function getMIMEType($filePath) {
 }
 
 function showError($errMsg) {
-  echo '<div class="alert alert-danger" role="alert">';
+  echo '<div class="alert alert-danger text-center" role="alert">';
   echo '<strong>Error!</strong>&nbsp;';
   echo $errMsg;
   echo '</div>';
