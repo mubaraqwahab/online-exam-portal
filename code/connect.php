@@ -195,5 +195,47 @@ function getMIMEType($filePath) {
   return $finfo->file($filePath);
 }
 
+function showError($errMsg) {
+  echo '<div class="alert alert-danger text-center" role="alert">';
+  echo '<strong>Error!</strong>&nbsp;';
+  echo $errMsg;
+  echo '</div>';
+}
 
-?>
+
+// prepare a fill in question for display
+// $question is the raw question from the db
+// $queNo is the question no (nullable)
+// $response is the user's response to the question (nullable)
+function prepareFillInQuestion(string $question, int $queNo, string $response = null) {
+  $replace = '';
+
+  if (is_null($response)) {
+    $replace = '<input class="form-control" type="text" name="response' . $queNo . '">';
+  } else {
+    $replace = '<span class="px-1"><u>' . $response . '</u></span>';
+  }
+
+  return replaceFirstOccurence('___', $replace, $question);
+
+}
+
+// replace the first occurence of $search in $subject with $replace
+// and return the result
+// if $search doesn't exist in $subject, return $subject unchanged
+function replaceFirstOccurence(string $search, string $replace, string $subject) {
+  $result = $subject;
+
+  $pos = strpos($subject, $search);
+  if ($pos !== false) {
+    $result = substr_replace($subject, $replace, $pos, strlen($search));
+  }
+
+  return $result;
+}
+
+// pluralSuffix(1) returns ''
+// pluralSuffix(any other number) returns 's'
+function pluralSuffix($count) {
+  return $count == 1 ? '' : 's';
+}
