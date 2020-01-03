@@ -32,7 +32,7 @@ $assigneeID = $_GET['assigneeID'];
 // Get the assignment details from database
 // Validate the instructor ID as well
 
-$headerSql = "SELECT a.*, e.course_code, e.title, c.course_name,
+$headerSql = "SELECT a.*, e.course_code, e.title, e.total_mark, c.course_name,
   et.value AS exam_type, CONCAT(u.first_name, ' ', u.last_name) AS assignee
   FROM exam_assignment AS a
   INNER JOIN exam AS e ON e.exam_id = a.exam_id
@@ -101,6 +101,7 @@ $responseResult = $responseStmt->get_result();
               <div>Student ID: <?php echo $assignment['assignee_id']; ?></div>
               <div>Student Name: <?php echo $assignment['assignee']; ?></div>
             </div>
+            <div class="">Total Score: <?php echo "{$assignment['total_score']}/{$assignment['total_mark']}"; ?></div>
           </div>
         </header>
 
@@ -116,12 +117,9 @@ $responseResult = $responseStmt->get_result();
                     <!-- Question no. should change -->
                     <h5 class="card-title">Question '. $response['question_no'] .'</h5>
                     <!-- Question should change as well -->
-                    <p class="card-text">
-                      Some quick example text to build on
-                      <span class="px-1"><u>the card title</u></span>
-                      <!-- The span above should have the response -->
-                      and make up the bulk of the content.
-                    </p>
+                    <p class="card-text">'.
+                      prepareFillInQuestion($response['question'], null, $response['response'])
+                    .'</p>
 
                     <strong class="form-inline">
                       Score:

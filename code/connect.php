@@ -207,7 +207,7 @@ function showError($errMsg) {
 // $question is the raw question from the db
 // $queNo is the question no (nullable)
 // $response is the user's response to the question (nullable)
-function prepareFillInQuestion(string $question, int $queNo, string $response = null) {
+function prepareFillInQuestion(string $question, int $queNo = null, string $response = null) {
   $replace = '';
 
   if (is_null($response)) {
