@@ -1,6 +1,20 @@
 <?php
 include "../connect.php";
 
+// If the user is already signed in, redirect elsewhere
+if (isset($_SESSION['userID'])) {
+
+  if (isset($_GET['redirectTo'])) {
+    header('Location: ' . base64_decode(urldecode($_GET['redirectTo'])));
+  } else {
+    // Redirect to home page (no home page for now tho)
+    header('Location: profile.php');
+  }
+
+}
+
+// Otherwise ...
+
 $email = base64_decode(urldecode($_GET['email']));
 
 if(isset($_POST['submitt'])){
