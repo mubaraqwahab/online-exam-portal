@@ -32,7 +32,8 @@ $assigneeID = $_GET['assigneeID'];
 // Get the assignment details from database
 // Validate the instructor ID as well
 
-$headerSql = "SELECT a.*, e.course_code, e.title, c.course_name, et.value AS exam_type, CONCAT(u.first_name, ' ', u.last_name) AS assignee
+$headerSql = "SELECT a.*, e.course_code, e.title, c.course_name,
+  et.value AS exam_type, CONCAT(u.first_name, ' ', u.last_name) AS assignee
   FROM exam_assignment AS a
   INNER JOIN exam AS e ON e.exam_id = a.exam_id
   INNER JOIN exam_type AS et ON e.type_id = et.type_id
@@ -53,16 +54,20 @@ if ($headerResult->num_rows != 1) {
   exit;
 }
 
-$exam = $headerResult->fetch_assoc();
+$assignment = $headerResult->fetch_assoc();
 
-// Get questions from database
+// Get questions and responses from database
 
-$questionSql = "SELECT * FROM `fill_in_question` WHERE exam_id = ? ORDER BY question_no ASC";
+$responseSql = "SELECT r.*, q.question, q.mark
+  FROM `fill_in_response` AS r
+  INNER JOIN fill_in_question AS q ON q.exam_id = r.exam_id
+  WHERE r.exam_id = ? AND r.assignee_id = ?
+  ORDER BY r.question_no ASC";
 
-$questionStmt = $conn->prepare($questionSql);
-$questionStmt->bind_param('i', $examID);
-$questionStmt->execute();
-$questionResult = $questionStmt->get_result();
+$responseStmt = $conn->prepare($responseSql);
+$responseStmt->bind_param('is', $examID, $assigneeID);
+$responseStmt->execute();
+$responseResult = $responseStmt->get_result();
 ?>
 
 <body>
@@ -86,61 +91,97 @@ $questionResult = $questionStmt->get_result();
         <!-- Heading -->
         <header class="mb-4" id="examHeader">
           <!-- Format: Mark [Course Code] ([Course Name]) [Exam Title] (Exam Type) -->
-          <h4>Mark CSC303 (Web) Midterm <small class="text-muted">(Fill-in the blank)</small></h4>
+          <h4>
+            Mark <?php echo "{$assignment['course_code']} ({$assignment['course_name']}) {$assignment['title']} "; ?>
+            <small class="text-muted">
+              <?php echo "({$assignment['exam_type']})" ?></small>
+          </h4>
           <div class="d-flex flex-column flex-md-row">
             <div class="mr-md-3">
               <!-- PHP should put ID and Name here -->
-              <div>Student ID: 0123456789</div>
-              <div>Student Name: Abdulhakeem Audu</div>
+              <div>Student ID: <?php echo $assignment['assignee_id']; ?></div>
+              <div>Student Name: <?php echo $assignment['assignee']; ?></div>
             </div>
           </div>
         </header>
 
         <!-- Form containing questions list -->
-        <form method="POST">
+        <form method="POST" action="_mark-exam.php">
 
-          <!-- Each card is a question group -->
+          <?php
+            if ($responseResult->num_rows > 0) {
+              while ($response = $responseResult->fetch_assoc()) {
+                echo '
+                <div class="card my-3">
+                  <div class="card-body">
+                    <!-- Question no. should change -->
+                    <h5 class="card-title">Question '. $response['question'] .'</h5>
+                    <!-- Question should change as well -->
+                    <p class="card-text">
+                      Some quick example text to build on
+                      <span class="px-1"><u>the card title</u></span>
+                      <!-- The span above should have the response -->
+                      and make up the bulk of the content.
+                    </p>
 
-          <!-- How a Fill-in the blank question should look -->
-          <div class="card my-3">
-            <div class="card-body">
-              <!-- Question no. should change -->
-              <h5 class="card-title">Question 1</h5>
-              <!-- Question should change as well -->
-              <p class="card-text">
-                Some quick example text to build on
-                <span class="px-1"><u>the card title</u></span>
-                <!-- The span above should have the response -->
-                and make up the bulk of the card's content.
-              </p>
+                    <strong class="form-inline">
+                      Score:
+                      <!-- input name should change. So the first question has score1, the next score2, ... -->
+                      <input class="form-control col-3 col-sm-2 col-lg-1" type="number" step="0.1" min="0" max="'. $response['mark'] .'" name="score'. $response['question_no'] .'" required>
+                      /10
+                      <!-- PHP should put marks for each question, the value for max is the mark for the question -->
+                    </strong>
+                  </div>
+                </div>';
+              }
+            }
+          ?>
 
-              <strong class="form-inline">
-                Score:
-                <!-- input name should change. So the first question has score1, the next score2, ... -->
-                <input class="form-control col-3 col-sm-2 col-lg-1" type="number" step="0.1" min="0" max="10" name="score1" required>
-                /10
-                <!-- PHP should put marks for each question, the value for max is the mark for the question -->
-              </strong>
-            </div>
-          </div>
+<?php
+          // <!-- Each card is a question group -->
 
-          <div class="card my-3">
-            <div class="card-body">
-              <h5 class="card-title">Question 2</h5>
-              <p class="card-text">
-                Some quick example text to build on
-                <span class="px-1"><u>the card title</u></span>
-                and make up the bulk of the card's content.
-              </p>
+          // <!-- How a Fill-in the blank question should look -->
 
-              <strong class="form-inline">
-                Score:
-                <input class="form-control col-3 col-sm-2 col-lg-1" type="number" step="0.1" min="0" max="5" name="score2" required>
-                /5
-              </strong>
-            </div>
-          </div>
 
+          // <div class="card my-3">
+          //   <div class="card-body">
+          //     <!-- Question no. should change -->
+          //     <h5 class="card-title">Question 1</h5>
+          //     <!-- Question should change as well -->
+          //     <p class="card-text">
+          //       Some quick example text to build on
+          //       <span class="px-1"><u>the card title</u></span>
+          //       <!-- The span above should have the response -->
+          //       and make up the bulk of the card's content.
+          //     </p>
+
+          //     <strong class="form-inline">
+          //       Score:
+          //       <!-- input name should change. So the first question has score1, the next score2, ... -->
+          //       <input class="form-control col-3 col-sm-2 col-lg-1" type="number" step="0.1" min="0" max="10" name="score1" required>
+          //       /10
+          //       <!-- PHP should put marks for each question, the value for max is the mark for the question -->
+          //     </strong>
+          //   </div>
+          // </div>
+
+          // <div class="card my-3">
+          //   <div class="card-body">
+          //     <h5 class="card-title">Question 2</h5>
+          //     <p class="card-text">
+          //       Some quick example text to build on
+          //       <span class="px-1"><u>the card title</u></span>
+          //       and make up the bulk of the card's content.
+          //     </p>
+
+          //     <strong class="form-inline">
+          //       Score:
+          //       <input class="form-control col-3 col-sm-2 col-lg-1" type="number" step="0.1" min="0" max="5" name="score2" required>
+          //       /5
+          //     </strong>
+          //   </div>
+          // </div>
+?>
 
           <button type="submit" name="finish" class="btn btn-success">Finish</button>
         </form>
