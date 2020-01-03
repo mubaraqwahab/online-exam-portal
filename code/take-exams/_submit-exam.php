@@ -22,6 +22,6 @@ include '../connect.php';
 
 
 
-header("Location: submit-feedback.php?examID=&feedback=");
+header("Location: feedback.php?examID=&feedback=");
 
 ?>
