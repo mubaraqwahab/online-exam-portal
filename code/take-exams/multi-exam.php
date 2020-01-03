@@ -201,7 +201,6 @@ $questionResult = $questionStmt->get_result();
           <!-- Place the user ID and exam ID in the values below -->
           <input type="hidden" name="userID" value="<?php echo $userID; ?>">
           <input type="hidden" name="examID" value="<?php echo $examID; ?>">
-          <input type="hidden" name="examID" value="">
 
           <button type="submit" name="submit" class="btn btn-success">Submit</button>
         </form>
