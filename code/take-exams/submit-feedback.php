@@ -54,8 +54,8 @@ $profilePicture = $_SESSION['profilePicture'];
                 echo '<p class="text-success">Your CSC303 (Web) Midterm has been submitted successfully.</p>';
 
               } else if ($feedback == 'failure') {
-                // print big failure
-                echo '<div class="text-success mb-2"><i class="fas fa-check-circle fa-10x"></i></div>';
+                // print big failure TODO
+                echo '<div class="text-danger mb-2"><i class="fas fa-check-circle fa-10x"></i></div>';
                 echo '<p class="text-danger">Your CSC303 (Web) Midterm could not be submitted. The exam might have been closed</p>';
               }
             }
