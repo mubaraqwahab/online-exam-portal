@@ -26,6 +26,7 @@ $profilePicture = $_SESSION['profilePicture'];
 
 <?php
 
+// TODO: decode examID
 $examID = $_GET['examID'];
 
 // Get the exam details from database
@@ -43,7 +44,7 @@ $headerStmt->execute();
 $headerResult = $headerStmt->get_result();
 
 if ($headerResult->num_rows != 1) {
-  showError('Page not available!');
+  showError('Page not available.');
   exit;
 }
 
