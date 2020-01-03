@@ -183,6 +183,8 @@ $responseResult = $responseStmt->get_result();
           // </div>
 ?>
 
+          <input type="hidden" name="examID" value="<?php echo $examID; ?>">
+          <input type="hidden" name="assigneeID" value="<?php echo $assigneeID; ?>">
           <button type="submit" name="finish" class="btn btn-success">Finish</button>
         </form>
 
