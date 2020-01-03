@@ -1,5 +1,6 @@
 <?php
 
-// Get exam id and assignee id
+$examID = $_POST['examID'];
+$assigneeID = $_POST['assigneeID'];
 
 ?>
