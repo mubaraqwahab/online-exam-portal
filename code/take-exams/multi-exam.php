@@ -32,7 +32,7 @@ $examID = $_GET['examID'];
 $typeID = 1;
 
 // Get the exam details from database
-
+// Validate the student ID, exam ID and type ID as well
 $headerSql = "SELECT e.*, c.course_name, t.value AS type, CONCAT(u.first_name, ' ', u.last_name) AS instructor
   FROM `exam` AS e
   INNER JOIN user AS u ON u.user_id = e.instructor_id

@@ -16,9 +16,7 @@ if (isset($_POST['userID']) && isset($_POST['inviteCode'])) {
     SELECT exam.exam_id, '$userID', 3 FROM exam
     WHERE exam_id = $examID AND invite_prefix = '$invitePrefix' AND status_id = 1";
 
-  $conn->query($sql);
-
-  if ($conn->affected_rows == 1) {
+  if ($conn->query($sql) && $conn->affected_rows == 1) {
     $res = true;
   } else {
     $res = false;
