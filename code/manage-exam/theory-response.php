@@ -48,6 +48,8 @@ include '../connect.php';
               <div>Student Name: Abdulhakeem Audu</div>
             </div>
           </div>
+          <!-- Format: [total_score]/[total_mark] -->
+          <div>Total Score: 20/20</div>
         </header>
 
         <!-- Form containing questions list -->

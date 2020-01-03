@@ -1,3 +1,13 @@
+<?php
+include '../session.php';
+
+include '../connect.php';
+
+$userID = $_SESSION['userID'];
+$profilePicture = $_SESSION['profilePicture'];
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,6 +22,52 @@
   <link href="../css/simple-sidebar.css" rel="stylesheet">
 
 </head>
+
+<?php
+
+// TODO: decode examID
+$examID = $_GET['examID'];
+$assigneeID = $_GET['assigneeID'];
+
+// Get the assignment details from database
+// Validate the instructor ID as well
+
+$headerSql = "SELECT a.*, e.course_code, e.title, e.total_mark, c.course_name,
+  et.value AS exam_type, CONCAT(u.first_name, ' ', u.last_name) AS assignee
+  FROM exam_assignment AS a
+  INNER JOIN exam AS e ON e.exam_id = a.exam_id
+  INNER JOIN exam_type AS et ON e.type_id = et.type_id
+  INNER JOIN course AS c ON c.course_code = e.course_code
+  INNER JOIN user AS u ON u.user_id = a.assignee_id
+  WHERE a.assignee_id = ? AND a.exam_id = ? AND e.instructor_id = ?";
+
+$headerStmt = $conn->prepare($headerSql);
+$headerStmt->bind_param('sis', $assigneeID, $examID, $userID);
+$headerStmt->execute();
+$headerResult = $headerStmt->get_result();
+
+// If no such exam, give error
+
+if ($headerResult->num_rows != 1) {
+  showError('Page not available.');
+  exit;
+}
+
+$assignment = $headerResult->fetch_assoc();
+
+// Get questions and responses from database
+
+$responseSql = "SELECT r.*, q.question, q.mark
+  FROM `multi_choice_response` AS r
+  INNER JOIN multi_choice_question AS q ON q.exam_id = r.exam_id
+  WHERE r.exam_id = ? AND r.assignee_id = ?
+  ORDER BY r.question_no ASC";
+
+$responseStmt = $conn->prepare($responseSql);
+$responseStmt->bind_param('is', $examID, $assigneeID);
+$responseStmt->execute();
+$responseResult = $responseStmt->get_result();
+?>
 
 <body>
 
@@ -34,13 +90,18 @@
         <!-- Heading -->
         <header class="mb-4" id="examHeader">
           <!-- Format: Mark [Course Code] ([Course Name]) [Exam Title] (Exam Type) -->
-          <h4>View CSC303 (Web) Midterm <small class="text-muted">(Multi-choice)</small></h4>
+          <h4>
+            View <?php echo "{$assignment['course_code']} ({$assignment['course_name']}) {$assignment['title']} "; ?>
+            <small class="text-muted">
+              <?php echo "({$assignment['exam_type']})" ?></small>
+          </h4>
           <div class="d-flex flex-column flex-md-row">
             <div class="mr-md-3">
               <!-- PHP should put ID and Name here -->
-              <div>Student ID: 0123456789</div>
-              <div>Student Name: Abdulhakeem Audu</div>
+              <div>Student ID: <?php echo $assignment['assignee_id']; ?></div>
+              <div>Student Name: <?php echo $assignment['assignee']; ?></div>
             </div>
+            <div>Total Score: <?php echo "{$assignment['total_score']}/{$assignment['total_mark']}"; ?></div>
           </div>
         </header>
 
