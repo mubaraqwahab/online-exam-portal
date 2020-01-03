@@ -24,6 +24,44 @@ $profilePicture = $_SESSION['profilePicture'];
 
 </head>
 
+<?php
+
+// TODO: decode examID
+$examID = $_GET['examID'];
+
+// Get the exam details from database
+
+$headerSql = "SELECT e.*, c.course_name, t.value AS type, CONCAT(u.first_name, ' ', u.last_name) AS instructor
+  FROM `exam` AS e
+  INNER JOIN user AS u ON u.user_id = e.instructor_id
+  INNER JOIN `course` AS c ON c.course_code = e.course_code
+  INNER JOIN exam_type AS t ON t.type_id = e.type_id
+  WHERE e.exam_id = ? AND e.instructor_id = ?";
+
+$headerStmt = $conn->prepare($headerSql);
+$headerStmt->bind_param('is', $examID, $userID);
+$headerStmt->execute();
+$headerResult = $headerStmt->get_result();
+
+// If no such exam, give error
+
+if ($headerResult->num_rows != 1) {
+  showError('Page not available.');
+  exit;
+}
+
+$exam = $headerResult->fetch_assoc();
+
+// Get questions from database
+
+$questionSql = "SELECT * FROM `fill_in_question` WHERE exam_id = ?";
+
+$questionStmt = $conn->prepare($questionSql);
+$questionStmt->bind_param('i', $examID);
+$questionStmt->execute();
+$questionResult = $questionStmt->get_result();
+?>
+
 <body>
 
   <?php include '../components/_header.php' ?>
