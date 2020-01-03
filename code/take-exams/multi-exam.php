@@ -57,7 +57,7 @@ $exam = $headerResult->fetch_assoc();
 
 // Get questions from database
 
-$questionSql = "SELECT * FROM `multi_choice_question` WHERE exam_id = ?";
+$questionSql = "SELECT * FROM `multi_choice_question` WHERE exam_id = ? ORDER BY question_no ASC";
 
 $questionStmt = $conn->prepare($questionSql);
 $questionStmt->bind_param('i', $examID);
@@ -86,12 +86,17 @@ $questionResult = $questionStmt->get_result();
         <!-- Heading -->
         <header class="mb-4" id="examHeader">
           <!-- Format: Mark [Course Code] ([Course Name]) [Exam Title] (Exam Type) -->
-          <h4>Mark CSC303 (Web) Midterm <small class="text-muted">(Theory)</small></h4>
+          <h4>
+            <?php
+              echo "{$exam['course_code']} ({$exam['course_name']}) {$exam['title']}
+              <small class='text-muted'>({$exam['type']})</small>";
+            ?>
+          </h4>
           <div class="d-flex flex-column flex-md-row">
             <div class="mr-md-3">
               <!-- PHP should put ID and Name here -->
-              <div>Instructor: Abdulhakeem Audu</div>
-              <div>10 Questions</div>
+              <div>Instructor: <?php echo $exam['instructor']; ?></div>
+              <div><?php echo $exam['no_of_questions']; ?> Question<?php echo pluralSuffix($exam['no_of_questions']); ?></div>
             </div>
           </div>
         </header>
@@ -99,52 +104,103 @@ $questionResult = $questionStmt->get_result();
         <!-- Form containing questions list -->
         <form method="POST" action="_submit-exam.php">
 
+          <?php
+          if ($questionResult->num_rows > 0) {
+            while ($question = $questionResult->fetch_assoc()) {
+              $num = $question['question_no'];
+              echo '
+              <div class="card my-3">
+              <div class="card-body">
+                <!-- Question no and marks should change -->
+                <h5 class="card-title">
+                  Question '. $question['question_no'] . '
+                  <small>('. $question['mark'] .' Mark'. pluralSuffix($question['mark']) .')</small>
+                </h5>
+                <!-- Question should change as well -->
+                <p class="card-text">'. $question['question'] .'</p>
+
+                <div class="custom-control custom-radio">
+                  <input class="custom-control-input" type="radio" name="response'. $num .'" id="response'. $num .'A" value="a">
+                  <label class="custom-control-label" for="response'. $num .'A">
+                    A. '. $question['a'] .'
+                  </label>
+                </div>
+                <div class="custom-control custom-radio">
+                  <input class="custom-control-input" type="radio" name="response'. $num .'" id="response'. $num .'B" value="b">
+                  <label class="custom-control-label" for="response'. $num .'B">
+                    B. '. $question['b'] .'
+                  </label>
+                </div>
+                <div class="custom-control custom-radio">
+                  <input class="custom-control-input" type="radio" name="response'. $num .'" id="response'. $num .'C" value="c">
+                  <label class="custom-control-label" for="response'. $num .'C">
+                    C. '. $question['c'] .'
+                  </label>
+                </div>
+                <div class="custom-control custom-radio">
+                  <input class="custom-control-input" type="radio" name="response'. $num .'" id="response'. $num .'D" value="d">
+                  <label class="custom-control-label" for="response'. $num .'D">
+                    D. '. $question['d'] .'
+                  </label>
+                </div>
+
+              </div>
+            </div>
+
+              ';
+            }
+          }
+          ?>
+
           <!-- Each card is a question group -->
 
-          <!-- How a theory question card should look. -->
-          <div class="card my-3">
-            <div class="card-body">
-              <!-- Question no and marks should change -->
-              <h5 class="card-title">
-                Question 1
-                <small>(10 Marks)</small>
-              </h5>
-              <!-- Question should change as well -->
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+<?php
 
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="response1" id="response1A" value="A">
-                <label class="custom-control-label" for="response1A">
-                  A. Default radio
-                </label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="response1" id="response1B" value="B">
-                <label class="custom-control-label" for="response1B">
-                  B. Default radio
-                </label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="response1" id="response1C" value="C">
-                <label class="custom-control-label" for="response1C">
-                  C. Default radio
-                </label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="response1" id="response1D" value="D">
-                <label class="custom-control-label" for="response1D">
-                  D. Default radio
-                </label>
-              </div>
+          // <!-- How a theory question card should look. -->
+          // <div class="card my-3">
+          //   <div class="card-body">
+          //     <!-- Question no and marks should change -->
+          //     <h5 class="card-title">
+          //       Question 1
+          //       <small>(10 Marks)</small>
+          //     </h5>
+          //     <!-- Question should change as well -->
+          //     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
 
-            </div>
-          </div>
+          //     <div class="custom-control custom-radio">
+          //       <input class="custom-control-input" type="radio" name="response1" id="response1A" value="A">
+          //       <label class="custom-control-label" for="response1A">
+          //         A. Default radio
+          //       </label>
+          //     </div>
+          //     <div class="custom-control custom-radio">
+          //       <input class="custom-control-input" type="radio" name="response1" id="response1B" value="B">
+          //       <label class="custom-control-label" for="response1B">
+          //         B. Default radio
+          //       </label>
+          //     </div>
+          //     <div class="custom-control custom-radio">
+          //       <input class="custom-control-input" type="radio" name="response1" id="response1C" value="C">
+          //       <label class="custom-control-label" for="response1C">
+          //         C. Default radio
+          //       </label>
+          //     </div>
+          //     <div class="custom-control custom-radio">
+          //       <input class="custom-control-input" type="radio" name="response1" id="response1D" value="D">
+          //       <label class="custom-control-label" for="response1D">
+          //         D. Default radio
+          //       </label>
+          //     </div>
 
+          //   </div>
+          // </div>
 
+?>
 
 
           <!-- Place the user ID and exam ID in the values below -->
-          <input type="hidden" name="userID" value="">
+          <input type="hidden" name="userID" value="<?php echo $userID; ?>">
+          <input type="hidden" name="examID" value="<?php echo $examID; ?>">
           <input type="hidden" name="examID" value="">
 
           <button type="submit" name="submit" class="btn btn-success">Submit</button>

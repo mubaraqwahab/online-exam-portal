@@ -57,7 +57,7 @@ $exam = $headerResult->fetch_assoc();
 
 // Get questions from database
 
-$questionSql = "SELECT * FROM `fill_in_question` WHERE exam_id = ?";
+$questionSql = "SELECT * FROM `fill_in_question` WHERE exam_id = ? ORDER BY question_no ASC";
 
 $questionStmt = $conn->prepare($questionSql);
 $questionStmt->bind_param('i', $examID);
