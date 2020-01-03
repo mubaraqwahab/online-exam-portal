@@ -108,84 +108,131 @@ $responseResult = $responseStmt->get_result();
         <!-- Form containing questions list -->
         <form method="POST">
 
-          <!-- Each card is a question group -->
+          <?php
+            if ($responseResult->num_rows > 0) {
+              while ($response = $responseResult->fetch_assoc()) {
+                echo '
+                <div class="card my-3">
+                  <div class="card-body">
+                    <!-- Question no should change -->
+                    <h5 class="card-title">Question '. $response['question_no'] .'</h5>
+                    <!-- Question should change as well -->
+                    <p class="card-text form-inline">'.
+                      $response['question']
+                    .'</p>
 
-          <!-- How a multi-choice question should look, if the student got it -->
-          <div class="card my-3">
-            <div class="card-body">
-              <!-- Question no should change -->
-              <h5 class="card-title">Question 1</h5>
-              <!-- Question should change as well -->
-              <p class="card-text form-inline">
-                Some quick example text to build on the card title and make up the bulk of the card's content.
-              </p>
+                    <div class="card-text mb-3">
+                      <div class="px-3 py-2">'.
+                        A. $response['a']
+                      .'</div>
+                      <!-- Correct answer should have these three extra classes:
+                          rounded, text-white, bg-success
+                      If student\'s response == correct answer, do nothing -->
+                      <div class="px-3 py-2 rounded text-white bg-success">'.
+                        B. $response['b']
+                      .'</div>
+                      <div class="px-3 py-2">'.
+                        C. $response['c']
+                      .'</div>
+                      <div class="px-3 py-2">'.
+                        D. $response['d']
+                      .'</div>
+                    </div>
 
-              <div class="card-text mb-3">
-                <div class="px-3 py-2">
-                  A. Lorem ipsum dolor sit amet
+                    <strong class="form-inline">
+                      Score:
+                      <span class="d-inline-block border rounded p-2 col-3 col-sm-2 col-lg-1 text-muted">'.
+                        $response['score']
+                      .'</span>
+                      /'. $response['mark'] .'
+                    </strong>
+                  </div>
                 </div>
-                <!-- Correct answer should have these three extra classes:
-                    rounded, text-white, bg-success
-                If student's response == correct answer, do nothing -->
-                <div class="px-3 py-2 rounded text-white bg-success">
-                  B. Lorem ipsum dolor sit amet
-                </div>
-                <div class="px-3 py-2">
-                  C. Lorem ipsum dolor sit amet
-                </div>
-                <div class="px-3 py-2">
-                  D. Lorem ipsum dolor sit amet
-                </div>
-              </div>
+                ';
+              }
+            }
+          ?>
 
-              <strong class="form-inline">
-                Score:
-                <span class="d-inline-block border rounded p-2 col-3 col-sm-2 col-lg-1 text-muted">10</span>
-                /10
-                <!-- The auto generated score, and the mark for the question should be put -->
-              </strong>
-            </div>
-          </div>
+          <?php
+          // <!-- Each card is a question group -->
 
-          <!-- How a multi-choice question should look, if the student failed it -->
-          <div class="card my-3">
-            <div class="card-body">
-              <!-- Question no should change -->
-              <h5 class="card-title">Question 2</h5>
-              <!-- Question should change as well -->
-              <p class="card-text form-inline">
-                Some quick example text to build on the card title and make up the bulk of the card's content.
-              </p>
+          // <!-- How a multi-choice question should look, if the student got it -->
+          // <div class="card my-3">
+          //   <div class="card-body">
+          //     <!-- Question no should change -->
+          //     <h5 class="card-title">Question 1</h5>
+          //     <!-- Question should change as well -->
+          //     <p class="card-text form-inline">
+          //       Some quick example text to build on the card title and make up the bulk of the card's content.
+          //     </p>
 
-              <div class="card-text mb-3">
-                <!-- Correct answer should have these three extra classes:
-                    rounded, text-white, bg-success
-                If student's response != correct answer, add these classes to student's response:
-                    rounded, text-white, bg-danger
-                -->
-                <div class="px-3 py-2">
-                  A. Lorem ipsum dolor sit amet
-                </div>
-                <div class="px-3 py-2 rounded text-white bg-danger">
-                  B. Lorem ipsum dolor sit amet
-                </div>
-                <div class="px-3 py-2">
-                  C. Lorem ipsum dolor sit amet
-                </div>
-                <!-- If correct answer != response,  -->
-                <div class="px-3 py-2 rounded text-white bg-success">
-                  D. Lorem ipsum dolor sit amet
-                </div>
-              </div>
+          //     <div class="card-text mb-3">
+          //       <div class="px-3 py-2">
+          //         A. Lorem ipsum dolor sit amet
+          //       </div>
+          //       <!-- Correct answer should have these three extra classes:
+          //           rounded, text-white, bg-success
+          //       If student's response == correct answer, do nothing -->
+          //       <div class="px-3 py-2 rounded text-white bg-success">
+          //         B. Lorem ipsum dolor sit amet
+          //       </div>
+          //       <div class="px-3 py-2">
+          //         C. Lorem ipsum dolor sit amet
+          //       </div>
+          //       <div class="px-3 py-2">
+          //         D. Lorem ipsum dolor sit amet
+          //       </div>
+          //     </div>
 
-              <strong class="form-inline">
-                Score:
-                <span class="d-inline-block border rounded p-2 col-3 col-sm-2 col-lg-1 text-muted">10</span>
-                /10
-                <!-- The auto generated score, and the mark for the question should be put -->
-              </strong>
-            </div>
-          </div>
+          //     <strong class="form-inline">
+          //       Score:
+          //       <span class="d-inline-block border rounded p-2 col-3 col-sm-2 col-lg-1 text-muted">10</span>
+          //       /10
+          //       <!-- The auto generated score, and the mark for the question should be put -->
+          //     </strong>
+          //   </div>
+          // </div>
+
+          // <!-- How a multi-choice question should look, if the student failed it -->
+          // <div class="card my-3">
+          //   <div class="card-body">
+          //     <!-- Question no should change -->
+          //     <h5 class="card-title">Question 2</h5>
+          //     <!-- Question should change as well -->
+          //     <p class="card-text form-inline">
+          //       Some quick example text to build on the card title and make up the bulk of the card's content.
+          //     </p>
+
+          //     <div class="card-text mb-3">
+          //       <!-- Correct answer should have these three extra classes:
+          //           rounded, text-white, bg-success
+          //       If student's response != correct answer, add these classes to student's response:
+          //           rounded, text-white, bg-danger
+          //       -->
+          //       <div class="px-3 py-2">
+          //         A. Lorem ipsum dolor sit amet
+          //       </div>
+          //       <div class="px-3 py-2 rounded text-white bg-danger">
+          //         B. Lorem ipsum dolor sit amet
+          //       </div>
+          //       <div class="px-3 py-2">
+          //         C. Lorem ipsum dolor sit amet
+          //       </div>
+          //       <!-- If correct answer != response,  -->
+          //       <div class="px-3 py-2 rounded text-white bg-success">
+          //         D. Lorem ipsum dolor sit amet
+          //       </div>
+          //     </div>
+
+          //     <strong class="form-inline">
+          //       Score:
+          //       <span class="d-inline-block border rounded p-2 col-3 col-sm-2 col-lg-1 text-muted">10</span>
+          //       /10
+          //       <!-- The auto generated score, and the mark for the question should be put -->
+          //     </strong>
+          //   </div>
+          // </div>
+          ?>
 
 
           <!-- No finish button for multi-choice exams -->
