@@ -33,13 +33,13 @@
 
         <!-- Heading -->
         <header class="mb-4" id="examHeader">
-          <!-- Format: Mark [Course Code] ([Course Name]) [Exam Title] (Exam Type) -->
-          <h4>Mark CSC303 (Web) Midterm <small class="text-muted">(Fill-in the blank)</small></h4>
+          <!-- Format: [Course Code] ([Course Name]) [Exam Title] (Exam Type) -->
+          <h4>CSC303 (Web) Midterm <small class="text-muted">(Fill-in the blank)</small></h4>
           <div class="d-flex flex-column flex-md-row">
             <div class="mr-md-3">
               <!-- PHP should put ID and Name here -->
-              <div>Student ID: 0123456789</div>
-              <div>Student Name: Abdulhakeem Audu</div>
+              <div>Instructor: Abdulhakeem Audu</div>
+              <div>10 Questions</div>
             </div>
           </div>
         </header>
