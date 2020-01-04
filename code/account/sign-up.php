@@ -167,7 +167,7 @@ if (isset($_POST['signUp'])) {
                 </div>
 
                 <button class="btn btn-lg btn-primary btn-block mt-4" id="signUp" name="signUp" type="submit">Sign up</button>
-                <a class="d-block text-center mt-2 small" href="sign-in.html">Sign in</a>
+                <a class="d-block text-center mt-2 small" href="sign-in.php">Sign in</a>
               </form>
             </div>
           </div>
