@@ -51,7 +51,7 @@ $exam = $headerResult->fetch_assoc();
 
 // You need question no, question, response, correct answer, score, mark per question
 
-$responseSql = "SELECT r.*, q.question, q.correct_answer, q.mark
+$responseSql = "SELECT r.*, q.question, q.a, q.b, q.c, q.d, q.correct_answer, q.mark
   FROM multi_choice_response r
   INNER JOIN multi_choice_question q
   ON (q.exam_id = r.exam_id AND q.question_no = r.question_no)
@@ -94,7 +94,7 @@ $responseResult = $responseStmt->get_result();
               <div>Instructor: <?php echo $exam['instructor']; ?></div>
               <div><?php echo $exam['no_of_questions'] . ' Question' . pluralSuffix($exam['no_of_questions']); ?></div>
             </div>
-            <div>Total Score: <?php "{$exam['total_score']}/{$exam['total_mark']}"; ?></div>
+            <div>Total Score: <?php echo "{$exam['total_score']}/{$exam['total_mark']}"; ?></div>
           </div>
         </header>
 
@@ -129,55 +129,32 @@ $responseResult = $responseStmt->get_result();
                   if (compareStrWithoutCase($response['response'], $opt)
                       && compareStrWithoutCase($response['correct_answer'], $opt)) {
                     // color green
-                    echo '<div class="px-3 py-2 rounded text-white bg-success">'. strtoupper($opt) . '. ' . $response[$opt] . '</div>';
+                    echo '<div class="px-3 py-1 my-1 rounded text-white bg-success">'. strtoupper($opt) . '. ' . $response[$opt] . '</div>';
                   } else if (compareStrWithoutCase($response['response'], $opt)
                       && !compareStrWithoutCase($response['correct_answer'], $opt)) {
                     // color red
-                    echo '<div class="px-3 py-2 rounded text-white bg-danger">'. strtoupper($opt) . '. ' . $response[$opt] . '</div>';
+                    echo '<div class="px-3 py-1 my-1 rounded text-white bg-danger">'. strtoupper($opt) . '. ' . $response[$opt] . '</div>';
                   } else if (!compareStrWithoutCase($response['response'], $opt)
                     && compareStrWithoutCase($response['correct_answer'], $opt)) {
                     // color green
-                    echo '<div class="px-3 py-2 rounded text-white bg-success">'. strtoupper($opt) . '. ' . $response[$opt] . '</div>';
+                    echo '<div class="px-3 py-1 my-1 rounded text-white bg-success">'. strtoupper($opt) . '. ' . $response[$opt] . '</div>';
                   } else {
-                    echo '<div class="px-3 py-2 rounded">'. strtoupper($opt) . '. ' . $response[$opt] . '</div>';
+                    echo '<div class="px-3 py-1 my-1 rounded">'. strtoupper($opt) . '. ' . $response[$opt] . '</div>';
                   }
                 }
                 ?>
 
-                    </div>
-
-                    <strong>
-                      Score: <?php echo $response['score'] . '/' . $response['mark']; ?>
-                    </strong>
-                  </div>
                 </div>
-            <?php
-              }
-            }
-            ?>
-          ?>
 
-          <!-- Each card is a question group -->
-
-          <!-- How a Fill-in the blank question should look -->
-          <div class="card my-3">
-            <div class="card-body">
-              <!-- Question no. should change -->
-              <h5 class="card-title">Question 1</h5>
-              <!-- Question should change as well -->
-              <p class="card-text">
-                Some quick example text to build on
-                <span class="px-1"><u>the card title</u></span>
-                <!-- The span above should have the response -->
-                and make up the bulk of the card's content.
-              </p>
-
-              <strong>
-                Score: 10/10
-                <!-- PHP should put marks for each question -->
-              </strong>
+                <strong>
+                  Score: <?php echo $response['score'] . '/' . $response['mark']; ?>
+                </strong>
+              </div>
             </div>
-          </div>
+          <?php
+            }
+          }
+          ?>
 
         </section>
 
