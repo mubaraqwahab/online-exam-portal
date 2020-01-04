@@ -48,7 +48,7 @@ if ($result->num_rows == 1) {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('i', $examID);
     $stmt->execute();
-    $multiQues = $stmt->get_result();
+    $multiRes = $stmt->get_result();
   }
   else if ($exam['type_id'] == 2) $outTable = 'fill_in_response';
   else $outTable = 'theory_response';
@@ -65,10 +65,14 @@ if ($result->num_rows == 1) {
     $score = null;
 
     // For obj, score the response
-    if ($exam['type_id'] == 1 && strcasecmp($response, $multiQues['correct_answer']) == 0) {
-      $score = $multiQues['mark'];
-    } else if ($exam['type_id'] == 1 && strcasecmp($response, $multiQues['correct_answer']) != 0) {
-      $score = 0;
+    if ($exam['type_id'] == 1) {
+      $multiQues = $multiRes->fetch_assoc();
+
+      if (strcasecmp($response, $multiQues['correct_answer']) == 0) {
+        $score = $multiQues['mark'];
+      } else if (strcasecmp($response, $multiQues['correct_answer']) != 0) {
+        $score = 0;
+      }
     }
 
     // Execute sql

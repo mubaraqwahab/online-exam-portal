@@ -132,25 +132,25 @@ if ($conn->affected_rows != 1) {
                 <p class="card-text">'. $question['question'] .'</p>
 
                 <div class="custom-control custom-radio">
-                  <input class="custom-control-input" type="radio" name="response'. $num .'" id="response'. $num .'A" value="a">
+                  <input class="custom-control-input" type="radio" name="response'. $num .'" id="response'. $num .'A" value="A">
                   <label class="custom-control-label" for="response'. $num .'A">
                     A. '. $question['a'] .'
                   </label>
                 </div>
                 <div class="custom-control custom-radio">
-                  <input class="custom-control-input" type="radio" name="response'. $num .'" id="response'. $num .'B" value="b">
+                  <input class="custom-control-input" type="radio" name="response'. $num .'" id="response'. $num .'B" value="B">
                   <label class="custom-control-label" for="response'. $num .'B">
                     B. '. $question['b'] .'
                   </label>
                 </div>
                 <div class="custom-control custom-radio">
-                  <input class="custom-control-input" type="radio" name="response'. $num .'" id="response'. $num .'C" value="c">
+                  <input class="custom-control-input" type="radio" name="response'. $num .'" id="response'. $num .'C" value="C">
                   <label class="custom-control-label" for="response'. $num .'C">
                     C. '. $question['c'] .'
                   </label>
                 </div>
                 <div class="custom-control custom-radio">
-                  <input class="custom-control-input" type="radio" name="response'. $num .'" id="response'. $num .'D" value="d">
+                  <input class="custom-control-input" type="radio" name="response'. $num .'" id="response'. $num .'D" value="D">
                   <label class="custom-control-label" for="response'. $num .'D">
                     D. '. $question['d'] .'
                   </label>
