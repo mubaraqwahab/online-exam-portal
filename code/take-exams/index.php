@@ -24,6 +24,33 @@ $profilePicture = $_SESSION['profilePicture'];
 
 </head>
 
+<?php
+
+// Get exam details
+$sql = "SELECT e.*, c.course_name, t.value AS type
+  FROM `exam` AS e
+  INNER JOIN `course` AS c ON c.course_code = e.course_code
+  INNER JOIN exam_type AS t ON t.type_id = e.type_id
+  INNER JOIN exam_assignment AS a ON e.exam_id = a.exam_id
+  WHERE e.status_id = 1 AND a.assignee_id = ? AND a.status_id = 3";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param('s', $userID);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Return the destination page for an exam
+function getDestPage($examTypeID) {
+  $destPage = '';
+  switch ($examTypeID) {
+    case 1: $destPage = 'multi-exam.php'; break;
+    case 2: $destPage = 'fill-exam.php'; break;
+    default: $destPage = 'theory-exam.php';
+  }
+  return $destPage;
+}
+?>
+
 <body>
 
   <?php include '../components/_header.php' ?>
@@ -55,46 +82,59 @@ $profilePicture = $_SESSION['profilePicture'];
         </section>
 
         <!-- Available Exams -->
+        <!-- An exam is available if:
+          * it has been assigned to the student,
+          * it is open, and
+          * the assignment status is 3 (i.e. ready)
+         -->
         <section id="availableExams">
           <h5 class="mb-3">Available</h5>
 
           <ul class="list-unstyled">
 
             <!-- Each card represents an exam -->
+            <?php
+              if ($result->num_rows > 0) {
+                while ($exam = $result->fetch_assoc()) {
+                  echo "
+                  <li class='card my-2'>
+                    <div class='card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between'>
+                      <div class='d-flex flex-column flex-xl-row align-items-xl-center'>
+                        <!-- The format is: [Course Code] ([Course Name]) [Exam Title] -->
+                        <span class='mr-md-3'>{$exam['course_code']} ({$exam['course_name']}) {$exam['title']}</span>
+                        <span>
+                          <!-- Replace the exam type and no of questions -->
+                          <small class='mr-2'>{$exam['type']}</small>
+                          <small>{$exam['no_of_questions']} Question". pluralSuffix($exam['no_of_questions']) ."</small>
+                        </span>
+                      </div>
+                      <div class='mt-2 mt-md-0'>
+                        <!-- Notice how the href is. It\'s going to send the examID to the exam.php page through GET -->
+                        <a href='". getDestPage($exam['type_id']) . "?examID={$exam['exam_id']}' class='btn btn-primary d-md-block d-xl-inline-block my-1'>Start</a>
+                      </div>
+                    </div>
+                  </li>
+                  ";
+                }
+              }
+            ?>
 
-            <li class="card my-2">
-              <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
-                <div class="d-flex flex-column flex-xl-row align-items-xl-center">
-                  <!-- The format is: [Course Code] ([Course Name]) [Exam Title] -->
-                  <span class="mr-md-3">CSC303 (Introduction to Computer Architecture and Organization) Midterm Exam</span>
-                  <span>
-                    <!-- Replace the exam type and no of questions -->
-                    <small class="mr-2">Multi-choice</small>
-                    <small>9 Questions</small>
-                  </span>
-                </div>
-                <div class="mt-2 mt-md-0">
-                  <!-- Notice how the href is. It's going to send the examID to the exam.php page through GET -->
-                  <a href="multi-exam.php?examID=12" class="btn btn-primary d-md-block d-xl-inline-block my-1">Start</a>
-                </div>
-              </div>
-            </li>
-
-            <li class="card my-2">
-              <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
-                <div class="d-flex flex-column flex-xl-row align-items-xl-center">
-                  <span class="mr-md-3">CSC303 (Introduction to Computer Architecture and Organization) Midterm Exam</span>
-                  <span>
-                    <small class="mr-2">Theory</small>
-                    <small>9 Questions</small>
-                  </span>
-                </div>
-                <div class="mt-2 mt-md-0">
-                  <a href="theory-exam.php?examID=34" class="btn btn-primary d-md-block d-xl-inline-block my-1">Start</a>
-                </div>
-              </div>
-            </li>
-
+<?php
+            // <!-- <li class="card my-2">
+            //   <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
+            //     <div class="d-flex flex-column flex-xl-row align-items-xl-center">
+            //       <span class="mr-md-3">CSC303 (Introduction to Computer Architecture and Organization) Midterm Exam</span>
+            //       <span>
+            //         <small class="mr-2">Theory</small>
+            //         <small>9 Questions</small>
+            //       </span>
+            //     </div>
+            //     <div class="mt-2 mt-md-0">
+            //       <a href="theory-exam.php?examID=34" class="btn btn-primary d-md-block d-xl-inline-block my-1">Start</a>
+            //     </div>
+            //   </div>
+            // </li> -->
+?>
 
 
           </ul>

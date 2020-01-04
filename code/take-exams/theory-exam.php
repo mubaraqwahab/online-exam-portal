@@ -38,7 +38,7 @@ $headerSql = "SELECT e.*, c.course_name, t.value AS type, CONCAT(u.first_name, '
   INNER JOIN user AS u ON u.user_id = e.instructor_id
   INNER JOIN `course` AS c ON c.course_code = e.course_code
   INNER JOIN exam_type AS t ON t.type_id = e.type_id
-  WHERE e.exam_id = ? AND e.type_id = ?
+  WHERE e.exam_id = ? AND e.type_id = ? AND e.status_id = 1
   AND EXISTS (SELECT 1 FROM exam_assignment WHERE exam_id = ? AND assignee_id = ? AND status_id = 3)";
 
 $headerStmt = $conn->prepare($headerSql);
