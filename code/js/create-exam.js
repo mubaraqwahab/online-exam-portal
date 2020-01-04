@@ -102,17 +102,37 @@ $(document).ready(function() {
   $("#inviteButton").on('click', function() {
     if ($('#inviteByID').val() == '') return;
 
-    
+    $.ajax({
+      url: '../ajax/_check-availability.php',
+      type: 'POST',
+      data: 'userID=' + $('#inviteByID').val(),
+      dataType: 'json',
+      success: function(response) {
+        console.log(response);
+        if (response['isAvailable'] === false) {
+          $('#inviteByID')[0].setCustomValidity('');
 
-    inviteeCount++;
-    $('#inviteesList').show();
-    $('#inviteesList .list-group').append(
-      `<li class="list-group-item py-1">
-        <input type="text" readonly class="form-control-plaintext"
-        name="invitee` + inviteeCount + `" value="` + $('#inviteByID').val() + `">
-      </li>`);
-    $('#noOfInvitees').val(inviteeCount);
-    $('#inviteByID').val('');
+          $('#inviteFeedback').empty();
+          
+          inviteeCount++;
+          $('#inviteesList').show();
+          $('#inviteesList .list-group').append(
+            `<li class="list-group-item py-1">
+              <input type="text" readonly class="form-control-plaintext"
+              name="invitee` + inviteeCount + `" value="` + $('#inviteByID').val() + `">
+            </li>`);
+          $('#noOfInvitees').val(inviteeCount);
+          $('#inviteByID').val('');
+        } else {
+          var msg = 'There is no user with this ID';
+          $('#inviteByID')[0].setCustomValidity(msg);
+
+          $('#inviteFeedback').text(msg);
+        }
+      },
+      error: function() {}
+    });
+
 
   });
 
