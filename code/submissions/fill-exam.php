@@ -1,3 +1,32 @@
+<?php
+require_once '../session.php';
+
+require_once '../connect.php';
+
+$userID = $_SESSION['userID'];
+$profilePicture = $_SESSION['profilePicture'];
+
+$examID = $_GET['examID'];
+
+// showEerror('page not available');
+
+$sql = "SELECT a.*, e.course_code, e.no_of_questions, c.course_name, e.type_id, e.title, e.total_mark, CONCAT(user.first_name, ' ', user.last_name) AS instructor
+FROM exam_assignment a
+INNER JOIN exam e ON a.exam_id = e.exam_id
+INNER JOIN course c ON e.course_code = c.course_code
+INNER JOIN user ON e.instructor_id = user.user_id
+WHERE a.status_id = 6 AND a.assignee_id = '$userID' AND a.exam_id = $examID";
+
+$result = mysqli_query($conn, $sql);
+$exam = mysqli_fetch_assoc($result);
+
+$sql2 = "SELECT q.* , r.score, r.response
+FROM fill_in_question q
+INNER JOIN fill_in_response r ON (q.exam_id = r.exam_id AND q.question_no = r.question_no)
+WHERE q.exam_id = $examID AND r.assignee_id = '$userID'";
+$result2 = mysqli_query($conn, $sql2);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,14 +63,14 @@
         <!-- Heading -->
         <header class="mb-4" id="examHeader">
           <!-- Format: [Course Code] ([Course Name]) [Exam Title] (Exam Type) -->
-          <h4>CSC303 (Web) Midterm <small class="text-muted">(Fill-in the blank)</small></h4>
+          <h4><?php echo "{$exam['course_code']} ({$exam['course_name']}) {$exam['title']}"; ?><small class="text-muted"> (Fill-in the blank)</small></h4>
           <div class="d-flex flex-column flex-md-row">
             <div class="mr-md-3">
               <!-- PHP should put ID and Name here -->
-              <div>Instructor: Abdulhakeem Audu</div>
-              <div>10 Questions</div>
+              <div>Instructor: <?php echo $exam['instructor']?></div>
+              <div><?php echo $exam['no_of_questions' ]?> Question<?php echo pluralSuffix($exam['no_of_questions' ]) ?></div>
             </div>
-            <div>Total Score: 100/100</div>
+            <div>Total Score: <?php echo "{$exam['total_score']}/{$exam['total_mark']}" ?></div>
           </div>
         </header>
 
@@ -51,24 +80,29 @@
           <!-- Each card is a question group -->
 
           <!-- How a Fill-in the blank question should look -->
-          <div class="card my-3">
+          <?php
+          if ($result2->num_rows > 0) {
+          for ($i = 1; $i<=$exam['no_of_questions']; $i++) {
+            $exam2 = mysqli_fetch_assoc($result2);
+          echo 
+          '<div class="card my-3">
             <div class="card-body">
-              <!-- Question no. should change -->
-              <h5 class="card-title">Question 1</h5>
-              <!-- Question should change as well -->
-              <p class="card-text">
-                Some quick example text to build on
-                <span class="px-1"><u>the card title</u></span>
-                <!-- The span above should have the response -->
-                and make up the bulk of the card's content.
-              </p>
-
+              <h5 class="card-title">Question ' . $exam2['question_no'] . '</h5>
+              <p class="card-text">'
+                 . prepareFillInQuestion($exam2['question'], NULL, $exam2['response'])  . 
+              '</p>
+            
               <strong>
-                Score: 10/10
-                <!-- PHP should put marks for each question -->
-              </strong>
+                Score: ' . $exam2['score'] . "/" . $exam2['mark'] .  
+              
+              '</strong>
             </div>
-          </div>
+          </div>';}}
+          
+            else {
+              echo "No exams here";
+            }
+          ?>
 
         </section>
 
