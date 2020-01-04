@@ -175,10 +175,12 @@ function getDestPage($examTypeID) {
             if (response) {
               window.location.reload(true);
             } else {
+
               $('#addByInviteCode').append(
+                ( $('#addByInviteCode').has('.alert-danger').length ? '' :
                 `<?php
                   showError("Unable to add exam. You may have added it already, or the invite code is wrong, or the exam has been closed");
-                ?>`
+                ?>` )
               );
             }
           },
