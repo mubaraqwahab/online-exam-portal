@@ -35,27 +35,31 @@ if (isset($_POST['signUp'])) {
     saveProfilePic($profilePicture);
     // Crop picture
     squareCropPicture(PROFILE_TARGET_DIR . $profilePicture);
-  }
 
-  // We can do some validation here
 
-  if (addUser($userID, $firstName, $lastName, $email, $password, $level, $profilePicture)) {
+    // We can do some validation here
 
-    // Log the user in
-    $_SESSION['userID'] = $userID;
-    $_SESSION['profilePicture'] = $profilePicture;
+    if (addUser($userID, $firstName, $lastName, $email, $password, $level, $profilePicture)) {
 
-    // if (isset($_GET['redirectTo'])) {
-    //   header('Location: ' . base64_decode(urldecode($_GET['redirectTo'])));
-    // } else {
-    //   // Redirect to home page (no home page for now tho)
-    //   header('Location: profile.php');
-    // }
+      // Log the user in
+      $_SESSION['userID'] = $userID;
+      $_SESSION['profilePicture'] = $profilePicture;
 
+      // if (isset($_GET['redirectTo'])) {
+      //   header('Location: ' . base64_decode(urldecode($_GET['redirectTo'])));
+      // } else {
+      //   // Redirect to home page (no home page for now tho)
+      //   header('Location: profile.php');
+      // }
+
+    } else {
+      // Error message
+      showError("Unable to register.");
+    }
   } else {
-    // Error message
     showError("Unable to register.");
   }
+
 
 }
 
@@ -152,7 +156,7 @@ if (isset($_POST['signUp'])) {
                   <label for="profilePicture" class="col-sm-3 col-form-label">Profile picture</label>
                   <div class="col-sm-9">
                     <div class="custom-file">
-                      <input type="file" class="custom-file-input" id="profilePicture" accept="image/jpeg,image/png">
+                      <input type="file" class="custom-file-input" id="profilePicture" name="profilePicture" accept="image/jpeg,image/png">
                       <label class="custom-file-label d-inline-block text-truncate m-0">No picture chosen</label>
                       <div class="invalid-feedback" id="profilePictureFeedback"></div>
                       <small id="profilePictureHelp" class="form-text text-muted">

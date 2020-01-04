@@ -25,7 +25,7 @@ function addUser($userID, $firstName, $lastName, $email, $password, int $levelId
   $sql = "INSERT INTO user(user_id, first_name, last_name, email, password, level_id, profile_picture)
   VALUES ('$userID','$firstName','$lastName','$email','$password',"
   . (empty($levelId) ? "NULL" : $levelId) . ","
-  . (empty($profilePicture) ? "NULL" : '$profilePicture') . ")";
+  . (empty($profilePicture) ? "NULL" : "'$profilePicture'") . ")";
 
   global $conn;
   return $conn->query($sql);
