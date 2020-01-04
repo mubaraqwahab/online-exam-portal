@@ -62,7 +62,7 @@ if (isset($_POST['signIn'])) {
 
   <link rel="stylesheet" href="../css/sign.css">
 
-  <title>Sign in</title>
+  <title>Log in</title>
 </head>
 
 <body>
@@ -71,7 +71,7 @@ if (isset($_POST['signIn'])) {
       <div class="col-sm-9 col-md-8 col-lg-6 mx-auto my-5">
         <div class="card card-sign">
           <div class="card-body p-4 p-md-5">
-            <h2 class="mb-5 text-center font-weight-light">Sign In</h2>
+            <h2 class="mb-5 text-center font-weight-light">Log In</h2>
             <form method="post">
               <div class="form-group row">
                 <label for="userID" class="col-sm-3 col-form-label">User ID</label>
@@ -86,7 +86,7 @@ if (isset($_POST['signIn'])) {
                 </div>
               </div>
 
-              <button class="btn btn-lg btn-primary btn-block mt-4" name="signIn" type="submit">Sign in</button>
+              <button class="btn btn-lg btn-primary btn-block mt-4" name="signIn" type="submit">Log in</button>
               <div class="text-center">
                 <a class="d-inline-block text-center mt-2 small"
                 href="sign-up.php<?php echo isset($_GET['redirectTo']) ? "?redirectTo={$_GET['redirectTo']}" : '' ?>">
