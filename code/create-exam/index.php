@@ -17,11 +17,15 @@ if (isset($_POST['submit'])) {
   $invitePrefix = substr($_POST['inviteCode'], 0, INVITE_CODE_PREFIX_LENGTH);
   createExam($userID, $_POST['courseCode'], $_POST['examTitle'], $examType, $noOfQuestions, $invitePrefix);
 
+  $totalMark = 0;
+
   for ($i=1; $i <= $noOfQuestions; $i++) {
+    $mark = $_POST['mark'.$i];
+    $totalMark += intval($mark);
     switch ($examType) {
       case 1:
         addMultiQuestion($examID, $i, $_POST['question'.$i], $_POST['correctOption'.$i],
-          $_POST['optionA'.$i], $_POST['optionB'.$i], $_POST['optionC'.$i], $_POST['optionD'.$i], $_POST['mark'.$i]);
+          $_POST['optionA'.$i], $_POST['optionB'.$i], $_POST['optionC'.$i], $_POST['optionD'.$i], $mark);
         break;
 
       case 2:
@@ -33,6 +37,9 @@ if (isset($_POST['submit'])) {
         break;
     }
   }
+
+  // Add total mark to exam
+  $conn->query("UPDATE exam SET total_mark = $totalMark WHERE exam_id = $examID");
 
   $noOfInvitees = intval($_POST['noOfInvitees']);
   for ($i=1; $i <= $noOfInvitees; $i++) {
