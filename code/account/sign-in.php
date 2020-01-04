@@ -24,6 +24,7 @@ if (isset($_POST['signIn'])) {
   $password = $_POST['password'];
 
   // $sql = "SELECT user_id, password FROM user WHERE user_id = '" . $userID . "' AND  password = '" . $password . "'";
+  [$userID, $password] = sanitize([$userID, $password]);
   $sql = "SELECT profile_picture FROM user WHERE user_id = '" . $userID . "' AND  password = '" . md5($password) . "'";
 
   $checkdetails = $conn->query($sql);

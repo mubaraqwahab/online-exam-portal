@@ -7,6 +7,8 @@ require_once '../connect.php';
 
 // Add a user to the database
 function addUser($userID, $firstName, $lastName, $email, $password, int $levelId = null, $profilePicture = null) {
+  [$userID, $firstName, $lastName, $password] = sanitize([$userID, $firstName, $lastName, $password]);
+
   $password = md5($password);
   $sql = "INSERT INTO user(user_id, first_name, last_name, email, password, level_id, profile_picture)
   VALUES ('$userID','$firstName','$lastName','$email','$password',"
@@ -51,7 +53,8 @@ if (isset($_POST['signUp'])) {
 
     // We can do some validation here
 
-    if (addUser($userID, $firstName, $lastName, $email, $password, $level, $profilePicture)) {
+    addUser($userID, $firstName, $lastName, $email, $password, $level, $profilePicture);
+    if ($conn->affected_rows == 1) {
 
       // Log the user in
       $_SESSION['userID'] = $userID;
@@ -179,7 +182,7 @@ if (isset($_POST['signUp'])) {
                 </div>
 
                 <button class="btn btn-lg btn-primary btn-block mt-4" id="signUp" name="signUp" type="submit">Sign up</button>
-                <a class="d-block text-center mt-2 small" href="sign-in.php">Sign in</a>
+                <a class="d-block text-center mt-2 small" href="sign-in.php">Log in</a>
               </form>
             </div>
           </div>
