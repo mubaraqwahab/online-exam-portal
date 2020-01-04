@@ -50,18 +50,18 @@
 
           <!-- Each card is a question group -->
 
-          <!-- How a Fill-in the blank question should look -->
           <div class="card my-3">
             <div class="card-body">
               <!-- Question no. should change -->
               <h5 class="card-title">Question 1</h5>
               <!-- Question should change as well -->
               <p class="card-text">
-                Some quick example text to build on
-                <span class="px-1"><u>the card title</u></span>
-                <!-- The span above should have the response -->
-                and make up the bulk of the card's content.
+                Some quick example text to build on the card title and make up the bulk of the card's content.
               </p>
+
+              <h6 class=" mb-2">Response</h6>
+              <!-- Response should change -->
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
 
               <strong>
                 Score: 10/10
