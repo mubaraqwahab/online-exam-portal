@@ -6,26 +6,6 @@ require_once '../connect.php';
 $userID = $_SESSION['userID'];
 $profilePicture = $_SESSION['profilePicture'];
 
-$examID = $_GET['examID'];
-
-// showEerror('page not available');
-
-$sql = "SELECT a.*, e.course_code, e.no_of_questions, c.course_name, e.type_id, e.title, e.total_mark, CONCAT(user.first_name, ' ', user.last_name) AS instructor
-FROM exam_assignment a
-INNER JOIN exam e ON a.exam_id = e.exam_id
-INNER JOIN course c ON e.course_code = c.course_code
-INNER JOIN user ON e.instructor_id = user.user_id
-WHERE a.status_id = 6 AND a.assignee_id = '$userID' AND a.exam_id = $examID";
-
-$result = mysqli_query($conn, $sql);
-$exam = mysqli_fetch_assoc($result);
-
-$sql2 = "SELECT q.* , r.score, r.response
-FROM fill_in_question q
-INNER JOIN fill_in_response r ON (q.exam_id = r.exam_id AND q.question_no = r.question_no)
-WHERE q.exam_id = $examID AND r.assignee_id = '$userID'";
-$result2 = mysqli_query($conn, $sql2);
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,6 +21,38 @@ $result2 = mysqli_query($conn, $sql2);
   <link href="../css/simple-sidebar.css" rel="stylesheet">
 
 </head>
+
+<?php
+
+if (!isset( $_GET['examID'])) {
+  showError('page not available');
+  exit;
+}
+
+$examID = $_GET['examID'];
+
+$sql = "SELECT a.*, e.course_code, e.no_of_questions, c.course_name, e.type_id, e.title, e.total_mark, CONCAT(user.first_name, ' ', user.last_name) AS instructor
+FROM exam_assignment a
+INNER JOIN exam e ON a.exam_id = e.exam_id
+INNER JOIN course c ON e.course_code = c.course_code
+INNER JOIN user ON e.instructor_id = user.user_id
+WHERE a.status_id = 6 AND a.assignee_id = '$userID' AND a.exam_id = $examID";
+
+$result = mysqli_query($conn, $sql);
+
+if ($result->num_rows != 1 ) {
+  showError('Page not available');
+  exit;
+}
+
+$exam = mysqli_fetch_assoc($result);
+
+$sql2 = "SELECT q.* , r.score, r.response
+FROM fill_in_question q
+INNER JOIN fill_in_response r ON (q.exam_id = r.exam_id AND q.question_no = r.question_no)
+WHERE q.exam_id = $examID AND r.assignee_id = '$userID'";
+$result2 = mysqli_query($conn, $sql2);
+?>
 
 <body>
 
