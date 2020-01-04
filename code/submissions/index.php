@@ -1,4 +1,14 @@
-<?php include '../connect.php' ?>
+<?php
+
+require_once '../session.php';
+
+require_once '../connect.php';
+
+$userID = $_SESSION['userID'];
+$profilePicture = $_SESSION['profilePicture'];
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,6 +23,45 @@
   <link href="../css/simple-sidebar.css" rel="stylesheet">
 
 </head>
+
+<?php
+
+// Query to get not graded exams along with
+// course codes, course names, exam titles, total scores and total marks and exam types for currently logged in user
+
+$sql = "SELECT a.*, e.course_code, c.course_name, e.type_id, e.title, e.total_mark, t.value AS type
+  FROM exam_assignment a
+  INNER JOIN exam e ON a.exam_id = e.exam_id
+  INNER JOIN exam_type t ON t.type_id = e.type_id
+  INNER JOIN course c ON e.course_code = c.course_code
+  WHERE a.status_id = ? AND a.assignee_id = ?";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param('is', $assignmentStatus, $userID); // i for int, s for string
+
+
+// Get ungraded exams
+$assignmentStatus = 5;
+$stmt->execute();
+$ungradedExams = $stmt->get_result();
+
+// Get graded exams
+$assignmentStatus = 6;
+$stmt->execute();
+$gradedExams = $stmt->get_result();
+
+// Return the destination page for an exam
+function getDestPage($examTypeID) {
+  $destPage = '';
+  switch ($examTypeID) {
+    case 1: $destPage = 'multi-exam.php'; break;
+    case 2: $destPage = 'fill-exam.php'; break;
+    default: $destPage = 'theory-exam.php';
+  }
+  return $destPage;
+}
+
+?>
 
 <body>
 
@@ -32,45 +81,44 @@
       <!-- Page content -->
       <div class="container py-3 px-5">
 
-        <!-- Open Exams -->
+        <!-- Not Graded Exams -->
         <section id="notGradedExams">
           <h5 class="mb-3">Not Graded</h5>
 
           <ul class="list-unstyled">
 
             <!-- Each card represents an exam -->
+            <!-- These would need to repeat, so a loop -->
+
+            <?php
+            if ($ungradedExams->num_rows > 0) {
+              while ($exam = $ungradedExams->fetch_assoc()) {
+            ?>
 
             <li class="card my-2">
               <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
                 <div class="d-flex flex-column flex-xl-row align-items-xl-center">
                   <!-- The format is: [Course Code] ([Course Name]) [Exam Title] -->
-                  <span class="mr-md-3">CSC303 (Introduction to Computer Architecture and Organization) Midterm Exam</span>
+                  <span class="mr-md-3"><?php echo "{$exam['course_code']} ({$exam['course_name']}) {$exam['title']}"; ?></span>
                   <span>
                     <!-- Replace the exam type -->
-                    <small class="mr-2">Theory</small>
+                    <small class="mr-2"><?php echo $exam['type'] ?></small>
                   </span>
                 </div>
               </div>
             </li>
 
-            <li class="card my-2">
-              <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
-                <div class="d-flex flex-column flex-xl-row align-items-xl-center">
-                  <!-- The format is: [Course Code] ([Course Name]) [Exam Title] -->
-                  <span class="mr-md-3">CSC303 (Introduction to Computer Architecture and Organization) Midterm Exam</span>
-                  <span>
-                    <!-- Replace the exam type -->
-                    <small class="mr-2">Theory</small>
-                  </span>
-                </div>
-              </div>
-            </li>
-
+            <?php
+              }
+            } else {
+              echo "No exams here";
+            }
+            ?>
           </ul>
 
         </section>
 
-        <!-- Closed Exams -->
+        <!-- Graded Exams -->
         <section id="gradedExams">
           <h5 class="mb-3">Graded</h5>
 
@@ -78,23 +126,33 @@
 
             <!-- Each card represents an exam -->
 
+            <?php
+            if ($gradedExams->num_rows > 0) {
+              while ($exam = $gradedExams->fetch_assoc()) {
+            ?>
             <li class="card my-2">
               <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
                 <div class="d-flex flex-column flex-xl-row align-items-xl-center">
                   <!-- The format is: [Course Code] ([Course Name]) [Exam Title] -->
-                  <span class="mr-md-3">CSC303 (Introduction to Computer Architecture and Organization) Midterm Exam</span>
+                  <span class="mr-md-3"><?php echo "{$exam['course_code']} ({$exam['course_name']}) {$exam['title']}"; ?></span>
                   <span>
                     <!-- Replace the exam type -->
-                    <small class="mr-2">Theory</small>
-                    <small>100/100</small>
+                    <small class="mr-2"><?php echo $exam['type'] ?></small>
+                    <small><?php echo "{$exam['total_score']}/{$exam['total_mark']}" ?></small>
                   </span>
                 </div>
                 <div class="mt-2 mt-md-0">
                   <!-- Notice how the href is. It's going to send the examID to the theory.php page through GET -->
-                  <a href="fill-exam.php?examID=12" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
+                  <a href="<?php echo getDestPage($exam['type_id']) . "?examID={$exam['exam_id']}" ?>" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
                 </div>
               </div>
             </li>
+            <?php
+              }
+            } else {
+              echo "No exams here";
+            }
+            ?>
 
           </ul>
 
@@ -112,7 +170,6 @@
 
   <!-- Custom Script -->
   <script src="../js/script.js"></script>
-  <script src="../js/manage-exam.js"></script>
 
 </body>
 
