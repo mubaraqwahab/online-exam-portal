@@ -50,28 +50,26 @@ if (isset($_POST['signUp'])) {
     // Crop picture
     squareCropPicture(PROFILE_TARGET_DIR . $profilePicture);
 
+  }
 
-    // We can do some validation here
+  // We can do some validation here
 
-    addUser($userID, $firstName, $lastName, $email, $password, $level, $profilePicture);
-    if ($conn->affected_rows == 1) {
+  addUser($userID, $firstName, $lastName, $email, $password, $level, $profilePicture);
+  if ($conn->affected_rows == 1) {
 
-      // Log the user in
-      $_SESSION['userID'] = $userID;
-      $_SESSION['profilePicture'] = $profilePicture;
+    // Log the user in
+    $_SESSION['userID'] = $userID;
+    $_SESSION['profilePicture'] = $profilePicture;
 
-      if (isset($_GET['redirectTo'])) {
-        header('Location: ' . decodeUrlParam($_GET['redirectTo']));
-      } else {
-        // Redirect to home page (no home page for now tho)
-        header('Location: profile.php');
-      }
-
+    if (isset($_GET['redirectTo'])) {
+      header('Location: ' . decodeUrlParam($_GET['redirectTo']));
     } else {
-      // Error message
-      showError("Unable to register.");
+      // Redirect to home page (no home page for now tho)
+      header('Location: profile.php');
     }
+
   } else {
+    // Error message
     showError("Unable to register.");
   }
 
