@@ -115,7 +115,7 @@ $profilePicture = $_SESSION['profilePicture'];
 
     function sendInviteResponse(jObj, newText) {
       $.ajax({
-        url: 'invite-response.php',
+        url: '../ajax/_invite-response.php',
         type: 'post',
         data: {
           'userID': $('#uid').text(),

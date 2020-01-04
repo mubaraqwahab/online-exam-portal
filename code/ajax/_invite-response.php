@@ -14,8 +14,9 @@ if ($response === 'accept') {
 }
 
 $sql = 'UPDATE exam_assignment SET status_id = '.$status.' WHERE exam_id = '.$examID.' AND assignee_id = '.$userID;
+$conn->query($sql);
 
-if ($conn->query($sql)) {
+if ($conn->affected_rows == 1) {
   echo true;
 } else {
   echo false;
