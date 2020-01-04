@@ -34,7 +34,7 @@
         <!-- Heading -->
         <header class="mb-4" id="examHeader">
           <!-- Format: [Course Code] ([Course Name]) [Exam Title] (Exam Type) -->
-          <h4>CSC303 (Web) Midterm <small class="text-muted">(Fill-in the blank)</small></h4>
+          <h4>CSC303 (Web) Midterm <small class="text-muted">(Theory)</small></h4>
           <div class="d-flex flex-column flex-md-row">
             <div class="mr-md-3">
               <!-- PHP should put ID and Name here -->
