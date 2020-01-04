@@ -62,33 +62,12 @@
                 and make up the bulk of the card's content.
               </p>
 
-              <strong class="form-inline">
-                Score:
-                <!-- input name should change. So the first question has score1, the next score2, ... -->
-                <input class="form-control col-3 col-sm-2 col-lg-1" type="number" step="0.1" min="0" max="10" name="score1" required>
-                /10
-                <!-- PHP should put marks for each question, the value for max is the mark for the question -->
+              <strong>
+                Score: 10/10
+                <!-- PHP should put marks for each question -->
               </strong>
             </div>
           </div>
-
-          <div class="card my-3">
-            <div class="card-body">
-              <h5 class="card-title">Question 2</h5>
-              <p class="card-text">
-                Some quick example text to build on
-                <span class="px-1"><u>the card title</u></span>
-                and make up the bulk of the card's content.
-              </p>
-
-              <strong class="form-inline">
-                Score:
-                <input class="form-control col-3 col-sm-2 col-lg-1" type="number" step="0.1" min="0" max="5" name="score2" required>
-                /5
-              </strong>
-            </div>
-          </div>
-
 
         </section>
 
