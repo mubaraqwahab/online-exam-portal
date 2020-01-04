@@ -29,6 +29,7 @@ if (isset($_POST['signUp'])) {
 
   // Get profile picture name
   $profilePicture = renameProfilePic($userID);
+  echo $profilePicture . ' renamed\n';
   if (!empty($profilePicture)) {
     // Save picture
     saveProfilePic($profilePicture);
@@ -44,12 +45,12 @@ if (isset($_POST['signUp'])) {
     $_SESSION['userID'] = $userID;
     $_SESSION['profilePicture'] = $profilePicture;
 
-    if (isset($_GET['redirectTo'])) {
-      header('Location: ' . base64_decode(urldecode($_GET['redirectTo'])));
-    } else {
-      // Redirect to home page (no home page for now tho)
-      header('Location: profile.php');
-    }
+    // if (isset($_GET['redirectTo'])) {
+    //   header('Location: ' . base64_decode(urldecode($_GET['redirectTo'])));
+    // } else {
+    //   // Redirect to home page (no home page for now tho)
+    //   header('Location: profile.php');
+    // }
 
   } else {
     // Error message
@@ -81,7 +82,7 @@ if (isset($_POST['signUp'])) {
           <div class="card card-sign">
             <div class="card-body p-4 p-md-5">
               <h2 class="mb-5 text-center font-weight-light">Sign Up</h2>
-              <form method="post" class="needs-validation" novalidate>
+              <form method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
 
                 <div class="form-group row">
                   <label for="userID" class="col-sm-3 col-form-label">User ID<span class="text-danger">*</span></label>
