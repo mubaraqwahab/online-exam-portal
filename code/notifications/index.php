@@ -23,6 +23,18 @@ $profilePicture = $_SESSION['profilePicture'];
 
 </head>
 
+<?php
+
+$sql = "SELECT n.*, CONCAT(u.first_name, ' ', u.last_name) AS sender, CONCAT(e.course_code, ' ', e.title) AS exam_name
+  FROM notifications n
+  INNER JOIN user u ON u.user_id = n.sender_id
+  INNER JOIN exam e ON e.exam_id = n.exam_id
+  WHERE recipient_id = ? AND status_id = ?";
+
+
+
+?>
+
 <body>
 
   <?php include '../components/_header.php' ?>
