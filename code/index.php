@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include 'connect.php';
+require_once 'connect.php';
 
 // If there's no user logged in, redirect to sign in page.
 if (!isset($_SESSION['userID'])) {

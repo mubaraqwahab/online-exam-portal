@@ -1,6 +1,6 @@
 <?php
 
-include '../connect.php';
+require_once '../connect.php';
 
 
 // if submit button has been set

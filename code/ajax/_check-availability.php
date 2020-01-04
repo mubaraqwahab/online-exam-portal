@@ -1,5 +1,14 @@
 <?php
-require '../connect.php';
+require_once '../connect.php';
+
+
+function getUserByEmail($email) {
+  $sql = "SELECT * FROM user WHERE email = '$email'";
+
+  global $conn;
+  return $conn->query($sql);
+}
+
 
 header('Content-Type: application/json');
 

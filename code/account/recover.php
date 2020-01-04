@@ -1,12 +1,12 @@
 <?php
-include "../connect.php";
+require_once '../connect.php';
 
 
 // If the user is already signed in, redirect elsewhere
 if (isset($_SESSION['userID'])) {
 
   if (isset($_GET['redirectTo'])) {
-    header('Location: ' . base64_decode(urldecode($_GET['redirectTo'])));
+    header('Location: ' . decodeUrlParam($_GET['redirectTo']));
   } else {
     // Redirect to home page (no home page for now tho)
     header('Location: profile.php');
@@ -77,7 +77,7 @@ if(isset($_POST['submit'])) {
             echo "ERRORRR";
           }
 
-          header("Location: reset.php?email=".urlencode(base64_encode($emailaddress)));
+          header("Location: reset.php?email=".encodeUrlParam($emailaddress));
 
 
         }

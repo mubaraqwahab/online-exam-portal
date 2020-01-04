@@ -2,14 +2,27 @@
 // You'll need this at the top to log the user in
 session_start();
 
-include '../connect.php';
+require_once '../connect.php';
+
+
+// Add a user to the database
+function addUser($userID, $firstName, $lastName, $email, $password, int $levelId = null, $profilePicture = null) {
+  $password = md5($password);
+  $sql = "INSERT INTO user(user_id, first_name, last_name, email, password, level_id, profile_picture)
+  VALUES ('$userID','$firstName','$lastName','$email','$password',"
+  . (empty($levelId) ? "NULL" : $levelId) . ","
+  . (empty($profilePicture) ? "NULL" : "'$profilePicture'") . ")";
+
+  global $conn;
+  return $conn->query($sql);
+}
 
 
 // If the user is already signed in, redirect elsewhere
 if (isset($_SESSION['userID'])) {
 
   if (isset($_GET['redirectTo'])) {
-    header('Location: ' . base64_decode(urldecode($_GET['redirectTo'])));
+    header('Location: ' . decodeUrlParam($_GET['redirectTo']));
   } else {
     // Redirect to home page (no home page for now tho)
     header('Location: profile.php');
@@ -45,7 +58,7 @@ if (isset($_POST['signUp'])) {
       $_SESSION['profilePicture'] = $profilePicture;
 
       if (isset($_GET['redirectTo'])) {
-        header('Location: ' . base64_decode(urldecode($_GET['redirectTo'])));
+        header('Location: ' . decodeUrlParam($_GET['redirectTo']));
       } else {
         // Redirect to home page (no home page for now tho)
         header('Location: profile.php');

@@ -1,10 +1,64 @@
 <?php
-include '../session.php';
+require_once '../session.php';
 
-include '../connect.php';
+require_once '../connect.php';
 
 $userID = $_SESSION['userID'];
 $profilePicture = $_SESSION['profilePicture'];
+
+// Create an exam
+function createExam($instructorId, $courseCode, $title, int $typeId, int $noOfQuestions, $invitePrefix) {
+  $sql = "INSERT INTO exam(instructor_id, course_code, title, type_id, no_of_questions, invite_prefix)
+  VALUES ('$instructorId','$courseCode','$title',$typeId,$noOfQuestions,'$invitePrefix')";
+  global $conn;
+  return $conn->query($sql);
+}
+
+// Add a multichoice question
+function addMultiQuestion(int $examID, int $questionNo, $question, $correctAnswer, $a, $b, $c, $d, float $mark) {
+  // Sanitize
+  [ $question, $a, $b, $c, $d ] = sanitize([ $question, $a, $b, $c, $d ]);
+
+  $sql = "INSERT INTO multi_choice_question(exam_id, question_no, question, correct_answer, a, b, c, d, mark)
+  VALUES ($examID, $questionNo, '$question', '$correctAnswer', '$a', '$b', '$c', '$d', $mark)";
+
+  global $conn;
+
+  return $conn->query($sql);
+}
+
+// Add a fill in the blank question
+function addFillQuestion(int $examID, int $questionNo, $question, float $mark) {
+  // Sanitize
+  [ $question ] = sanitize([ $question ]);
+
+  $sql = "INSERT INTO fill_in_question(exam_id, question_no, question, mark)
+  VALUES ($examID, $questionNo, '$question', $mark)";
+
+  global $conn;
+  return $conn->query($sql);
+}
+
+// Add a theory question
+function addTheoryQuestion(int $examID, int $questionNo, $question, float $mark) {
+  // Sanitize
+  [ $question ] = sanitize([ $question ]);
+
+  $sql = "INSERT INTO theory_question(exam_id, question_no, question, mark)
+  VALUES ($examID, $questionNo, '$question', $mark)";
+
+  global $conn;
+  return $conn->query($sql);
+}
+
+// Assign an exam to a student
+function assignStudentExam(int $examID, $userID) {
+  $sql = "INSERT INTO exam_assignment(exam_id, assignee_id, total_score, status_id)
+  VALUES ($examID,'$userID',NULL,1)";
+
+  global $conn;
+  return $conn->query($sql);
+}
 
 $result = $conn->query("SHOW TABLE STATUS WHERE `Name` = 'Exam'");
 $examID = ($result->fetch_assoc())['Auto_increment'];

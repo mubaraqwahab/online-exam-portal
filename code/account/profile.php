@@ -1,13 +1,26 @@
 <?php
-include '../session.php';
+require_once '../session.php';
 
-include '../connect.php';
+require_once '../connect.php';
 
 $userID = $_SESSION['userID'];
 $profilePicture = $_SESSION['profilePicture'];
 
 $result = getUserById($userID);
 $record = $result->fetch_assoc();
+
+
+// Update details of a user. User ID and Level can't be updated
+function updateUser($userID, $firstName, $lastName, $email, $password = null, $profilePicture = null) {
+  $sql = "UPDATE user SET first_name = '$firstName', last_name = '$lastName', email = '$email'"
+  . (empty($password) ? "" : ", password = '". md5($password) . "'")
+  . (empty($profilePicture) ? "" : ", profile_picture = '$profilePicture'") . " WHERE user_id = '$userID'";
+
+  global $conn;
+  return $conn->query($sql);
+}
+
+
 
 $firstName = $record['first_name'];
 $lastName = $record['last_name'];
