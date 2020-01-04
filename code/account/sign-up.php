@@ -29,7 +29,6 @@ if (isset($_POST['signUp'])) {
 
   // Get profile picture name
   $profilePicture = renameProfilePic($userID);
-  echo $profilePicture . ' renamed\n';
   if (!empty($profilePicture)) {
     // Save picture
     saveProfilePic($profilePicture);
@@ -45,12 +44,12 @@ if (isset($_POST['signUp'])) {
       $_SESSION['userID'] = $userID;
       $_SESSION['profilePicture'] = $profilePicture;
 
-      // if (isset($_GET['redirectTo'])) {
-      //   header('Location: ' . base64_decode(urldecode($_GET['redirectTo'])));
-      // } else {
-      //   // Redirect to home page (no home page for now tho)
-      //   header('Location: profile.php');
-      // }
+      if (isset($_GET['redirectTo'])) {
+        header('Location: ' . base64_decode(urldecode($_GET['redirectTo'])));
+      } else {
+        // Redirect to home page (no home page for now tho)
+        header('Location: profile.php');
+      }
 
     } else {
       // Error message
