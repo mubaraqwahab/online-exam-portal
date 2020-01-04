@@ -47,7 +47,7 @@ $profilePicture = $_SESSION['profilePicture'];
           <ul class="list-unstyled">
 
             <!-- Each card is a notification -->
-            <li class="card my-2" data-exam-id="12">
+            <li class="card my-2 small" data-exam-id="12">
               <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
                 <div class="d-flex flex-column flex-xl-row align-items-xl-center">
                   <span class="mr-md-3">Abdulhakeem Audu has invited you to take Web Exam</span>
@@ -56,11 +56,45 @@ $profilePicture = $_SESSION['profilePicture'];
                   </span>
                 </div>
                 <div class="mt-2 mt-md-0">
-                  <button class="btn btn-success d-md-block d-xl-inline-block my-1" data-response="accept">Accept</button>
-                  <button class="btn btn-danger" data-response="decline">Decline</button>
+                  <button class="btn btn-sm btn-success d-md-block d-xl-inline-block mt-1 mt-md-0 mb-1 my-lg-0" data-response="accept">Accept</button>
+                  <button class="btn btn-sm btn-danger" data-response="decline">Decline</button>
                 </div>
               </div>
             </li>
+
+            <li class="card my-2 small" data-exam-id="12">
+              <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
+                <div class="d-flex flex-column flex-xl-row align-items-xl-center">
+                  <span class="mr-md-3">Abdulhakeem Audu has accepted your invite to take Web Exam</span>
+                  <span>
+                    <small class="mr-2">07:49 28-Dec-19</small>
+                  </span>
+                </div>
+              </div>
+            </li>
+
+            <li class="card my-2 small" data-exam-id="12">
+              <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
+                <div class="d-flex flex-column flex-xl-row align-items-xl-center">
+                  <span class="mr-md-3">Abdulhakeem Audu has declined your invite to take Web Exam</span>
+                  <span>
+                    <small class="mr-2">07:49 28-Dec-19</small>
+                  </span>
+                </div>
+              </div>
+            </li>
+
+            <li class="card my-2 small" data-exam-id="12">
+              <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
+                <div class="d-flex flex-column flex-xl-row align-items-xl-center">
+                  <span class="mr-md-3">Abdulhakeem Audu has joined Web Exam by invite code</span>
+                  <span>
+                    <small class="mr-2">07:49 28-Dec-19</small>
+                  </span>
+                </div>
+              </div>
+            </li>
+
 
           </ul>
         </section>
@@ -71,17 +105,52 @@ $profilePicture = $_SESSION['profilePicture'];
           <ul class="list-unstyled">
 
             <!-- Each card is a notification -->
-            <li class="card my-2" data-exam-id="12">
+            <li class="card my-2 small" data-exam-id="12">
               <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
                 <div class="d-flex flex-column flex-xl-row align-items-xl-center">
-                  <span class="mr-md-3">Abdulhakeem Audu has invited you to take Web Exam</span>
+                  <span class="mr-md-3">Abdulhakeem Audu has started Web Exam</span>
+                  <span>
+                    <small class="mr-2">07:49 28-Dec-19</small>
+                  </span>
+                </div>
+              </div>
+            </li>
+
+            <li class="card my-2 small" data-exam-id="12">
+              <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
+                <div class="d-flex flex-column flex-xl-row align-items-xl-center">
+                  <span class="mr-md-3">Abdulhakeem Audu has completed Web Exam</span>
                   <span>
                     <small class="mr-2">07:49 28-Dec-19</small>
                   </span>
                 </div>
                 <div class="mt-2 mt-md-0">
-                  <button class="btn btn-success d-md-block d-xl-inline-block my-1" data-response="accept">Accept</button>
-                  <button class="btn btn-danger" data-response="decline">Decline</button>
+                  <a href="#" class="btn btn-sm btn-primary d-md-block d-xl-inline-block mt-1 mt-md-0 mb-1 my-lg-0">Grade</a>
+                </div>
+              </div>
+            </li>
+
+            <li class="card my-2 small" data-exam-id="12">
+              <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
+                <div class="d-flex flex-column flex-xl-row align-items-xl-center">
+                  <span class="mr-md-3">Abdulhakeem Audu has graded your Web Exam</span>
+                  <span>
+                    <small class="mr-2">07:49 28-Dec-19</small>
+                  </span>
+                </div>
+                <div class="mt-2 mt-md-0">
+                  <a href="#" class="btn btn-sm btn-primary d-md-block d-xl-inline-block mt-1 mt-md-0 mb-1 my-lg-0">View</a>
+                </div>
+              </div>
+            </li>
+
+            <li class="card my-2 small" data-exam-id="12">
+              <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
+                <div class="d-flex flex-column flex-xl-row align-items-xl-center">
+                  <span class="mr-md-3">Abdulhakeem Audu has closed Web Exam</span>
+                  <span>
+                    <small class="mr-2">07:49 28-Dec-19</small>
+                  </span>
                 </div>
               </div>
             </li>
