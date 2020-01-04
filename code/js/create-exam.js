@@ -108,12 +108,11 @@ $(document).ready(function() {
       data: 'userID=' + $('#inviteByID').val(),
       dataType: 'json',
       success: function(response) {
-        console.log(response);
         if (response['isAvailable'] === false) {
           $('#inviteByID')[0].setCustomValidity('');
 
           $('#inviteFeedback').empty();
-          
+
           inviteeCount++;
           $('#inviteesList').show();
           $('#inviteesList .list-group').append(
