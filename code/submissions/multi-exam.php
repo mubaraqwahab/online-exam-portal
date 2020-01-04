@@ -48,6 +48,62 @@
         <!-- Form containing questions list -->
         <section>
 
+          <?php
+            if ($responseResult->num_rows > 0) {
+              while ($response = $responseResult->fetch_assoc()) {
+          ?>
+                <div class="card my-3">
+                  <div class="card-body">
+                    <!-- Question no should change -->
+                    <h5 class="card-title">Question <?php echo $response['question_no']; ?></h5>
+                    <!-- Question should change as well -->
+                    <p class="card-text form-inline">
+                      <?php echo $response['question']; ?>
+                    </p>
+
+                    <!-- Correct answer should have these three extra classes:
+                        rounded, text-white, bg-success
+                    If student\'s response == correct answer, do nothing -->
+
+                    <div class="card-text mb-3">';
+
+                <?php
+                $options = array('a', 'b', 'c', 'd');
+                foreach ($options as $opt) {
+                  // if he chose a and a is correct, color green
+                  // if he chose a and a is wrong, color red
+                  // if he didn't choose a and a is correct, color green
+                  if (compareStrWithoutCase($response['response'], $opt)
+                      && compareStrWithoutCase($response['correct_answer'], $opt)) {
+                    // color green
+                    echo '<div class="px-3 py-2 rounded text-white bg-success">'. strtoupper($opt) . '. ' . $response[$opt] . '</div>';
+                  } else if (compareStrWithoutCase($response['response'], $opt)
+                      && !compareStrWithoutCase($response['correct_answer'], $opt)) {
+                    // color red
+                    echo '<div class="px-3 py-2 rounded text-white bg-danger">'. strtoupper($opt) . '. ' . $response[$opt] . '</div>';
+                  } else if (!compareStrWithoutCase($response['response'], $opt)
+                    && compareStrWithoutCase($response['correct_answer'], $opt)) {
+                    // color green
+                    echo '<div class="px-3 py-2 rounded text-white bg-success">'. strtoupper($opt) . '. ' . $response[$opt] . '</div>';
+                  } else {
+                    echo '<div class="px-3 py-2 rounded">'. strtoupper($opt) . '. ' . $response[$opt] . '</div>';
+                  }
+                }
+                ?>
+
+                    </div>
+
+                    <strong>
+                      Score: <?php echo $response['score'] . '/' . $response['mark']; ?>
+                    </strong>
+                  </div>
+                </div>
+            <?php
+              }
+            }
+            ?>
+          ?>
+
           <!-- Each card is a question group -->
 
           <!-- How a Fill-in the blank question should look -->
