@@ -100,6 +100,10 @@ $(document).ready(function() {
 
   // Invite
   $("#inviteButton").on('click', function() {
+    if ($('#inviteByID').val() == '') return;
+
+    
+
     inviteeCount++;
     $('#inviteesList').show();
     $('#inviteesList .list-group').append(
@@ -109,6 +113,7 @@ $(document).ready(function() {
       </li>`);
     $('#noOfInvitees').val(inviteeCount);
     $('#inviteByID').val('');
+
   });
 
 });
