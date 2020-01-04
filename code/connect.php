@@ -21,6 +21,7 @@ $assignmentStatuses = $conn->query('SELECT * FROM assignment_status');
 
 // Add a user to the database
 function addUser($userID, $firstName, $lastName, $email, $password, int $levelId = null, $profilePicture = null) {
+  $password = md5($password);
   $sql = "INSERT INTO user(user_id, first_name, last_name, email, password, level_id, profile_picture)
   VALUES ('$userID','$firstName','$lastName','$email','$password',"
   . (empty($levelId) ? "NULL" : $levelId) . ","
@@ -48,7 +49,7 @@ function getUserByEmail($email) {
 // Update details of a user. User ID and Level can't be updated
 function updateUser($userID, $firstName, $lastName, $email, $password = null, $profilePicture = null) {
   $sql = "UPDATE user SET first_name = '$firstName', last_name = '$lastName', email = '$email'"
-  . (empty($password) ? "" : ", password = '$password'")
+  . (empty($password) ? "" : ", password = '". md5($password) . "'")
   . (empty($profilePicture) ? "" : ", profile_picture = '$profilePicture'") . " WHERE user_id = '$userID'";
 
   global $conn;
