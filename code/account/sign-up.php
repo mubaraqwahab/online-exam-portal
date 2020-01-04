@@ -38,7 +38,7 @@ if (isset($_POST['signUp'])) {
 
   // We can do some validation here
 
-  if (addUser($userID, $firstName, $lastName, $email, $password, $level)) {
+  if (addUser($userID, $firstName, $lastName, $email, $password, $level, $profilePicture)) {
 
     // Log the user in
     $_SESSION['userID'] = $userID;
