@@ -41,6 +41,7 @@
               <div>Instructor: Abdulhakeem Audu</div>
               <div>10 Questions</div>
             </div>
+            <div>Total Score: 100/100</div>
           </div>
         </header>
 
