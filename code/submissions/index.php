@@ -17,7 +17,7 @@ $profilePicture = $_SESSION['profilePicture'];
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>Manage Exams</title>
+  <title>Submissions</title>
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link href="../css/simple-sidebar.css" rel="stylesheet">
@@ -26,7 +26,7 @@ $profilePicture = $_SESSION['profilePicture'];
 
 <?php
 
-// Query to get not graded exams along with
+// Query to get exams along with
 // course codes, course names, exam titles, total scores and total marks and exam types for currently logged in user
 
 $sql = "SELECT a.*, e.course_code, c.course_name, e.type_id, e.title, e.total_mark, t.value AS type
