@@ -1,7 +1,7 @@
 <?php
-include '../session.php';
+require_once '../session.php';
 
-include '../connect.php';
+require_once '../connect.php';
 
 $userID = $_SESSION['userID'];
 $profilePicture = $_SESSION['profilePicture'];
@@ -23,7 +23,46 @@ $profilePicture = $_SESSION['profilePicture'];
 
 </head>
 
+<?php
 
+// Query to get instructor exams along with
+// course codes, course names, exam titles, total scores and total marks and exam types for currently logged in user
+
+$sql = "SELECT e.*, c.course_name,
+    (SELECT COUNT(1) FROM exam_assignment a WHERE a.exam_id = e.exam_id) AS no_of_assignees,
+    (SELECT COUNT(1) FROM exam_assignment a WHERE a.exam_id = e.exam_id AND (a.status_id = 5 OR a.status_id = 6))
+      AS no_of_submissions
+  FROM exam e
+  INNER JOIN course c ON c.course_code = e.course_code
+  WHERE e.instructor_id = ? AND e.status_id = ?
+  ORDER BY e.exam_id DESC";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param('si', $userID, $examStatus); // i for int, s for string
+
+
+// Get open exams
+$examStatus = 1;
+$stmt->execute();
+$openExams = $stmt->get_result();
+
+// Get closed exams
+$examStatus = 2;
+$stmt->execute();
+$closedExams = $stmt->get_result();
+
+// Return the destination page for an exam
+function getDestPage($examTypeID) {
+  $destPage = '';
+  switch ($examTypeID) {
+    case 1: $destPage = 'multi-response.php'; break;
+    case 2: $destPage = 'fill-response.php'; break;
+    default: $destPage = 'theory-response.php';
+  }
+  return $destPage;
+}
+
+?>
 
 <body>
 
@@ -54,41 +93,36 @@ $profilePicture = $_SESSION['profilePicture'];
             <!-- The server side should set the value of 'data-exam-id' to the exam id.
               The JavaScript here uses it to close the exam.
             -->
-            <li class="card my-2" data-exam-id="12">
+            <?php
+            if ($openExams->num_rows > 0) {
+              while ($exam = $openExams->fetch_assoc()) {
+                $examID = $exam['exam_id'];
+            ?>
+            <li class="card my-2" data-exam-id="<?php echo $examID; ?>">
               <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
                 <div class="d-flex flex-column flex-xl-row align-items-xl-center">
                   <!-- The format is: [Course Code] ([Course Name]) [Exam Title] -->
-                  <span class="mr-md-3">CSC303 (Introduction to Computer Architecture and Organization) Midterm Exam</span>
+                  <span class="mr-md-3"><?php echo "{$exam['course_code']} ({$exam['course_name']}) {$exam['title']} "; ?></span>
                   <span>
                     <!-- Replace the number of assignees and submissions -->
-                    <small class="mr-2">10 Assignees</small>
-                    <small>9 Submissions</small>
+                    <small class="mr-2"><?php echo $exam['no_of_assignees']; ?> Assignee<?php echo pluralSuffix($exam['no_of_assignees']) ?></small>
+                    <small><?php echo $exam['no_of_submissions']; ?> Submission<?php echo pluralSuffix($exam['no_of_submissions']) ?></small>
                   </span>
                 </div>
                 <div class="mt-2 mt-md-0">
                   <!-- Notice how the href is. It's going to send the examID to the exam.php page through GET
                     The examID value in the url should be the same as the data-exam-id above -->
-                  <a href="exam.php?examID=12" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
+                  <a href="<?php echo getDestPage($examID) . '?examID=' . $examID ?>" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
                   <button class="btn btn-warning close-exam-btn" type="button">Close</button>
                 </div>
               </div>
             </li>
-
-            <li class="card my-2" data-exam-id="34">
-              <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
-                <div class="d-flex flex-column flex-xl-row align-items-xl-center">
-                  <span class="mr-md-3">CSC303 (Introduction to Computer Architecture and Organization) Midterm Exam</span>
-                  <span>
-                    <small class="mr-2">10 Assignees</small>
-                    <small>9 Submissions</small>
-                  </span>
-                </div>
-                <div class="mt-2 mt-md-0">
-                  <a href="exam.php?examID=34" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
-                  <button class="btn btn-warning close-exam-btn" type="button">Close</button>
-                </div>
-              </div>
-            </li>
+            <?php
+              }
+            } else {
+              echo "<div class='text-muted'>Nothing here.</div>";
+            }
+            ?>
 
 
 
@@ -103,21 +137,33 @@ $profilePicture = $_SESSION['profilePicture'];
           <ul class="list-unstyled">
 
             <!-- Each card represents an exam -->
-
-            <li class="card my-2" data-exam-id="45">
+            <?php
+            if ($closedExams->num_rows > 0) {
+              while ($exam = $closedExams->fetch_assoc()) {
+                $examID = $exam['exam_id'];
+            ?>
+            <li class="card my-2" data-exam-id="<?php echo $examID; ?>">
               <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
                 <div class="d-flex flex-column flex-xl-row align-items-xl-center">
-                  <span class="mr-md-3">CSC303 (Web) Midterm Exam</span>
+                  <!-- The format is: [Course Code] ([Course Name]) [Exam Title] -->
+                  <span class="mr-md-3"><?php echo "{$exam['course_code']} ({$exam['course_name']}) {$exam['title']} "; ?></span>
                   <span>
-                    <small class="mr-2">10 Assignees</small>
-                    <small>9 Submissions</small>
+                    <!-- Replace the number of assignees and submissions -->
+                    <small class="mr-2"><?php echo $exam['no_of_assignees']; ?> Assignee<?php echo pluralSuffix($exam['no_of_assignees']) ?></small>
+                    <small><?php echo $exam['no_of_submissions']; ?> Submission<?php echo pluralSuffix($exam['no_of_submissions']) ?></small>
                   </span>
                 </div>
                 <div class="mt-2 mt-md-0">
-                  <a href="exam.php?examID=45" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
+                  <a href="<?php echo getDestPage($examID) . '?examID=' . $examID ?>" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
                 </div>
               </div>
             </li>
+            <?php
+              }
+            } else {
+              echo "<div class='text-muted'>Nothing here.</div>";
+            }
+            ?>
 
           </ul>
 
