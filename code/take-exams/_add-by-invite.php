@@ -20,7 +20,7 @@ if (isset($_POST['userID']) && isset($_POST['inviteCode'])) {
     // Send instructor notification
     $exam = $conn->query("SELECT instructor_id FROM exam WHERE exam_id = $examID")->fetch_assoc();
 
-    sendNotification($userID, $exam['instructor_id'], $examID, 4);
+    sendNotification($userID, $exam['instructor_id'], $examID, $t = NOTI_JOIN);
     $res = true;
   } else {
     $res = false;

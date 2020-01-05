@@ -12,14 +12,8 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// LOOKUPS
-$levels = $conn->query('SELECT * FROM level');
-$courses = $conn->query('SELECT * FROM course');
-$examTypes = $conn->query('SELECT * FROM exam_type');
-$assignmentStatuses = $conn->query('SELECT * FROM assignment_status');
 
-
-// GLOBAL CONSTANTS
+// GLOBAL VARIABLES
 
 // Root dir of project
 const ROOT_DIR = '/online-exam-portal/code/';
@@ -29,6 +23,32 @@ const PROFILE_TARGET_DIR = '../profile-pic/';
 
 // Length of random invite code prefix
 const INVITE_CODE_PREFIX_LENGTH = 5;
+
+// Notification types
+const NOTI_INVITE = 1;      // for invite to take exam
+const NOTI_ACCEPT = 2;      // for invite acceptance
+const NOTI_DECLINE = 3;     // for invite decline
+const NOTI_JOIN = 4;        // for join by invite code
+const NOTI_START = 5;       // for start exam
+const NOTI_COMPLETE = 6;    // for complete exam
+const NOTI_GRADE = 7;       // for graded exam
+const NOTI_CLOSE = 8;       // for closed exam
+
+// Notification statuses
+const NOTI_STATUS_UNVIEWED = 1;
+const NOTI_STATUS_VIEWED = 2;
+
+// Exam assignment statuses
+const ASSIGNMENT_AWAIT = 1;
+const ASSIGNMENT_DECLINED = 2;
+const ASSIGNMENT_READY = 3;
+const ASSIGNMENT_IN_PROGRESS = 4;
+const ASSIGNMENT_TURNED_IN = 5;
+const ASSIGNMENT_GRADED = 6;
+
+// Exam statuses
+const EXAM_OPEN = 1;
+const EXAM_CLOSED = 2;
 
 
 

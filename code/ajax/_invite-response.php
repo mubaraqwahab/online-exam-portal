@@ -11,11 +11,11 @@ $status = null;
 $newNotType = null;
 
 if ($response == 'accept') {
-  $status = 3;      // Ready
-  $newNotType = 2;  // Accepted
+  $status = ASSIGNMENT_READY;       // Ready
+  $newNotType = NOTI_ACCEPT;        // Accepted
 } else {
-  $status = 2;      // Rejected
-  $newNotType = 3;  // Declined
+  $status = ASSIGNMENT_DECLINED;    // Rejected
+  $newNotType = NOTI_DECLINE;       // Declined
 }
 
 // Update exam status

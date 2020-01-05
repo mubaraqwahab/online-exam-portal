@@ -102,7 +102,7 @@ if (isset($_POST['submit'])) {
     assignStudentExam($examID, $assigneeID);
 
     // Notify each student
-    sendNotification($userID, $assigneeID, $examID, $examType);
+    sendNotification($userID, $assigneeID, $examID, $t = NOTI_INVITE);
   }
 
   header('Location: '.$_SERVER['REQUEST_URI']);
@@ -151,6 +151,8 @@ if (isset($_POST['submit'])) {
               <label for="course">Course</label>
               <select class="custom-select" name="courseCode" id="courseCode" required>
                 <?php
+                $courses = $conn->query('SELECT * FROM course');
+
                 while ($record = $courses->fetch_assoc()) {
                   $courseCode = $record['course_code'];
                   echo '<option value="' . $courseCode . '">' . $courseCode . ' - ' . $record['course_name'] . '</option>';
@@ -173,6 +175,7 @@ if (isset($_POST['submit'])) {
               <label for="examType">What type of exam is it?</label>
               <select class="custom-select" name="examType" id="examType" required>
                 <?php
+                $examTypes = $conn->query('SELECT * FROM exam_type');
                 while ($record = $examTypes->fetch_assoc()) {
                   echo '<option value="' . $record['type_id'] . '">' . $record['value'] . '</option>';
                 }

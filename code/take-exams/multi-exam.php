@@ -65,7 +65,7 @@ $questionStmt->execute();
 $questionResult = $questionStmt->get_result();
 
 // Let the db know the student has started the exam
-$statusSql = "UPDATE exam_assignment SET status_id = 4 WHERE exam_id = ? AND assignee_id = ?";
+$statusSql = "UPDATE exam_assignment SET status_id = " . NOTI_START . " WHERE exam_id = ? AND assignee_id = ?";
 
 $statusStmt = $conn->prepare($statusSql);
 $statusStmt->bind_param('is', $examID, $userID);
@@ -75,6 +75,9 @@ if ($conn->affected_rows != 1) {
   showError('Page currently unavailable. Please try again later.');
   exit;
 }
+
+// Send notification to instructor that exam has been started
+sendNotification($userID, $exam['instructor_id'], $examID, $t = NOTI_START);
 ?>
 
 <body>

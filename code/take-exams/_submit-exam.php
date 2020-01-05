@@ -99,11 +99,11 @@ if ($result->num_rows == 1) {
 
     // Notify teacher of turn in
     $instructorID = $exam['instructor_id'];
-    sendNotification($userID, $instructorID, $examID, 6);
+    sendNotification($userID, $instructorID, $examID, $t = NOTI_COMPLETE);
 
     // For obj exam, notify student of exam grade
     if ($exam['type_id'] == 1) {
-      sendNotification($instructorID, $userID, $examID, 7);
+      sendNotification($instructorID, $userID, $examID, $t = NOTI_GRADE);
     }
   }
 
