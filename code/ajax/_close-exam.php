@@ -21,23 +21,23 @@ $worked = mysqli_affected_rows($conn) == 1;
 // Also, send notification to assignees that the exam has been closed
 
 // Get instructor id
-$exam = $conn->query("SELECT instructor_id FROM exam WHERE exam_id = $examID");
-if ($exam->num_rows != 1) {
-  $worked = false;
-} else {
-  $instructorID = ($exam->fetch_assoc())['instructor_id'];
+// $exam = $conn->query("SELECT instructor_id FROM exam WHERE exam_id = $examID");
+// if ($exam->num_rows != 1) {
+//   $worked = false;
+// } else {
+//   $instructorID = ($exam->fetch_assoc())['instructor_id'];
 
-  // Get all assignees
-  $assignSql = "SELECT assignee_id FROM exam_assignment WHERE exam_id = $examID";
-  $assignees = $conn->query($assignSql);
+//   // Get all assignees
+//   $assignSql = "SELECT assignee_id FROM exam_assignment WHERE exam_id = $examID";
+//   $assignees = $conn->query($assignSql);
 
-  if ($assignees->num_rows > 0) {
-    while ($assignee = ($assignees->fetch_assoc())['assignee_id']) {
-      // Send notification to each of them that exam has been closed
-      sendNotification($instructorID, $assignee, $examID, $t = NOTI_CLOSE);
-    }
-  }
-}
+//   if ($assignees->num_rows > 0) {
+//     while ($assignee = ($assignees->fetch_assoc())['assignee_id']) {
+//       // Send notification to each of them that exam has been closed
+//       sendNotification($instructorID, $assignee, $examID, $t = NOTI_CLOSE);
+//     }
+//   }
+// }
 
 
 
