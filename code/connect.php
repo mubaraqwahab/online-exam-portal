@@ -34,10 +34,6 @@ const NOTI_COMPLETE = 6;    // for complete exam
 const NOTI_GRADE = 7;       // for graded exam
 const NOTI_CLOSE = 8;       // for closed exam
 
-// Notification statuses
-const NOTI_STATUS_UNVIEWED = 1;
-const NOTI_STATUS_VIEWED = 2;
-
 // Exam assignment statuses
 const ASSIGNMENT_AWAIT = 1;
 const ASSIGNMENT_DECLINED = 2;
@@ -46,9 +42,6 @@ const ASSIGNMENT_IN_PROGRESS = 4;
 const ASSIGNMENT_TURNED_IN = 5;
 const ASSIGNMENT_GRADED = 6;
 
-// Exam statuses
-const EXAM_OPEN = 1;
-const EXAM_CLOSED = 2;
 
 
 

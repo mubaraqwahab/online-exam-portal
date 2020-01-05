@@ -1,7 +1,7 @@
 <?php
 
 // Get no of new notifications
-$sql = "SELECT notification_id FROM notification WHERE recipient_id = $userID AND status_id = 1";
+$sql = "SELECT notification_id FROM notification WHERE recipient_id = '$userID' AND status_id = 1";
 $notiCount = ($conn->query($sql))->num_rows;
 
 ?>

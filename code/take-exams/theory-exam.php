@@ -65,7 +65,7 @@ $questionStmt->execute();
 $questionResult = $questionStmt->get_result();
 
 // Let the db know the student has started the exam
-$statusSql = "UPDATE exam_assignment SET status_id = " . NOTI_START . " WHERE exam_id = ? AND assignee_id = ?";
+$statusSql = "UPDATE exam_assignment SET status_id = " . ASSIGNMENT_IN_PROGRESS . " WHERE exam_id = ? AND assignee_id = ?";
 
 $statusStmt = $conn->prepare($statusSql);
 $statusStmt->bind_param('is', $examID, $userID);
