@@ -6,7 +6,7 @@
 
   <div class="dropdown">
     <button class="btn" id="profileDropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span class="d-none d-md-inline-block mr-1"><?php echo isset($userID) ? $userID : "User ID"; ?></span>
+      <span id="uid" class="d-none d-md-inline-block mr-1"><?php echo isset($userID) ? $userID : "User ID"; ?></span>
       <img src="<?php
         echo PROFILE_TARGET_DIR . (empty($profilePicture) || !file_exists(PROFILE_TARGET_DIR . $profilePicture) ? 'blank-square.jpg' : $profilePicture); ?>"
         class="rounded-circle" height="30px" width="30px">
