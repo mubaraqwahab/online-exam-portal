@@ -34,7 +34,8 @@ $sql = "SELECT a.*, e.course_code, c.course_name, e.type_id, e.title, e.total_ma
   INNER JOIN exam e ON a.exam_id = e.exam_id
   INNER JOIN exam_type t ON t.type_id = e.type_id
   INNER JOIN course c ON e.course_code = c.course_code
-  WHERE a.status_id = ? AND a.assignee_id = ?";
+  WHERE a.status_id = ? AND a.assignee_id = ?
+  ORDER BY e.exam_id DESC";
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param('is', $assignmentStatus, $userID); // i for int, s for string
