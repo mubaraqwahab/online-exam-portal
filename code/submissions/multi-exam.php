@@ -26,6 +26,11 @@ $profilePicture = $_SESSION['profilePicture'];
 
 <?php
 
+if (!isset( $_GET['examID'])) {
+  showError('Page not available');
+  exit;
+}
+
 $examID = $_GET['examID'];
 
 // You need course code, course name, exam title, instructor name, total score, total mark, no of questions for header

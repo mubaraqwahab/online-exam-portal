@@ -96,21 +96,21 @@ $result2 = mysqli_query($conn, $sql2);
           if ($result2->num_rows > 0) {
           for ($i = 1; $i<=$exam['no_of_questions']; $i++) {
             $exam2 = mysqli_fetch_assoc($result2);
-          echo 
+          echo
           '<div class="card my-3">
             <div class="card-body">
               <h5 class="card-title">Question ' . $exam2['question_no'] . '</h5>
               <p class="card-text">'
-                 . prepareFillInQuestion($exam2['question'], NULL, $exam2['response'])  . 
+                 . prepareFillInQuestion($exam2['question'], NULL, $exam2['response'])  .
               '</p>
-            
+
               <strong>
-                Score: ' . $exam2['score'] . "/" . $exam2['mark'] .  
-              
+                Score: ' . $exam2['score'] . "/" . $exam2['mark'] .
+
               '</strong>
             </div>
           </div>';}}
-          
+
             else {
               echo "No exams here";
             }
