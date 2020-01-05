@@ -143,7 +143,7 @@ $oldNotifications = $stmt->get_result();
       <!-- Page content -->
       <div class="container py-3 px-5">
 
-        <section id="newNotifications">
+        <section id="newNotifications" class="mb-4">
           <h5 class="mb-3">New</h5>
 
           <ul class="list-unstyled">
