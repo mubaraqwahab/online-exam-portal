@@ -27,7 +27,7 @@ $('document').ready(function() {
 // Params is an array of parameters to be passed to callback
 function closeExam(examID, callback, params) {
   $.ajax({
-    url: '../ajax/close-exam.php',
+    url: '../ajax/_close-exam.php',
     method: 'post',
     data: "examID=" + examID,
     success: function(response) {
