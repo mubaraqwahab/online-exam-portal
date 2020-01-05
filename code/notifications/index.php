@@ -25,13 +25,103 @@ $profilePicture = $_SESSION['profilePicture'];
 
 <?php
 
-$sql = "SELECT n.*, CONCAT(u.first_name, ' ', u.last_name) AS sender, CONCAT(e.course_code, ' ', e.title) AS exam_name
-  FROM notifications n
+function prepareNotificationMsg($template, $sender, $exam) {
+  $msg = str_replace('[User]', $sender, $template);
+  $msg = str_replace('[Exam]', $exam, $msg);
+
+  return $msg;
+}
+
+function getDestPrefix($examType) {
+  $dest = '';
+  switch ($examType) {
+    case 1:
+      $dest = 'multi-';
+      break;
+    case 2:
+      $dest = 'fill-';
+      break;
+    default:
+      $dest = 'theory-';
+      break;
+  }
+  return $dest;
+}
+
+// function prepareOldNotificationAction($noti) {
+//   $action = '';
+
+//   if ($noti['status_id'] == 3 && $noti['type_id'] == 1) {
+//       // $action .= '<div class="mt-2 mt-md-0">';
+//       // $action .= '<button class="btn btn-secondary d-md-block d-xl-inline-block mt-1 mt-md-0 mb-1 my-lg-0" disabled>' . $noti['invite_act'] . '</button>';
+//       // $action .= '</div>';
+
+//   }
+
+//   return $action;
+// }
+
+function prepareNotificationAction($noti) {
+  $action = '';
+
+  switch ($noti['type_id']) {
+    case 1:
+      $action .= '<div class="mt-2 mt-md-0">';
+      $action .= '<button class="btn btn-success d-md-block d-xl-inline-block mt-1 mt-md-0 mb-1 my-lg-0" data-response="accept">Accept</button>';
+      $action .= '<button class="btn btn-danger ml-1 ml-md-0 ml-lg-1" data-response="decline">Decline</button>';
+      $action .= '</div>';
+
+      break;
+    case 6:
+      $href = '../manage-exam/' . getDestPrefix($noti['exam_type']) . "response.php?examID={$noti['exam_id']}&assigneeID={$noti['sender_id']}";
+      $action .= '<div class="mt-2 mt-md-0">';
+      $action .= '<a href="'. $href .'" class="btn btn-primary d-md-block d-xl-inline-block mt-1 mt-md-0 mb-1 my-lg-0">Grade</a>';
+      $action .= '</div>';
+
+      break;
+    case 7:
+      $href = '../submissions/' . getDestPrefix($noti['exam_type']) . 'exam.php?examID=' . $noti['exam_id'];
+      $action .= '<div class="mt-2 mt-md-0">';
+      $action .= '<a href="'. $href .'" class="btn btn-primary d-md-block d-xl-inline-block mt-1 mt-md-0 mb-1 my-lg-0">View</a>';
+      $action .= '</div>';
+
+      break;
+
+    default:
+      break;
+  }
+
+  return $action;
+}
+
+
+// QUERY
+
+$sql = "SELECT n.*, CONCAT(u.first_name, ' ', u.last_name) AS sender,
+  e.type_id AS exam_type, CONCAT(e.course_code, ' ', e.title) AS exam_name,
+  nt.msg_template
+  FROM notification n
   INNER JOIN user u ON u.user_id = n.sender_id
   INNER JOIN exam e ON e.exam_id = n.exam_id
-  WHERE recipient_id = ? AND status_id = ?";
+  INNER JOIN notification_type nt ON nt.type_id = n.type_id
+  WHERE n.recipient_id = ? AND n.status_id = ?
+  ORDER BY n.time_stamp DESC";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param('si', $userID, $status);
+
+// Get new notifications
+$status = 1;
+
+$stmt->execute();
+$newNotifications = $stmt->get_result();
 
 
+// Get earlier notifications
+$status = 2;
+
+$stmt->execute();
+$oldNotifications = $stmt->get_result();
 
 ?>
 
@@ -53,59 +143,39 @@ $sql = "SELECT n.*, CONCAT(u.first_name, ' ', u.last_name) AS sender, CONCAT(e.c
       <!-- Page content -->
       <div class="container py-3 px-5">
 
-        <section>
+        <section id="newNotifications">
           <h5 class="mb-3">New</h5>
 
           <ul class="list-unstyled">
 
             <!-- Each card is a notification -->
-            <li class="card my-2 small" data-exam-id="12">
+            <?php
+            if ($newNotifications->num_rows > 0) {
+              while ($noti = $newNotifications->fetch_assoc()) {
+
+            ?>
+
+            <li class="card my-2" data-noti-id="<?php echo $noti['notification_id']; ?>" data-exam-id="<?php echo $noti['exam_id']; ?>">
               <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
                 <div class="d-flex flex-column flex-xl-row align-items-xl-center">
-                  <span class="mr-md-3">Abdulhakeem Audu has invited you to take Web Exam</span>
+                  <span class="mr-md-3">
+                  <?php echo prepareNotificationMsg($noti['msg_template'], $noti['sender'], $noti['exam_name']) ?>
+                  </span>
                   <span>
-                    <small class="mr-2">07:49 28-Dec-19</small>
+                    <small class="mr-2"><?php echo $noti['time_stamp']; ?></small>
                   </span>
                 </div>
-                <div class="mt-2 mt-md-0">
-                  <button class="btn btn-sm btn-success d-md-block d-xl-inline-block mt-1 mt-md-0 mb-1 my-lg-0" data-response="accept">Accept</button>
-                  <button class="btn btn-sm btn-danger" data-response="decline">Decline</button>
-                </div>
+
+                <?php
+                echo prepareNotificationAction($noti);
+                ?>
               </div>
             </li>
 
-            <li class="card my-2 small" data-exam-id="12">
-              <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
-                <div class="d-flex flex-column flex-xl-row align-items-xl-center">
-                  <span class="mr-md-3">Abdulhakeem Audu has accepted your invite to take Web Exam</span>
-                  <span>
-                    <small class="mr-2">07:49 28-Dec-19</small>
-                  </span>
-                </div>
-              </div>
-            </li>
-
-            <li class="card my-2 small" data-exam-id="12">
-              <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
-                <div class="d-flex flex-column flex-xl-row align-items-xl-center">
-                  <span class="mr-md-3">Abdulhakeem Audu has declined your invite to take Web Exam</span>
-                  <span>
-                    <small class="mr-2">07:49 28-Dec-19</small>
-                  </span>
-                </div>
-              </div>
-            </li>
-
-            <li class="card my-2 small" data-exam-id="12">
-              <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
-                <div class="d-flex flex-column flex-xl-row align-items-xl-center">
-                  <span class="mr-md-3">Abdulhakeem Audu has joined Web Exam by invite code</span>
-                  <span>
-                    <small class="mr-2">07:49 28-Dec-19</small>
-                  </span>
-                </div>
-              </div>
-            </li>
+            <?php
+              }
+            }
+            ?>
 
 
           </ul>
@@ -117,55 +187,35 @@ $sql = "SELECT n.*, CONCAT(u.first_name, ' ', u.last_name) AS sender, CONCAT(e.c
           <ul class="list-unstyled">
 
             <!-- Each card is a notification -->
-            <li class="card my-2 small" data-exam-id="12">
+            <?php
+            if ($oldNotifications->num_rows > 0) {
+              while ($noti = $oldNotifications->fetch_assoc()) {
+
+            ?>
+
+            <li class="card my-2" data-noti-id="<?php echo $noti['notification_id']; ?>" data-exam-id="<?php echo $noti['exam_id']; ?>">
               <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
                 <div class="d-flex flex-column flex-xl-row align-items-xl-center">
-                  <span class="mr-md-3">Abdulhakeem Audu has started Web Exam</span>
+                  <span class="mr-md-3">
+                  <?php echo prepareNotificationMsg($noti['msg_template'], $noti['sender'], $noti['exam_name']) ?>
+                  </span>
                   <span>
-                    <small class="mr-2">07:49 28-Dec-19</small>
+                    <small class="mr-2"><?php echo $noti['time_stamp']; ?></small>
                   </span>
                 </div>
+
+                <?php
+                echo prepareNotificationAction($noti);
+                ?>
               </div>
             </li>
 
-            <li class="card my-2 small" data-exam-id="12">
-              <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
-                <div class="d-flex flex-column flex-xl-row align-items-xl-center">
-                  <span class="mr-md-3">Abdulhakeem Audu has completed Web Exam</span>
-                  <span>
-                    <small class="mr-2">07:49 28-Dec-19</small>
-                  </span>
-                </div>
-                <div class="mt-2 mt-md-0">
-                  <a href="#" class="btn btn-sm btn-primary d-md-block d-xl-inline-block mt-1 mt-md-0 mb-1 my-lg-0">Grade</a>
-                </div>
-              </div>
-            </li>
-
-            <li class="card my-2 small" data-exam-id="12">
-              <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
-                <div class="d-flex flex-column flex-xl-row align-items-xl-center">
-                  <span class="mr-md-3">Abdulhakeem Audu has graded your Web Exam</span>
-                  <span>
-                    <small class="mr-2">07:49 28-Dec-19</small>
-                  </span>
-                </div>
-                <div class="mt-2 mt-md-0">
-                  <a href="#" class="btn btn-sm btn-primary d-md-block d-xl-inline-block mt-1 mt-md-0 mb-1 my-lg-0">View</a>
-                </div>
-              </div>
-            </li>
-
-            <li class="card my-2 small" data-exam-id="12">
-              <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
-                <div class="d-flex flex-column flex-xl-row align-items-xl-center">
-                  <span class="mr-md-3">Abdulhakeem Audu has closed Web Exam</span>
-                  <span>
-                    <small class="mr-2">07:49 28-Dec-19</small>
-                  </span>
-                </div>
-              </div>
-            </li>
+            <?php
+              }
+            } else {
+              echo "<p class='text-muted'>Nothing here.</p>";
+            }
+            ?>
 
           </ul>
         </section>
@@ -195,19 +245,21 @@ $sql = "SELECT n.*, CONCAT(u.first_name, ' ', u.last_name) AS sender, CONCAT(e.c
     });
 
     function sendInviteResponse(jObj, newText) {
+      var examID = jObj.parents('[data-exam-id]').data('exam-id');
+      var notiID = jObj.parents('[data-noti-id]').data('noti-id');
       $.ajax({
         url: '../ajax/_invite-response.php',
         type: 'post',
-        data: {
-          'userID': $('#uid').text(),
-          'response': jObj.data('response')
-        },
+        data: 'notiID=' + notiID + 'userID=<?php echo $userID; ?>&examID=' + examID + '&response=' + jObj.data('response'),
         success: function(res) {
           if (res) {
-            jObj.text(newText);
-            jObj.prop('disabled', true);
-            jObj.siblings('button').remove();
-            jObj.removeClass('btn-success btn-danger').addClass('btn-secondary');
+            alert(newText);
+          //   console.log(notiID);
+
+          //   jObj.text(newText);
+          //   jObj.prop('disabled', true);
+          //   jObj.siblings('button').remove();
+          //   jObj.removeClass('btn-success btn-danger').addClass('btn-secondary');
           }
         },
         error: function() {}
