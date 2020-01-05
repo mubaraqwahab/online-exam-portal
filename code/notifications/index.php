@@ -176,6 +176,8 @@ $oldNotifications = $stmt->get_result();
               // Mark each notification as viewed
               $conn->query("UPDATE notification SET status_id = 2 WHERE notification_id = {$noti['notification_id']}");
               }
+            } else {
+              echo "<p class='text-muted'>Nothing here.</p>";
             }
             ?>
 
