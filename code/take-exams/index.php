@@ -169,7 +169,7 @@ function getDestPage($examTypeID) {
         }
 
         $.ajax({
-          url: '_add-by-invite.php',
+          url: '../ajax/_add-by-invite.php',
           method: 'post',
           data: 'userID=<?php echo $userID; ?>&inviteCode=' + inviteCode,
           success: function(response) {
