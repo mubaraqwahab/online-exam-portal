@@ -95,9 +95,14 @@ if (isset($_POST['submit'])) {
   // Add total mark to exam
   $conn->query("UPDATE exam SET total_mark = $totalMark WHERE exam_id = $examID");
 
+  // Assign students
   $noOfInvitees = intval($_POST['noOfInvitees']);
   for ($i=1; $i <= $noOfInvitees; $i++) {
-    assignStudentExam($examID, $_POST['invitee'.$i]);
+    $assigneeID = $_POST['invitee'.$i];
+    assignStudentExam($examID, $assigneeID);
+
+    // Notify students
+
   }
 
   header('Location: '.$_SERVER['REQUEST_URI']);

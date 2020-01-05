@@ -155,7 +155,7 @@ $oldNotifications = $stmt->get_result();
 
             ?>
 
-            <li class="card my-2" data-noti-id="<?php echo $noti['notification_id']; ?>" data-exam-id="<?php echo $noti['exam_id']; ?>">
+            <li class="card my-2" data-noti-id="<?php echo $noti['notification_id']; ?>" data-exam-id="<?php echo $noti['exam_id']; ?>" data-from="<?php echo $noti['sender_id']; ?>">
               <div class="card-body py-2 px-3 d-flex flex-column flex-md-row justify-content-between">
                 <div class="d-flex flex-column flex-xl-row align-items-xl-center">
                   <span class="mr-md-3">
@@ -249,16 +249,18 @@ $oldNotifications = $stmt->get_result();
     });
 
     function sendInviteResponse(jObj, newText) {
-      var parent = jObj.parents('[data-exam-id]');
-      var examID = parent.data('exam-id');
-      var notiID = parent.data('noti-id');
+      var noti = jObj.parents('[data-exam-id]');
       $.ajax({
         url: '../ajax/_invite-response.php',
         type: 'post',
-        data: 'notiID=' + notiID + '&userID=<?php echo $userID; ?>&examID=' + examID + '&response=' + jObj.data('response'),
+        data: ('notiID=' + noti.data('noti-id')
+                + '&from=' + noti.data('from')
+                + '&userID=<?php echo $userID; ?>'
+                + '&examID=' + noti.data('exam-id')
+                + '&response=' + jObj.data('response')),
         success: function(res) {
           if (res) {
-            parent.remove();
+            noti.remove();
           }
         },
         error: function() {}

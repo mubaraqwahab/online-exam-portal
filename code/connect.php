@@ -189,3 +189,15 @@ function pluralSuffix($count) {
 function compareStrWithoutCase(string $a, string $b) {
   return strcasecmp($a, $b) == 0;
 }
+
+// Send notification
+
+function sendNotification($senderID, $recipientID, $examID, $typeID) {
+  $sql = "INSERT INTO `notification` (`recipient_id`, `type_id`, `sender_id`, `exam_id`) VALUES (?,?,?,?)";
+
+  global $conn;
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param('sisi', $recipientID, $typeID, $senderID, $examID);
+  $stmt->execute();
+  return $stmt->get_result();
+}
