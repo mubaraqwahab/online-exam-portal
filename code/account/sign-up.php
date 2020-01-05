@@ -49,7 +49,6 @@ if (isset($_POST['signUp'])) {
     saveProfilePic($profilePicture);
     // Crop picture
     squareCropPicture(PROFILE_TARGET_DIR . $profilePicture);
-
   }
 
   // We can do some validation here
@@ -72,7 +71,6 @@ if (isset($_POST['signUp'])) {
     // Error message
     showError("Unable to register.");
   }
-
 
 }
 
