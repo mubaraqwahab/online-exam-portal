@@ -1,4 +1,5 @@
 .*
 */profile-pic/*
 
+!*/profile-pic/blank-square.*
 !.gitignore
