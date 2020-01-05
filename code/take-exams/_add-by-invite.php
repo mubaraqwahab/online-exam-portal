@@ -17,6 +17,10 @@ if (isset($_POST['userID']) && isset($_POST['inviteCode'])) {
     WHERE exam.exam_id = $examID AND exam.invite_prefix = '$invitePrefix' AND exam.status_id = 1";
 
   if ($conn->query($sql) && $conn->affected_rows == 1) {
+    // Send instructor notification
+    $exam = $conn->query("SELECT instructor_id FROM exam WHERE exam_id = $examID")->fetch_assoc();
+
+    sendNotification($userID, $exam['instructor_id'], $examID, 4);
     $res = true;
   } else {
     $res = false;
