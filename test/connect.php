@@ -19,44 +19,96 @@ $examTypes = $conn->query('SELECT * FROM exam_type');
 $assignmentStatuses = $conn->query('SELECT * FROM assignment_status');
 
 
-// GLOBAL CONSTANTS
+// Add a user to the database
+function addUser($userID, $firstName, $lastName, $email, $password, int $levelId = null, $profilePicture = null) {
+  $sql = "INSERT INTO user(user_id, first_name, last_name, email, password, level_id, profile_picture)
+  VALUES ('$userID','$firstName','$lastName','$email','$password',"
+  . (empty($levelId) ? "NULL" : $levelId) . ","
+  . (empty($profilePicture) ? "NULL" : '$profilePicture') . ")";
 
-// Root dir of project
-const ROOT_DIR = '/online-exam-portal/code/';
-
-// Folder to store profile pictures
-const PROFILE_TARGET_DIR = '../profile-pic/';
-
-// Length of random invite code prefix
-const INVITE_CODE_PREFIX_LENGTH = 5;
-
-
-
-// FUNCTIONS
-
-
-// Sanitize input (for strings only)
-function sanitize(array $inputs) {
   global $conn;
-  return array_map(array($conn, 'real_escape_string'), $inputs);
+  return $conn->query($sql);
 }
 
-
-function encodeUrlParam($param) {
-  return urlencode(base64_encode($param));
-}
-
-function decodeUrlParam($param) {
-  return base64_decode(urldecode($param));
-}
-
-
+//
 function getUserById($userID) {
   $sql = "SELECT * FROM user WHERE user_id = '$userID'";
 
   global $conn;
   return $conn->query($sql);
 }
+
+function getUserByEmail($email) {
+  $sql = "SELECT * FROM user WHERE email = '$email'";
+
+  global $conn;
+  return $conn->query($sql);
+}
+
+// Update details of a user. User ID and Level can't be updated
+function updateUser($userID, $firstName, $lastName, $email, $password = null, $profilePicture = null) {
+  $sql = "UPDATE user SET first_name = '$firstName', last_name = '$lastName', email = '$email'"
+  . (empty($password) ? "" : ", password = '$password'")
+  . (empty($profilePicture) ? "" : ", profile_picture = '$profilePicture'") . " WHERE user_id = '$userID'";
+
+  global $conn;
+  return $conn->query($sql);
+}
+
+// Create an exam
+function createExam($instructorId, $courseCode, $title, int $typeId, int $noOfQuestions, $invitePrefix) {
+  $sql = "INSERT INTO exam(instructor_id, course_code, title, type_id, no_of_questions, invite_prefix)
+  VALUES ('$instructorId','$courseCode','$title',$typeId,$noOfQuestions,'$invitePrefix')";
+  global $conn;
+  return $conn->query($sql);
+}
+
+// Add a multichoice question
+function addMultiQuestion(int $examID, int $questionNo, $question, $correctAnswer, $a, $b, $c, $d, float $mark) {
+  $sql = "INSERT INTO multi_choice_question(exam_id, question_no, question, correct_answer, a, b, c, d, mark)
+  VALUES ($examID, $questionNo, '$question', '$correctAnswer', '$a', '$b', '$c', '$d', $mark)";
+
+  global $conn;
+  return $conn->query($sql);
+}
+
+// Add a fill in the blank question
+function addFillQuestion(int $examID, int $questionNo, $question, float $mark) {
+  $sql = "INSERT INTO fill_in_question(exam_id, question_no, question, mark)
+  VALUES ($examID, $questionNo, '$question', $mark)";
+
+  global $conn;
+  return $conn->query($sql);
+}
+
+// Add a theory question
+function addTheoryQuestion(int $examID, int $questionNo, $question, float $mark) {
+  $sql = "INSERT INTO theory_question(exam_id, question_no, question, mark)
+  VALUES ($examID, $questionNo, '$question', $mark)";
+
+  global $conn;
+  return $conn->query($sql);
+}
+
+// Assign an exam to a student
+function assignStudentExam(int $examID, $userID) {
+  $sql = "INSERT INTO exam_assignment(exam_id, assignee_id, total_score, status_id)
+  VALUES ($examID,'$userID',NULL,1)";
+
+  global $conn;
+  return $conn->query($sql);
+}
+
+// Get all exams owned by an instructor
+function getInstructorExams($instructorId) {
+  $sql = "SELECT exam_id, instructor_id, course_code, title, type_id, no_of_questions FROM exam WHERE instructor_id = '$instructorId'";
+
+  global $conn;
+  return $conn->query($sql);
+}
+
+// Length of random invite code prefix
+const INVITE_CODE_PREFIX_LENGTH = 5;
 
 // Generate a random string of length $length.
 // $isNum specifies whether the string should be numeric.
@@ -70,6 +122,9 @@ function generateRandomString($length, $isNum = false) {
   return $randomString;
 }
 
+
+// Folder to store profile pictures
+const PROFILE_TARGET_DIR = '../profile-pic/';
 
 // Rename an uploaded profile picture to a unique hash.
 function renameProfilePic($userID) {
@@ -85,6 +140,7 @@ function renameProfilePic($userID) {
     $imageFileType = strtolower(pathinfo($targetFile,PATHINFO_EXTENSION));
 
     // Rename
+    // $profilePicture = $userID . '.' . $imageFileType; //base64_decode(urldecode($userID)) . $imageFileType;
     $profilePicture = md5($userID.$imageFileType) . '.' . $imageFileType;
   }
 
