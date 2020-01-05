@@ -1,6 +1,6 @@
 <?php
-include '../session.php';
-include '../connect.php';
+require_once '../session.php';
+require_once '../connect.php';
 
 $userID = $_SESSION['userID'];
 $profilePicture = $_SESSION['profilePicture'];
@@ -124,7 +124,7 @@ $responseResult = $responseStmt->get_result();
                 <p class="card-text">' . $response['response'] . '</p>
 
                 <strong class="form-inline">
-                  Score: 
+                  Score:
                   <!-- input name should change. So the first question has score1, the next score2, ... -->
                   <input class="form-control col-3 col-sm-2 col-lg-1" type="number" step="0.1" min="0" max="'. $response['mark'] .'" name="score'. $response['question_no'] .'" value="'. $response['score'] .'" required>
                       /'. $response['mark'] .'

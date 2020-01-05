@@ -1,6 +1,6 @@
 <?php
-include '../session.php';
-include "../connect.php";
+require_once '../session.php';
+require_once '../connect.php';
 
 $userID = $_SESSION['userID'];
 $profilePicture = $_SESSION['profilePicture'];

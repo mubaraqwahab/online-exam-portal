@@ -1,5 +1,5 @@
 <?php
-include "../connect.php";
+require_once '../connect.php';
 
 // Set the content-type to csv
 // And tell it download (basically lol)

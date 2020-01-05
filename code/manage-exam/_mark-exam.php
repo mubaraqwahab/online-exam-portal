@@ -1,5 +1,5 @@
 <?php
-include "../connect.php";
+require_once '../connect.php';
 
 $examID = $_POST['examID'];
 $assigneeID = $_POST['assigneeID'];
