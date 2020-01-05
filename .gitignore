@@ -1,5 +1,5 @@
-.*
-*/profile-pic/*
+# .*
+# */profile-pic/*
 
-!*/profile-pic/blank-square.*
+# !*/profile-pic/blank-square.*
 !.gitignore
