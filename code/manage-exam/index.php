@@ -51,17 +51,6 @@ $examStatus = 2;
 $stmt->execute();
 $closedExams = $stmt->get_result();
 
-// Return the destination page for an exam
-function getDestPage($examTypeID) {
-  $destPage = '';
-  switch ($examTypeID) {
-    case 1: $destPage = 'multi-response.php'; break;
-    case 2: $destPage = 'fill-response.php'; break;
-    default: $destPage = 'theory-response.php';
-  }
-  return $destPage;
-}
-
 ?>
 
 <body>
@@ -112,7 +101,7 @@ function getDestPage($examTypeID) {
                 <div class="mt-2 mt-md-0">
                   <!-- Notice how the href is. It's going to send the examID to the exam.php page through GET
                     The examID value in the url should be the same as the data-exam-id above -->
-                  <a href="<?php echo getDestPage($examID) . '?examID=' . $examID ?>" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
+                  <a href="exam.php<?php echo '?examID=' . $examID ?>" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
                   <button class="btn btn-warning close-exam-btn" type="button">Close</button>
                 </div>
               </div>
@@ -154,7 +143,7 @@ function getDestPage($examTypeID) {
                   </span>
                 </div>
                 <div class="mt-2 mt-md-0">
-                  <a href="<?php echo getDestPage($examID) . '?examID=' . $examID ?>" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
+                  <a href="exam.php<?php echo '?examID=' . $examID ?>" class="btn btn-primary d-md-block d-xl-inline-block my-1">View</a>
                 </div>
               </div>
             </li>
