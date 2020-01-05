@@ -173,6 +173,8 @@ $oldNotifications = $stmt->get_result();
             </li>
 
             <?php
+              // Mark each notification as viewed
+              $conn->query("UPDATE notification SET status_id = 2 WHERE notification_id = {$noti['notification_id']}");
               }
             }
             ?>
@@ -245,21 +247,16 @@ $oldNotifications = $stmt->get_result();
     });
 
     function sendInviteResponse(jObj, newText) {
-      var examID = jObj.parents('[data-exam-id]').data('exam-id');
-      var notiID = jObj.parents('[data-noti-id]').data('noti-id');
+      var parent = jObj.parents('[data-exam-id]');
+      var examID = parent.data('exam-id');
+      var notiID = parent.data('noti-id');
       $.ajax({
         url: '../ajax/_invite-response.php',
         type: 'post',
-        data: 'notiID=' + notiID + 'userID=<?php echo $userID; ?>&examID=' + examID + '&response=' + jObj.data('response'),
+        data: 'notiID=' + notiID + '&userID=<?php echo $userID; ?>&examID=' + examID + '&response=' + jObj.data('response'),
         success: function(res) {
           if (res) {
-            alert(newText);
-          //   console.log(notiID);
-
-          //   jObj.text(newText);
-          //   jObj.prop('disabled', true);
-          //   jObj.siblings('button').remove();
-          //   jObj.removeClass('btn-success btn-danger').addClass('btn-secondary');
+            parent.remove();
           }
         },
         error: function() {}
