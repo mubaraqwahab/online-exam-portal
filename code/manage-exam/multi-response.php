@@ -136,17 +136,17 @@ $responseResult = $responseStmt->get_result();
                   if (compareStrWithoutCase($response['response'], $opt)
                       && compareStrWithoutCase($response['correct_answer'], $opt)) {
                     // color green
-                    echo '<div class="px-3 py-2 rounded text-white bg-success">'. strtoupper($opt) . '. ' . $response[$opt] . '</div>';
+                    echo '<div class="px-3 py-1 my-1 rounded text-white bg-success">'. strtoupper($opt) . '. ' . $response[$opt] . '</div>';
                   } else if (compareStrWithoutCase($response['response'], $opt)
                       && !compareStrWithoutCase($response['correct_answer'], $opt)) {
                     // color red
-                    echo '<div class="px-3 py-2 rounded text-white bg-danger">'. strtoupper($opt) . '. ' . $response[$opt] . '</div>';
+                    echo '<div class="px-3 py-1 my-1 rounded text-white bg-danger">'. strtoupper($opt) . '. ' . $response[$opt] . '</div>';
                   } else if (!compareStrWithoutCase($response['response'], $opt)
                     && compareStrWithoutCase($response['correct_answer'], $opt)) {
                     // color green
-                    echo '<div class="px-3 py-2 rounded text-white bg-success">'. strtoupper($opt) . '. ' . $response[$opt] . '</div>';
+                    echo '<div class="px-3 py-1 my-1 rounded text-white bg-success">'. strtoupper($opt) . '. ' . $response[$opt] . '</div>';
                   } else {
-                    echo '<div class="px-3 py-2 rounded">'. strtoupper($opt) . '. ' . $response[$opt] . '</div>';
+                    echo '<div class="px-3 py-1 my-1 rounded">'. strtoupper($opt) . '. ' . $response[$opt] . '</div>';
                   }
                 }
 
