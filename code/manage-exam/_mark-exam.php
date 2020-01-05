@@ -4,7 +4,7 @@ require_once '../connect.php';
 $examID = $_POST['examID'];
 $assigneeID = $_POST['assigneeID'];
 
-$sql = "SELECT type_id, no_of_questions FROM exam WHERE exam_id = $examID";
+$sql = "SELECT type_id, no_of_questions, instructor_id FROM exam WHERE exam_id = $examID";
 
 $result = mysqli_query($conn, $sql);
 
@@ -12,6 +12,7 @@ $result = mysqli_query($conn, $sql);
 $exam = mysqli_fetch_assoc($result);
 $typeID = $exam['type_id'];
 $noOfQuestion = $exam['no_of_questions'];
+$instructorID = $exam['instructor_id'];
 
 $worked = TRUE;
 $totalScore = 0;
@@ -20,10 +21,10 @@ for ($i=1; $i<=$noOfQuestion; $i++){
   $score = $_POST["score". $i];
   $totalScore += intval($score);
   if($typeID == 3){
-    $sql2 = "UPDATE theory_response SET score = $score WHERE exam_id = $examID AND assignee_id = $assigneeID AND question_no = $i";
+    $sql2 = "UPDATE theory_response SET score = $score WHERE exam_id = $examID AND assignee_id = '$assigneeID' AND question_no = $i";
   }
   else if($typeID == 2){
-    $sql2 = "UPDATE fill_in_response SET score = $score WHERE exam_id = $examID AND assignee_id = $assigneeID AND question_no = $i";
+    $sql2 = "UPDATE fill_in_response SET score = $score WHERE exam_id = $examID AND assignee_id = '$assigneeID' AND question_no = $i";
     }
   else{
     $worked = FALSE;
@@ -32,8 +33,12 @@ for ($i=1; $i<=$noOfQuestion; $i++){
 
 }
 if($worked){
-  $sql3 = "UPDATE exam_assignment SET status_id = 6, total_score = $totalScore WHERE exam_id = $examID AND assignee_id = $assigneeID";
+  $sql3 = "UPDATE exam_assignment SET status_id = 6, total_score = $totalScore WHERE exam_id = $examID AND assignee_id = '$assigneeID'";
   $result = mysqli_query($conn, $sql3);
+
+  // send notification that exam has been marked
+  sendNotification($instructorID, $assigneeID, $examID, $t = NOTI_GRADE);
+
   header ("Location: feedback.php?feedback=success&examID=$examID");
 }
 else($worked){
