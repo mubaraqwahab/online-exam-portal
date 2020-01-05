@@ -14,9 +14,13 @@ if (isset($_POST['userID']) && isset($_POST['inviteCode'])) {
   // New assignment if the exam exists and is open
   $sql = "INSERT INTO exam_assignment (exam_id, assignee_id, status_id)
     SELECT exam.exam_id, '$userID', 3 FROM exam
-    WHERE exam_id = $examID AND invite_prefix = '$invitePrefix' AND status_id = 1";
+    WHERE exam.exam_id = $examID AND exam.invite_prefix = '$invitePrefix' AND exam.status_id = 1";
 
   if ($conn->query($sql) && $conn->affected_rows == 1) {
+    // Send instructor notification
+    $exam = $conn->query("SELECT instructor_id FROM exam WHERE exam_id = $examID")->fetch_assoc();
+
+    sendNotification($userID, $exam['instructor_id'], $examID, $t = NOTI_JOIN);
     $res = true;
   } else {
     $res = false;

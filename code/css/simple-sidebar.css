@@ -56,3 +56,13 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.list-group-item-action .badge {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.list-group-item-action.active .badge {
+  background-color: white;
+  color: #007bff;
+}

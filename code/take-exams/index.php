@@ -32,7 +32,8 @@ $sql = "SELECT e.*, c.course_name, t.value AS type
   INNER JOIN `course` AS c ON c.course_code = e.course_code
   INNER JOIN exam_type AS t ON t.type_id = e.type_id
   INNER JOIN exam_assignment AS a ON e.exam_id = a.exam_id
-  WHERE e.status_id = 1 AND a.assignee_id = ? AND a.status_id = 3";
+  WHERE e.status_id = 1 AND a.assignee_id = ? AND a.status_id = 3
+  ORDER BY e.exam_id DESC";
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param('s', $userID);
@@ -168,7 +169,7 @@ function getDestPage($examTypeID) {
         }
 
         $.ajax({
-          url: '_add-by-invite.php',
+          url: '../ajax/_add-by-invite.php',
           method: 'post',
           data: 'userID=<?php echo $userID; ?>&inviteCode=' + inviteCode,
           success: function(response) {

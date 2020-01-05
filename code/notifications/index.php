@@ -260,7 +260,9 @@ $oldNotifications = $stmt->get_result();
                 + '&response=' + jObj.data('response')),
         success: function(res) {
           if (res) {
-            noti.remove();
+            // noti.remove();
+            window.location.reload(true);
+
           }
         },
         error: function() {}

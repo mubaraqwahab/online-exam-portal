@@ -153,6 +153,8 @@ if (isset($_POST['signUp'])) {
                     <select class="custom-select" name="level" aria-describedby="levelHelp">
                       <option selected></option>
                       <?php
+                      $levels = $conn->query('SELECT * FROM level');
+
                       while ($level = $levels->fetch_assoc()) {
                         echo '<option value="'. $level['level_id'] .'">'.$level['value'].'</option>';
                       }

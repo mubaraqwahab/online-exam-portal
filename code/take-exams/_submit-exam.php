@@ -60,6 +60,8 @@ if ($result->num_rows == 1) {
   $stmt = $conn->prepare($sql);
   $stmt->bind_param('iissd', $examID, $i, $userID, $response, $score);
 
+  $totalScore = null;
+
   for ($i = 1; $i <= $exam['no_of_questions']; $i++) {
     $response = $_POST['response'.$i];
     $score = null;
@@ -73,6 +75,8 @@ if ($result->num_rows == 1) {
       } else if (strcasecmp($response, $multiQues['correct_answer']) != 0) {
         $score = 0;
       }
+
+      $totalScore += $score;
     }
 
     // Execute sql
@@ -87,10 +91,20 @@ if ($result->num_rows == 1) {
 
 
   if ($feedback == 'success') {
-    $sql = "UPDATE exam_assignment SET status_id = ? WHERE assignee_id = ? AND exam_id = ?";
+    // Set assignment status to turned in/graded
+    $sql = "UPDATE exam_assignment SET status_id = ?, total_score = ? WHERE assignee_id = ? AND exam_id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param('isi', $newStatus, $userID, $examID);
+    $stmt->bind_param('idsi', $newStatus, $totalScore, $userID, $examID);
     $stmt->execute();
+
+    // Notify teacher of turn in
+    $instructorID = $exam['instructor_id'];
+    sendNotification($userID, $instructorID, $examID, $t = NOTI_COMPLETE);
+
+    // For obj exam, notify student of exam grade
+    if ($exam['type_id'] == 1) {
+      sendNotification($instructorID, $userID, $examID, $t = NOTI_GRADE);
+    }
   }
 
 }
