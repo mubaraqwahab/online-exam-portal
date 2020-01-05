@@ -101,8 +101,8 @@ if (isset($_POST['submit'])) {
     $assigneeID = $_POST['invitee'.$i];
     assignStudentExam($examID, $assigneeID);
 
-    // Notify students
-
+    // Notify each student
+    sendNotification($userID, $assigneeID, $examID, $examType);
   }
 
   header('Location: '.$_SERVER['REQUEST_URI']);
