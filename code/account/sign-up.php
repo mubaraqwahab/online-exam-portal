@@ -9,7 +9,6 @@ require_once '../connect.php';
 function addUser($userID, $firstName, $lastName, $email, $password, int $levelId = null, $profilePicture = null) {
   [$userID, $firstName, $lastName, $password] = sanitize([$userID, $firstName, $lastName, $password]);
 
-  $password = md5($password);
   $sql = "INSERT INTO user(user_id, first_name, last_name, email, password, level_id, profile_picture)
   VALUES ('$userID','$firstName','$lastName','$email','$password',"
   . (empty($levelId) ? "NULL" : $levelId) . ","
@@ -39,8 +38,10 @@ if (isset($_POST['signUp'])) {
   $firstName = $_POST['firstName'];
   $lastName = $_POST['lastName'];
   $email = $_POST['email'];
-  $password = $_POST['password'];
-  $level = $_POST['level'];
+  // Encrypt password
+  $password = md5($_POST['password']);
+  // Make sure level is int or null
+  $level = empty($_POST['level']) ? null : intval($_POST['level']);
 
   // Get profile picture name
   $profilePicture = renameProfilePic($userID);

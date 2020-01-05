@@ -13,7 +13,7 @@ $record = $result->fetch_assoc();
 // Update details of a user. User ID and Level can't be updated
 function updateUser($userID, $firstName, $lastName, $email, $password = null, $profilePicture = null) {
   $sql = "UPDATE user SET first_name = '$firstName', last_name = '$lastName', email = '$email'"
-  . (empty($password) ? "" : ", password = '". md5($password) . "'")
+  . (empty($password) ? "" : ", password = '". $password . "'")
   . (empty($profilePicture) ? "" : ", profile_picture = '$profilePicture'") . " WHERE user_id = '$userID'";
 
   global $conn;
@@ -31,7 +31,7 @@ if (isset($_POST['update'])) {
   $firstName = $_POST['firstName'];
   $lastName = $_POST['lastName'];
   $email = $_POST['email'];
-  $password = $_POST['password'];
+  $password = md5($_POST['password']);
 
   // Get profile picture name
   $newPic = renameProfilePic($userID);
