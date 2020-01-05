@@ -26,11 +26,13 @@ $('document').ready(function() {
 // Callback is a function specifying what to do if the exam has been closed
 // Params is an array of parameters to be passed to callback
 function closeExam(examID, callback, params) {
+  console.log(examID)
   $.ajax({
     url: '../ajax/_close-exam.php',
     method: 'post',
     data: "examID=" + examID,
     success: function(response) {
+      console.log(response)
       if (response) {
         callback(...params);
       }
@@ -46,7 +48,7 @@ function moveClosedExam(examCard) {
   examCard.detach().prependTo('#closedExams > .list-unstyled');
 
   // Remove the close button
-  examCard.children('.close-exam-btn').remove();
+  examCard.find('.close-exam-btn').remove();
 }
 
 // Change the exam header status to closed
