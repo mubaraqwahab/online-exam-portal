@@ -9,7 +9,7 @@ if (isset($_SESSION['userID'])) {
     header('Location: ' . decodeUrlParam($_GET['redirectTo']));
   } else {
     // Redirect to home page (no home page for now tho)
-    header('Location: profile.php');
+    header('Location: ../notifications/');
   }
 
 }
@@ -74,7 +74,7 @@ if(isset($_POST['submit'])) {
 
           }
           else{
-            echo "ERRORRR";
+            showError("ERRORRR");
           }
 
           header("Location: reset.php?email=".encodeUrlParam($emailaddress));

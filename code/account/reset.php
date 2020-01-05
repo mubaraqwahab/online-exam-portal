@@ -8,7 +8,7 @@ if (isset($_SESSION['userID'])) {
     header('Location: ' . decodeUrlParam($_GET['redirectTo']));
   } else {
     // Redirect to home page (no home page for now tho)
-    header('Location: profile.php');
+    header('Location: ../notifications/');
   }
 
 }
