@@ -19,17 +19,19 @@ $email = decodeUrlParam($_GET['email']);
 
 if(isset($_POST['submitt'])){
 
-  $newpassword = $_POST['password'];
+  $newpassword = md5($_POST['password']);
   $token = $_POST['token'];
 
-  $sql = "SELECT `key` FROM user WHERE email='$email'";
+  $sql = "SELECT `recovery_key` FROM user WHERE email='$email'";
   $result = mysqli_query($conn, $sql);
   $row = mysqli_fetch_array($result);
 
-if($token === $row['key']){
+if($token == $row['recovery_key']){
   $sql = "UPDATE user SET password='$newpassword' WHERE email='$email'";
   $result = mysqli_query($conn, $sql);
   }
+
+  header("Location: sign-in.php");
 }
 ?>
 
@@ -59,8 +61,8 @@ if($token === $row['key']){
               <div class="form-group row">
                   <label for="token" class="col-sm-3 col-form-label">Enter token</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="password" name="token" aria-describedby="passwordHelp" required autofocus>
-                    <small id="passwordHelp" class="form-text text-muted">
+                    <input type="text" class="form-control" id="token" name="token" aria-describedby="tokenHelp" required autofocus>
+                    <small id="tokenHelp" class="form-text text-muted">
                       Enter the 6-digit token that was sent to your email address.
                     </small>
                   </div>
