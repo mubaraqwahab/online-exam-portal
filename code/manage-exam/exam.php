@@ -5,13 +5,16 @@ require_once '../connect.php';
 $userID = $_SESSION['userID'];
 $profilePicture = $_SESSION['profilePicture'];
 $examID = $_GET['examID'];
-$sql = "SELECT * FROM exam WHERE exam_id = $examID";
+$sql = "SELECT e.*, c.course_name FROM exam e
+  INNER JOIN course c ON c.course_code = e.course_code
+  WHERE e.exam_id = $examID";
 $result = mysqli_query($conn, $sql);
 $exam = mysqli_fetch_assoc($result);
 
 $invitePrefix = $exam['invite_prefix'];
 $examTitle = $exam['title'];
 $courseCode = $exam['course_code'];
+$courseName = $exam['course_name'];
 $noOfQuestion = $exam['no_of_questions'];
 $examTypeID = $exam['type_id'];
 $examStatusID = $exam['status_id'];
@@ -97,7 +100,9 @@ switch($examTypeID){
 
         <!-- Heading -->
         <header class="mb-4" id="examHeader">
-          <h4><?php echo $courseCode . " " . "(" . $examTitle . ")"?></h4>
+          <h4>
+          <?php echo "{$courseCode} ({$courseName}) {$examTitle} "; ?>
+          </h4>
           <div class="d-flex flex-column flex-md-row align-items-md-center">
             <div class="mr-md-3 text-muted">
               <span><?php echo $examType?></span>
