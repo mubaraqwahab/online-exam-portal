@@ -11,8 +11,7 @@ require_once '../connect.php';
 //  So you can do $examID = $_POST['examID'] to get it.
 // The WHERE clause in the sql query should be where the exam id = $examID
 // And that's all :-)
-// $examID=$_POST['examID'];
-$examID = 55;
+$examID=$_POST['examID'];
 $sql="UPDATE `exam` SET `status_id` = 2 WHERE `exam`.`exam_id` =$examID";
 mysqli_query($conn, $sql);
 

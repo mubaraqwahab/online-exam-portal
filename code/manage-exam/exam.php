@@ -14,6 +14,7 @@ $examTitle = $exam['title'];
 $courseCode = $exam['course_code'];
 $noOfQuestion = $exam['no_of_questions'];
 $examTypeID = $exam['type_id'];
+$examStatusID = $exam['status_id'];
 
 $inviteCode = "$invitePrefix" . "$examID";
 
@@ -100,8 +101,17 @@ switch($examTypeID){
           <div class="d-flex flex-column flex-md-row align-items-md-center">
             <div class="mr-md-3 text-muted">
               <span><?php echo $examType?></span>
-              <span>&bull; <?php echo $noOfQuestion . " Question(s)"?> &bull;</span>
-              <span id="status">Invite Code: <?php echo $inviteCode?></span>
+              <span>&bull; <?php echo $noOfQuestion . " Question" . pluralSuffix($noOfQuestion) ?> &bull;</span>
+              <span id="status">
+              <?php
+                if ($examStatusID == 1) {
+                  echo "Invite Code: $inviteCode";
+                } else {
+                  echo "Closed";
+                }
+              ?>
+
+              </span>
             </div>
             <form method="POST" action="_export-to-csv.php?examID= <?php $examID ?>" class="mt-2 mt-md-0">
               <!-- Exam id from $_GET['examID'] should be kept in the value of this input below.
@@ -109,7 +119,11 @@ switch($examTypeID){
               -->
               <input type="hidden" name="examID" value="<?php echo $examID; ?>">
               <button type="submit" name="exportToCSV" class="btn btn-primary">Export to CSV</button>
-              <button type="button" class="btn btn-warning close-exam-btn">Close</button>
+              <?php
+              if ($examStatusID == 1) {
+                echo '<button type="button" class="btn btn-warning close-exam-btn">Close</button>';
+              }
+              ?>
             </form>
           </div>
         </header>
