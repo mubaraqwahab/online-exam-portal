@@ -16,7 +16,7 @@ if ($conn->connect_error) {
 // GLOBAL VARIABLES
 
 // Root dir of project
-const ROOT_DIR = '/online-exam-portal/code/';
+const ROOT_DIR = '/';
 
 // Folder to store profile pictures
 const PROFILE_TARGET_DIR = '../profile-pic/';
