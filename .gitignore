@@ -1,5 +1,8 @@
+# Ignore:
 .*
 */profile-pic/*
+TODO
 
+# Don't ignore:
 !*/profile-pic/blank-square.*
 !.gitignore
